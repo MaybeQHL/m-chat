@@ -1,5 +1,10 @@
 
 # m-chat
+[![npm](https://img.shields.io/npm/v/@maybecode/m-chat.svg)](https://www.npmjs.com/package/@maybecode/m-chat)
+[![npm](https://img.shields.io/npm/dt/@maybecode/m-chat.svg)](https://www.npmjs.com/package/@maybecode/m-chat)
+[![npm](https://img.shields.io/bundlephobia/min/@maybecode/m-chat.svg)](https://www.npmjs.com/package/@maybecode/m-chat)
+![NPM](https://img.shields.io/npm/l/@maybecode/m-chat)
+![npm collaborators](https://img.shields.io/npm/collaborators/@maybecode/m-chat)
 
 ## 介绍
 基于vue2.x 聊天UI组件(3.x以后支持)
