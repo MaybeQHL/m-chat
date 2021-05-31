@@ -5,9 +5,8 @@
 [![npm](https://img.shields.io/bundlephobia/min/@maybecode/m-chat.svg)](https://www.npmjs.com/package/@maybecode/m-chat)
 ![NPM](https://img.shields.io/npm/l/@maybecode/m-chat)
 ![npm collaborators](https://img.shields.io/npm/collaborators/@maybecode/m-chat)
-
 ## 介绍
-基于vue2.x 聊天UI组件(3.x以后支持)
+基于vue2.x 聊天(IM)UI组件(3.x以后支持)
 
 提示： 目前图片发送/语音发送/视频发送 功能和UI需要自己在扩展面板定义 
 
@@ -100,7 +99,7 @@ export default {
 | extend | 扩展面板   | -    |
 
 ## 方法
-通过 ref 可以获取到 Uploader 实例并调用实例方法
+通过 ref 可以获取到 mChat 实例并调用实例方法
 
 | 方法名       | 说明                                          | 参数           | 返回值 |
 | ------------ | --------------------------------------------- | -------------- | ------ |
