@@ -10,6 +10,8 @@
 
 提示： 目前图片发送/语音发送/视频发送 功能和UI需要自己在扩展面板定义 
 
+## 演示
+[Demo](https://m-chat-1251804846.cos.ap-nanjing.myqcloud.com/dist/index.html)
 ## 安装
 ```
 npm install @maybecode/m-chat

@@ -31,8 +31,8 @@
 
 
 <script>
-// import MChat from "@/package";
-import MChat from "../lib-dist/m-chat.umd.js";
+import MChat from "@/package";
+// import MChat from "../lib-dist/m-chat.umd.js";
 
 import { Grid, GridItem, Uploader } from "vant";
 export default {

@@ -13,7 +13,7 @@
             <span>下拉加载更多</span>
           </div>
           <div v-show="!beforePullDown">
-            <div v-show="isPullingDown">
+            <div class="pulling-box" v-show="isPullingDown">
               <!-- <span> 刷新中 </span> -->
               <van-loading size="8vw" type="spinner" color="#1989fa" />
             </div>
@@ -239,10 +239,10 @@ export default {
 <style lang="scss" scoped>
 .m-chat-wrap {
   box-sizing: content-box;
-  padding: 5vw 0vw 5vw 0vw;
+
+  padding: 5vw 0px 5vw 0px;
   .m-chat-msg-wrap {
     display: block;
-    // 隐藏超出元素
     overflow: hidden;
     box-sizing: content-box;
   }
@@ -256,7 +256,7 @@ export default {
 .pulldown-wrapper {
   position: absolute;
   width: 100%;
-  padding: 20px;
+  padding: 1vw;
   box-sizing: border-box;
   transform: translateY(-100%) translateZ(0);
   text-align: center;
@@ -287,5 +287,7 @@ export default {
   }
   .v-close-btn {
   }
+}
+.pulling-box {
 }
 </style>

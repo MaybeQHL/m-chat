@@ -1,6 +1,6 @@
 module.exports = {
   lintOnSave: false,
-  publicPath: '/m-chat',
+  publicPath: './',
   productionSourceMap: false,
   outputDir: process.env.IS_LIB ? 'lib-dist' : 'dist',
   css: {
