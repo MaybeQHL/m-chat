@@ -5,12 +5,12 @@
       :messages="messages"
       @submit="submit"
       :loadMore="loadMore"
-      height="88vh"
+      :comment="true"
     >
       <template #left> </template>
       <template #right></template>
       <template #extend>
-        <van-grid :column-num="3" icon-size="10vw">
+        <van-grid :column-num="3" icon-size="10vw" :border="false">
           <van-grid-item
             class="my-grid-item"
             icon="photo-o"

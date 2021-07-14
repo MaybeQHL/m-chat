@@ -1,5 +1,5 @@
 <template>
-  <div class="m-chat-comment">
+  <div class="m-chat-comment" ref="mChatComment">
     <div class="m-chat-comment-wrap">
       <div class="m-chat-comment-main">
         <div class="m-chat-main-left" v-if="$slots.left">
@@ -11,6 +11,7 @@
             ref="mChatInput"
             class="m-chat-input"
             @focus="onFocus"
+            @blur="onBlur"
             v-model="content"
             @change="onChange"
             type="text"
@@ -74,7 +75,16 @@ export default {
     },
   },
   methods: {
-    onFocus() {},
+    onFocus() {
+      // this.isExtend = false;
+      // this.$refs.mChatComment &&
+      //   this.$refs.mChatComment.classList.add("position-fixed");
+      this.$emit("focus");
+    },
+    onBlur() {
+      this.$refs.mChatComment &&
+        this.$refs.mChatComment.classList.remove("position-fixed");
+    },
     onChange() {},
     emojiClick() {
       // this.$emit("emojiClick");
@@ -108,9 +118,10 @@ export default {
 
 <style lang="scss" scoped>
 .m-chat-comment {
-  position: fixed;
+  // position: fixed;
   width: 100%;
-  bottom: 0px;
+  // left: 0px;
+  // bottom: 0px;
   display: flex;
   flex-direction: column;
   background-color: #f7f7f7;
@@ -164,5 +175,13 @@ export default {
   height: 8vw;
   padding: 0px 1.1vw;
   color: inherit;
+}
+.position-relative {
+  position: relative;
+}
+.position-fixed {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
-  <div class="m-chat-wrap">
+  <div class="m-chat-wrap" ref="mChatWrap">
     <!-- 信息列表 -->
     <div
       class="m-chat-msg-wrap"
       ref="mChatScoller"
       @click="toggleExtend(false)"
-      :style="{ height: height }"
+      :style="{ height: `calc(${height})` }"
     >
       <div class="m-chat-content">
         <div class="pulldown-wrapper">
@@ -51,7 +51,14 @@
       </div>
     </div>
     <!-- 回复框 -->
-    <comment ref="mComment" @submit="submit" @emojiClick="emojiClick">
+    <comment
+      v-if="comment"
+      class="comment"
+      ref="mComment"
+      @submit="submit"
+      @emojiClick="emojiClick"
+      @focus="focus"
+    >
       <template #left>
         <slot name="left"></slot>
       </template>
@@ -85,12 +92,16 @@ export default {
     },
     height: {
       type: String,
-      default: "88vh",
+      default: "92vh",
     },
     loadMore: {
       type: Function,
     },
     defaultAvatar: String,
+    comment: {
+      type: Boolean,
+      default: true,
+    },
   },
   components: { Comment, Message, [Loading.name]: Loading, [Icon.name]: Icon },
   data() {
@@ -149,9 +160,9 @@ export default {
     });
 
     this.$on("main_initScoller", (isExtend) => {
-      console.log("main_initScoller");
+      // console.log("main_initScoller");
       if (isExtend) {
-        this.$refs.mChatScoller.style.height = `calc(${this.$refs.mChatScoller.style.height} - 45vw )`;
+        this.$refs.mChatScoller.style.height = `calc(${this.$refs.mChatScoller.style.height} - 20vh )`;
       } else {
         this.$refs.mChatScoller.style.height = this.height;
       }
@@ -159,6 +170,7 @@ export default {
     });
   },
   methods: {
+    focus() {},
     async pullingDownHandler() {
       console.log("trigger pullDown");
       this.beforePullDown = false;
@@ -239,8 +251,10 @@ export default {
 <style lang="scss" scoped>
 .m-chat-wrap {
   box-sizing: content-box;
-
-  padding: 5vw 0px 5vw 0px;
+  display: flex;
+  flex-direction: column;
+  // height: 100vh;
+  // padding: 5vw 0px 5vw 0px;
   .m-chat-msg-wrap {
     display: block;
     overflow: hidden;
@@ -289,5 +303,8 @@ export default {
   }
 }
 .pulling-box {
+}
+.comment {
+  // flex: 1;
 }
 </style>

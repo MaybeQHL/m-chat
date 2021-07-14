@@ -68,7 +68,8 @@ export default {
 | messages      | Array    | []     | 消息数组                                  |
 | height        | String   | 88vh   | 消息容器高度                              |
 | loadMore      | Function | -      | 加载更多函数                              |
-| defaultAvatar | String   | -      | 默认头像(支持本地头像require导入或者地址) |
+| defaultAvatar | String   | -      | 默认头像(支持本地头像require导入或者地址)   |
+| comment       | Boolean  | true   | 是否显示回复框                            |
 
 
 ## 消息对象
