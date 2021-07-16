@@ -1,11 +1,14 @@
 <template>
-  <div class="m-chat-wrap" ref="mChatWrap">
+  <div
+    class="m-chat-wrap"
+    ref="mChatWrap"
+    :style="{ height: `calc(${height})` }"
+  >
     <!-- 信息列表 -->
     <div
       class="m-chat-msg-wrap"
       ref="mChatScoller"
       @click="toggleExtend(false)"
-      :style="{ height: `calc(${height})` }"
     >
       <div class="m-chat-content">
         <div class="pulldown-wrapper">
@@ -15,7 +18,7 @@
           <div v-show="!beforePullDown">
             <div class="pulling-box" v-show="isPullingDown">
               <!-- <span> 刷新中 </span> -->
-              <van-loading size="8vw" type="spinner" color="#1989fa" />
+              <van-loading size="8vw" type="circular" color="#1989fa" />
             </div>
             <div v-show="!isPullingDown">
               <span>刷新成功</span>
@@ -53,7 +56,7 @@
     <!-- 回复框 -->
     <comment
       v-if="comment"
-      class="comment"
+      class="m-comment"
       ref="mComment"
       @submit="submit"
       @emojiClick="emojiClick"
@@ -92,7 +95,7 @@ export default {
     },
     height: {
       type: String,
-      default: "92vh",
+      default: "100vh",
     },
     loadMore: {
       type: Function,
@@ -158,15 +161,23 @@ export default {
     this.bs.on("scrollEnd", (e) => {
       // console.log("scrollEnd", e);
     });
+    // 初始化消息容器的高度
+    this.$refs.mChatScoller.style.height = `calc(${this.height} - ${this.$refs.mComment.$refs.mChatComment.clientHeight}px)`;
 
     this.$on("main_initScoller", (isExtend) => {
       // console.log("main_initScoller");
       if (isExtend) {
-        this.$refs.mChatScoller.style.height = `calc(${this.$refs.mChatScoller.style.height} - 20vh )`;
+        this.$nextTick(() => {
+          console.log(this.$refs.mComment.clientHeight);
+          this.$refs.mChatScoller.style.height = `calc(${this.height} - ${this.$refs.mComment.$refs.mChatComment.clientHeight}px)`;
+          this.initScoller();
+        });
       } else {
-        this.$refs.mChatScoller.style.height = this.height;
+        this.$nextTick(() => {
+          this.$refs.mChatScoller.style.height = `calc(${this.height} - ${this.$refs.mComment.$refs.mChatComment.clientHeight}px)`;
+          this.initScoller();
+        });
       }
-      this.initScoller();
     });
   },
   methods: {
@@ -181,7 +192,10 @@ export default {
       await this.loadMore();
 
       this.isPullingDown = false;
-      this.finishPullDown();
+      // 等待x秒后重置
+      setTimeout(() => {
+        this.finishPullDown();
+      }, 800);
     },
     scrollHandler(pos) {
       // console.log(pos.y);
@@ -202,6 +216,7 @@ export default {
         this.initAudio();
       }
       if (this.data.type == "video") {
+        this.clearAudio();
         this.videoShow = true;
         this.$refs.mVideo.src = this.data.video;
       }
@@ -228,6 +243,10 @@ export default {
         false
       );
     },
+    clearAudio() {
+      this.audioAnim = false;
+      this.$refs.mAudio.src = null;
+    },
     imageLoad() {
       this.initScoller();
     },
@@ -250,6 +269,7 @@ export default {
 
 <style lang="scss" scoped>
 .m-chat-wrap {
+  overflow: hidden;
   box-sizing: content-box;
   display: flex;
   flex-direction: column;
@@ -304,7 +324,7 @@ export default {
 }
 .pulling-box {
 }
-.comment {
+.m-comment {
   // flex: 1;
 }
 </style>

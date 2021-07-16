@@ -6,6 +6,7 @@
       @submit="submit"
       :loadMore="loadMore"
       :comment="true"
+      height="100vh"
     >
       <template #left> </template>
       <template #right></template>
@@ -15,6 +16,8 @@
             class="my-grid-item"
             icon="photo-o"
             text="图片"
+            v-for="item in 6"
+            :key="item"
             @click="itemClick"
           />
         </van-grid>
@@ -171,6 +174,11 @@ export default {
 * {
   margin: 0px;
   padding: 0px;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
 .van-grid-item__content {
   padding: 1vw 8vw;

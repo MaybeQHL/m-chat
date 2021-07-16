@@ -37,7 +37,11 @@
           />
         </div>
       </div>
-      <div class="m-chat-comment-extend" v-show="isExtend">
+      <div
+        class="m-chat-comment-extend"
+        ref="mChatCommnetExtend"
+        v-show="isExtend"
+      >
         <!-- <emoji @chooseEmjoy="chooseEmjoy" v-if="isEmoji" />
         <slot name="extend" v-else></slot> -->
         <slot name="extend"></slot>
@@ -70,13 +74,20 @@ export default {
   watch: {
     isExtend: {
       handler: function (val) {
+        if (val) {
+          // this.$refs.mChatComment.style.height = "26vh";
+          // this.$refs.mChatComment.classList.add("position-relative");
+        } else {
+          // this.$refs.mChatComment.style.height = "8vh";
+          // this.$refs.mChatComment.classList.remove("position-relative");
+        }
         this.$parent.$emit("main_initScoller", val);
       },
     },
   },
   methods: {
     onFocus() {
-      // this.isExtend = false;
+      this.isExtend = false;
       // this.$refs.mChatComment &&
       //   this.$refs.mChatComment.classList.add("position-fixed");
       this.$emit("focus");
@@ -119,17 +130,20 @@ export default {
 <style lang="scss" scoped>
 .m-chat-comment {
   // position: fixed;
-  width: 100%;
   // left: 0px;
   // bottom: 0px;
-  display: flex;
-  flex-direction: column;
+  // ....
+  width: 100%;
+  // display: flex;
+  // flex-direction: column;
   background-color: #f7f7f7;
   box-sizing: content-box;
+  // height: 8vh;
   .m-chat-comment-wrap {
+    overflow: hidden;
     .m-chat-comment-main {
       display: flex;
-      padding: 3vw 3.5vw;
+      padding: 3vw 6vw;
     }
     .m-chat-form {
       flex: 1;
@@ -165,10 +179,10 @@ export default {
   background-color: #fff;
 }
 .m-chat-comment-extend {
-  height: 40vw;
+  // height: 18vh;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 2vw 3vw;
+  padding: 4vw 3vw;
 }
 .c-icon {
   width: 8vw;

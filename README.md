@@ -54,7 +54,7 @@ export default {
       :messages="messages"
       @submit="submit"
       :loadMore="loadMore"
-      height="88vh"
+      height="100vh"
     >
       <template #extend>
        <!-- 扩展面板 -->
@@ -66,7 +66,7 @@ export default {
 | 参数          | 类型     | 默认值 | 说明                                      |
 | ------------- | -------- | ------ | ----------------------------------------- |
 | messages      | Array    | []     | 消息数组                                  |
-| height        | String   | 88vh   | 消息容器高度                              |
+| height        | String   | 100vh   | 容器高度                              |
 | loadMore      | Function | -      | 加载更多函数                              |
 | defaultAvatar | String   | -      | 默认头像(支持本地头像require导入或者地址)   |
 | comment       | Boolean  | true   | 是否显示回复框                            |
