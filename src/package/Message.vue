@@ -1,63 +1,68 @@
 <template>
-  <div class="chat-message" :class="[data.self ? 'box-self' : 'box-people']">
-    <div class="chat-message-avatar">
-      <van-image
-        :src="data.avatar || defaultAvatar"
-        @click="avatarClick"
-        round
-        width="10vw"
-        height="10vw"
-      />
-    </div>
-    <div class="chat-message-main">
-      <div class="chat-message-name">{{ data.name }}</div>
-      <div class="chat-message-content_wrap">
-        <div class="chat-msg-event_wrap" ref="msgEvent">
-          <!-- 音频内容 -->
-          <template v-if="data.type == 'audio'">
-            <div
-              class="chat-message-content arrow"
-              :class="data.self ? 'row-start' : 'row-reverse'"
-            >
-              <span>{{ data.duration }}</span>
-              <vue-lottie
-                :options="animOptions"
-                @animCreated="animCreated"
-                :className="data.self ? 'audio-right' : 'audio-left'"
-                :width="'7vw'"
-                :height="'7vw'"
-                @click="itemClick"
-              ></vue-lottie>
-            </div>
-          </template>
-          <!-- 图片内容 -->
-          <template v-else-if="data.type == 'image'">
-            <div class="chat-message-content arrow">
-              <van-image
-                class="image"
-                :src="data.image"
-                @click="imagePreview"
-                @load="imageLoad"
-              ></van-image>
-            </div>
-          </template>
-          <!-- 视频内容 -->
-          <template v-else-if="data.type == 'video'">
-            <div class="chat-message-content arrow">
-              <!-- <van-icon name="video-o" size="8vw" @click.stop="itemClick" /> -->
-              <van-image
-                :src="videoImg"
-                width="8vw"
-                height="8vw"
-                @click="itemClick"
-              ></van-image>
-              <!-- <video-poster :videoSrc="data.video"></video-poster> -->
-            </div>
-          </template>
-          <!-- 普通文字 -->
-          <template v-else>
-            <div class="chat-message-content arrow" v-html="data.content"></div>
-          </template>
+  <div>
+    <template v-if="isBack">
+      <div class="m-chat-back-msg">该消息已经撤回</div>
+    </template>
+    <div
+      v-else
+      class="chat-message"
+      :class="[data.self ? 'box-self' : 'box-people']"
+    >
+      <div class="chat-message-avatar">
+        <van-image
+          :src="data.avatar || defaultAvatar"
+          @click="avatarClick"
+          round
+          width="10vw"
+          height="10vw"
+        />
+      </div>
+      <div class="chat-message-main">
+        <div class="chat-message-name">{{ data.name }}</div>
+        <div class="chat-message-content_wrap">
+          <div class="chat-msg-event_wrap" ref="msgEvent">
+            <!-- 音频内容 -->
+            <template v-if="data.type == 'audio'">
+              <div
+                class="chat-message-content arrow"
+                :class="data.self ? 'row-start' : 'row-reverse'"
+              >
+                <span>{{ data.duration }}</span>
+                <vue-lottie
+                  :options="animOptions"
+                  @animCreated="animCreated"
+                  :className="data.self ? 'audio-right' : 'audio-left'"
+                  :width="'7vw'"
+                  :height="'7vw'"
+                ></vue-lottie>
+              </div>
+            </template>
+            <!-- 图片内容 -->
+            <template v-else-if="data.type == 'image'">
+              <div class="chat-message-content arrow">
+                <van-image
+                  class="image"
+                  :src="data.image"
+                  @click="imagePreview"
+                  @load="imageLoad"
+                ></van-image>
+              </div>
+            </template>
+            <!-- 视频内容 -->
+            <template v-else-if="data.type == 'video'">
+              <div class="chat-message-content arrow">
+                <!-- <van-icon name="video-o" size="8vw" @click.stop="itemClick" /> -->
+                <van-image :src="videoImg" width="8vw" height="8vw"></van-image>
+              </div>
+            </template>
+            <!-- 普通文字 -->
+            <template v-else>
+              <div
+                class="chat-message-content arrow"
+                v-html="data.content"
+              ></div>
+            </template>
+          </div>
         </div>
       </div>
     </div>
@@ -66,17 +71,19 @@
 
 <script >
 import VueLottie from "./VueLottie.vue";
-import VideoPoster from "./VideoPoster.vue";
 
 import { ImagePreview, Image, Icon } from "vant";
+
+import Hammer from "hammerjs";
+
 export default {
   components: {
     [Image.name]: Image,
     VueLottie,
     [Icon.name]: Icon,
-    VideoPoster,
   },
   props: {
+    isBack: Boolean,
     data: {
       type: Object,
       default: function () {
@@ -110,7 +117,7 @@ export default {
       },
       isImgError: false,
       anim: null,
-      videoPoster: null,
+      isPress: false,
     };
   },
   computed: {},
@@ -130,7 +137,31 @@ export default {
     },
   },
   created() {},
-  mounted() {},
+  mounted() {
+    if (this.$refs.msgEvent) {
+      var hammer = new Hammer(this.$refs.msgEvent);
+      hammer.on("tap", (e) => {
+        this.itemClick();
+      });
+      if (this.data.self) {
+        hammer.on("press", (e) => {
+          console.log("You're pressing me!");
+          console.log(e);
+          this.$emit("press", {
+            e: e,
+            data: this.data,
+          });
+        });
+        hammer.on("pressup", (e) => {
+          console.log("You're pressup me!");
+          this.$emit("pressup", {
+            e: e,
+            data: this.data,
+          });
+        });
+      }
+    }
+  },
   beforeDestroy() {},
   methods: {
     avatarClick() {
@@ -144,6 +175,9 @@ export default {
       this.isImgError = true;
     },
     itemClick() {
+      if (this.data.type == "image") {
+        ImagePreview([this.data.image]);
+      }
       this.$emit("itemClick", {
         data: this.data,
       });
@@ -262,6 +296,9 @@ export default {
     flex-flow: row;
   }
 }
+
+.chat-message-content {
+}
 .img-error {
   font-size: 7vw;
   display: flex;
@@ -302,5 +339,12 @@ export default {
     top: 50%;
     left: 50%;
   }
+}
+.m-chat-back-msg {
+  text-align: center;
+  margin: 2vw 0vw;
+  font-size: 3.7vw;
+  color: #6d6d6d;
+  user-select: none;
 }
 </style>

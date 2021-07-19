@@ -5,11 +5,7 @@
     :style="{ height: `calc(${height})` }"
   >
     <!-- 信息列表 -->
-    <div
-      class="m-chat-msg-wrap"
-      ref="mChatScoller"
-      @click="toggleExtend(false)"
-    >
+    <div class="m-chat-msg-wrap" ref="mChatScoller" @click="scollerClick">
       <div class="m-chat-content">
         <div class="pulldown-wrapper">
           <div v-show="beforePullDown">
@@ -25,6 +21,7 @@
             </div>
           </div>
         </div>
+
         <message
           v-for="(item, index) in messages"
           :data="item"
@@ -33,6 +30,9 @@
           @itemClick="itemClick"
           @imageLoad="imageLoad"
           :defaultAvatar="defaultAvatar"
+          @press="press"
+          @pressup="pressup"
+          :isBack="item.isBack"
         ></message>
       </div>
     </div>
@@ -61,6 +61,7 @@
       @submit="submit"
       @emojiClick="emojiClick"
       @focus="focus"
+      @toggleExtend="commentExtend"
     >
       <template #left>
         <slot name="left"></slot>
@@ -72,6 +73,23 @@
         <slot name="extend"></slot>
       </template>
     </comment>
+    <!-- 气泡弹出框 -->
+    <div
+      class="chat-popover"
+      ref="chatPopover"
+      v-show="popoverList.length > 0 && popoverShow"
+    >
+      <div class="chat-popover-content">
+        <div
+          class="chat-pc-item"
+          v-for="(item, index) in popoverList"
+          :key="index"
+          @click="popItemClick(item)"
+        >
+          {{ item.text }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -105,8 +123,23 @@ export default {
       type: Boolean,
       default: true,
     },
+    isPopover: {
+      type: Boolean,
+      default: true,
+    },
+    popoverList: {
+      type: Array,
+      default: function () {
+        return [];
+      },
+    },
   },
-  components: { Comment, Message, [Loading.name]: Loading, [Icon.name]: Icon },
+  components: {
+    Comment,
+    Message,
+    [Loading.name]: Loading,
+    [Icon.name]: Icon,
+  },
   data() {
     return {
       bs: null,
@@ -130,6 +163,8 @@ export default {
       // showExtend: false, // 是否展示扩展面板
       // emojiShow: false, // 显示emoji表情
       videoShow: false, // 显示视频播放器
+      popoverShow: false, // 显示气泡框
+      isPress: false,
     };
   },
   watch: {
@@ -179,9 +214,46 @@ export default {
         });
       }
     });
+
+    window.addEventListener("click", (e) => {
+      if (!this.isPress) {
+        this.popoverShow = false;
+      }
+    });
   },
   methods: {
-    focus() {},
+    popItemClick(item) {
+      this.popoverShow = false;
+      this.$emit("popItemClick", {
+        type: item.type,
+        data: this.data,
+      });
+    },
+    commentExtend() {
+      this.popoverShow = false;
+    },
+    scollerClick(e) {
+      // this.toggleExtend(false, e);
+    },
+    pressup(e, data) {
+      // this.isPress = false;
+    },
+    press(obj) {
+      this.isPress = true;
+      console.log(obj);
+      const parent = obj.e.srcEvent.path.find((el) =>
+        Array.from(el.classList).includes("chat-message-content")
+      );
+      const { left, top } = parent.getBoundingClientRect();
+      console.log(left, top);
+      this.$refs.chatPopover.style.left = `${left - 20}px`;
+      this.$refs.chatPopover.style.top = `${top}px`;
+      this.popoverShow = true;
+      this.data = obj.data;
+    },
+    focus() {
+      this.popoverShow = false;
+    },
     async pullingDownHandler() {
       console.log("trigger pullDown");
       this.beforePullDown = false;
@@ -199,6 +271,7 @@ export default {
     },
     scrollHandler(pos) {
       // console.log(pos.y);
+      this.popoverShow = false;
     },
     finishPullDown() {
       this.bs.finishPullDown();
@@ -234,14 +307,12 @@ export default {
       this.$refs.mAudio.pause();
       this.$refs.mAudio.src = this.data.audio;
       this.$refs.mAudio.play();
-      this.$refs.mAudio.addEventListener(
-        "ended",
-        () => {
-          console.log("audio play over");
-          this.audioAnim = false;
-        },
-        false
-      );
+      this.$refs.mAudio.removeEventListener("ended", this.audioListener, false);
+      this.$refs.mAudio.addEventListener("ended", this.audioListener, false);
+    },
+    audioListener() {
+      console.log("audio play over");
+      this.audioAnim = false;
     },
     clearAudio() {
       this.audioAnim = false;
@@ -255,7 +326,11 @@ export default {
       if (!content.replace(/\s+/g, "")) return;
       this.$emit("submit", content);
     },
-    toggleExtend(flag) {
+    toggleExtend(flag, e) {
+      // // 如果触发元素是消息容器则关闭气泡框
+      // if (!e || Array.from(e.target.classList).includes("m-chat-msg-wrap")) {
+      //   this.popoverShow = false;
+      // }
       this.$refs.mComment.toggleExtend(flag);
     },
     vClose() {
@@ -326,5 +401,36 @@ export default {
 }
 .m-comment {
   // flex: 1;
+}
+.chat-popover {
+  position: absolute;
+  transform: translate(0%, -110%);
+
+  .chat-popover-content {
+    background-color: #4a4a4a;
+    color: #fff;
+    border-radius: 5px;
+    padding: 0vw 3vw;
+    // display: flex;
+    &::before {
+      top: 98%;
+      width: 0;
+      height: 0;
+      left: 30%;
+      content: "";
+      position: absolute;
+      border-left: 5px solid transparent;
+      border-top: 5px solid #4a4a4a;
+      border-right: 5px solid transparent;
+    }
+    .chat-pc-item {
+      display: inline-flex;
+      padding: 0vw 2vw;
+      font-size: 3vw;
+      height: 10vw;
+      line-height: 10vw;
+      user-select: none;
+    }
+  }
 }
 </style>

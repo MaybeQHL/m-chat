@@ -7,6 +7,8 @@
       :loadMore="loadMore"
       :comment="true"
       height="100vh"
+      @popItemClick="popItemClick"
+      :popoverList="popoverList"
     >
       <template #left> </template>
       <template #right></template>
@@ -47,6 +49,12 @@ export default {
   },
   data() {
     return {
+      popoverList: [
+        {
+          type: "chehui",
+          text: "撤回",
+        },
+      ],
       messages: [
         {
           id: 0,
@@ -115,6 +123,7 @@ export default {
           name: "李四",
           content: "6666666666666",
           self: false,
+          isBack: true,
           avatar:
             "https://tiej2inxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
         },
@@ -128,6 +137,7 @@ export default {
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+          isBack: false,
         },
       ],
       fileList: [],
@@ -164,6 +174,13 @@ export default {
         avatar:
           "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
       });
+    },
+    popItemClick(obj) {
+      // 撤回
+      if (obj.type == "chehui") {
+        obj.data.isBack = true;
+      }
+      console.log(obj.item);
     },
   },
 };

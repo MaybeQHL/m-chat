@@ -70,6 +70,7 @@ export default {
 | loadMore      | Function | -      | 加载更多函数                              |
 | defaultAvatar | String   | -      | 默认头像(支持本地头像require导入或者地址)   |
 | comment       | Boolean  | true   | 是否显示回复框                            |
+| popoverList   | Array  | []       | 气泡框 例: [{type:'chehui',text:'撤回'}]                            |
 
 
 ## 消息对象
@@ -84,7 +85,8 @@ export default {
     content: "", // 文本内容
     image: "", // 图片地址
     video: "", // 视频地址
-    type: "text", // 文件类型:text|image|audio|video   
+    type: "text", // 文件类型:text|image|audio|video,
+    isBack:false // 控制该消息是否已经撤回
  }
 ```
 
@@ -93,6 +95,18 @@ export default {
 | 事件名 | 说明           | 回调参数         |
 | ------ | -------------- | ---------------- |
 | submit | 输入框提交信息 | (content:string) |
+| popItemClick | 气泡框点击事件 | (obj:{type:string,data:object}) |
+
+## popItemClick Demo
+```
+     popItemClick(obj) {
+      // 撤回
+      if (obj.type == "chehui") {
+        obj.data.isBack = true;
+      }
+      console.log(obj);
+    }
+```
 
 ## Slots
 | 名称   | 说明       | 参数 |

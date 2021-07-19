@@ -17,12 +17,6 @@
             type="text"
           />
         </form>
-        <!-- <div-input
-          v-model="content"
-          @keyupEnter="submit"
-          :classes="['m-chat-div_input']"
-        ></div-input> -->
-
         <div class="m-chat-input-options">
           <!-- <div class="m-chat-comment-icon c-icon">
             <van-icon size="8vw" name="smile-o" @click="emojiClick" />
@@ -52,14 +46,10 @@
 
 <script>
 import { Icon } from "vant";
-import DivInput from "./DivInput.vue";
-// import Emoji from "./Emoji.vue";
 import { Grid, GridItem } from "vant";
 export default {
   components: {
     [Icon.name]: Icon,
-    DivInput,
-    // Emoji,
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
   },
@@ -110,6 +100,7 @@ export default {
       }
       // this.isEmoji = false;
       this.isExtend = !this.isExtend;
+      this.$emit("toggleExtend", flag);
     },
     onInput($e) {
       this.$emit("update:content", $e.target.value);
