@@ -71,7 +71,7 @@ export default {
 | defaultAvatar | String   | -      | 默认头像(支持本地头像require导入或者地址)   |
 | comment       | Boolean  | true   | 是否显示回复框                            |
 | popoverList   | Array  | []       | 气泡框 例: [{type:'chehui',text:'撤回'}]                            |
-
+| customRecord  | Boolean | flase | 自定义录音功能
 
 ## 消息对象
 ```
@@ -96,6 +96,10 @@ export default {
 | ------ | -------------- | ---------------- |
 | submit | 输入框提交信息 | (content:string) |
 | popItemClick | 气泡框点击事件 | (obj:{type:string,data:object}) |
+| recordStart | 录音开始 | - |
+| recordStop | 录音停止 | ({ blob, duration})--H5录音才有回调参数自定义录音没有 |
+| recordCancel | 录音取消 | - |
+
 
 ## popItemClick Demo
 ```

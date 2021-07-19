@@ -9,6 +9,10 @@
       height="100vh"
       @popItemClick="popItemClick"
       :popoverList="popoverList"
+      :customRecord="true"
+      @recordStart="recordStart"
+      @recordStop="recordStop"
+      @recordCancel="recordCancel"
     >
       <template #left> </template>
       <template #right></template>
@@ -144,6 +148,15 @@ export default {
     };
   },
   methods: {
+    recordStart() {
+      console.log("recordStart");
+    },
+    recordCancel() {
+      console.log("recordCancel");
+    },
+    recordStop() {
+      console.log("recordStop");
+    },
     itemClick() {
       // 控制扩展面板
       this.$refs.mChat.toggleExtend();

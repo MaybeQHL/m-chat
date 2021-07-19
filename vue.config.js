@@ -6,6 +6,9 @@ module.exports = {
   css: {
     extract: false
   },
+  devServer: {
+    disableHostCheck: true
+  },
   chainWebpack: config => {
     const svgRule = config.module.rule('svg')
     svgRule.uses.clear()

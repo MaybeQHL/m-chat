@@ -62,10 +62,11 @@
       @emojiClick="emojiClick"
       @focus="focus"
       @toggleExtend="commentExtend"
+      :customRecord="customRecord"
+      @recordStart="recordStart"
+      @recordStop="recordStop"
+      @recordCancel="recordCancel"
     >
-      <template #left>
-        <slot name="left"></slot>
-      </template>
       <template #right>
         <slot name="right"></slot>
       </template>
@@ -127,6 +128,7 @@ export default {
       type: Boolean,
       default: true,
     },
+    customRecord: Boolean,
     popoverList: {
       type: Array,
       default: function () {
@@ -222,6 +224,15 @@ export default {
     });
   },
   methods: {
+    recordStart() {
+      this.$emit("recordStart");
+    },
+    recordStop() {
+      this.$emit("recordStop");
+    },
+    recordCancel() {
+      this.$emit("recordCancel");
+    },
     popItemClick(item) {
       this.popoverShow = false;
       this.$emit("popItemClick", {
