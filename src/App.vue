@@ -9,7 +9,7 @@
       height="100vh"
       @popItemClick="popItemClick"
       :popoverList="popoverList"
-      :customRecord="true"
+      :customRecord="false"
       @recordStart="recordStart"
       @recordStop="recordStop"
       @recordCancel="recordCancel"
@@ -154,8 +154,8 @@ export default {
     recordCancel() {
       console.log("recordCancel");
     },
-    recordStop() {
-      console.log("recordStop");
+    recordStop(data) {
+      console.log("recordStop", data);
     },
     itemClick() {
       // 控制扩展面板

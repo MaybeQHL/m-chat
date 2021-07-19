@@ -227,8 +227,8 @@ export default {
     recordStart() {
       this.$emit("recordStart");
     },
-    recordStop() {
-      this.$emit("recordStop");
+    recordStop(data) {
+      this.$emit("recordStop", data);
     },
     recordCancel() {
       this.$emit("recordCancel");

@@ -277,23 +277,25 @@ export default {
     },
     /**开始录音**/
     recStart() {
-      //打开了录音后才能进行start、stop调用
-      this.rec.start();
+      this.rec.open(() => {
+        //打开了录音后才能进行start、stop调用
+        this.rec.start();
+      });
     },
     /**结束录音**/
     recStop() {
       const self = this;
       this.rec.stop(
         function (blob, duration) {
-          this.rec.close(); //释放录音资源，当然可以不释放，后面可以连续调用start；但不释放时系统或浏览器会一直提示在录音，最佳操作是录完就close掉
-          self.$emit("recordStop", { blob, duration, rec: this.rec });
-          console.log(blob, duration, this.rec);
-          this.rec = null;
+          self.rec.close(); //释放录音资源，当然可以不释放，后面可以连续调用start；但不释放时系统或浏览器会一直提示在录音，最佳操作是录完就close掉
+          self.$emit("recordStop", { blob, duration, rec: self.rec });
+          console.log(blob, duration, self.rec);
+          // self.rec = null;
         },
         function (msg) {
           console.log("录音失败:" + msg, 1);
-          this.rec.close(); //可以通过stop方法的第3个参数来自动调用close
-          this.rec = null;
+          self.rec.close(); //可以通过stop方法的第3个参数来自动调用close
+          // self.rec = null;
         }
       );
     },
