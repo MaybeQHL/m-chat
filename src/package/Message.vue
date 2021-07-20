@@ -59,7 +59,7 @@
             <template v-else>
               <div
                 class="chat-message-content arrow"
-                v-html="data.content"
+                v-html="resloveContent(data.content)"
               ></div>
             </template>
           </div>
@@ -164,6 +164,11 @@ export default {
   },
   beforeDestroy() {},
   methods: {
+    resloveContent(content) {
+      // 给文本http或者https的链接添加a标签
+      var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+      return content.replace(reg, "<a href='$1$2'>$1$2</a>");
+    },
     avatarClick() {
       this.$emit("avatarClick", this.data);
     },

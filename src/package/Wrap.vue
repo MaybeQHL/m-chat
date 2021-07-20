@@ -104,6 +104,8 @@ import { Loading, Icon } from "vant";
 import Comment from "./Comment.vue";
 import Message from "./Message.vue";
 
+import { isOutEl } from "./utils";
+
 export default {
   props: {
     messages: {
@@ -217,13 +219,21 @@ export default {
       }
     });
 
-    window.addEventListener("click", (e) => {
-      if (!this.isPress) {
-        this.popoverShow = false;
-      }
-    });
+    document.addEventListener("click", this.hidePop);
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.hidePop);
   },
   methods: {
+    hidePop(e) {
+      const element = Array.from(e.path).find((el) => {
+        const arr = el.classList ? Array.from(el.classList) : [];
+        return arr.includes("chat-msg-event_wrap");
+      });
+      if (!element) {
+        this.popoverShow = false;
+      }
+    },
     recordStart() {
       this.$emit("recordStart");
     },

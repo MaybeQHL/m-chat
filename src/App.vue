@@ -155,6 +155,11 @@ export default {
       console.log("recordCancel");
     },
     recordStop(data) {
+      const file = new window.File([data.blob], new Date().getTime());
+      console.log(file, file);
+      const audio = document.createElement("audio");
+      audio.src = (window.URL || webkitURL).createObjectURL(data.blob);
+      audio.play();
       console.log("recordStop", data);
     },
     itemClick() {
