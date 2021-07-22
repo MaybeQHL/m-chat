@@ -94,7 +94,7 @@ export default {
 
 | 事件名 | 说明           | 回调参数         |
 | ------ | -------------- | ---------------- |
-| submit | 输入框提交信息 | (content:{type:string,content:object}) |
+| submit | 文字、图片、视频、语音等等发送事件 | (content:{type:string,content:object}) |
 | popItemClick | 气泡框点击事件 | (obj:{type:string,data:object}) |
 | recordStart | 录音开始 | - |
 | recordStop | 录音停止 | ({ blob, duration})--H5录音才有回调参数自定义录音没有 |
