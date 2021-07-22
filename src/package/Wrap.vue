@@ -7,7 +7,7 @@
     <!-- 信息列表 -->
     <div class="m-chat-msg-wrap" ref="mChatScoller" @click="scollerClick">
       <div class="m-chat-content">
-        <div class="pulldown-wrapper">
+        <div class="pulldown-wrapper" v-if="!pullFinished">
           <div v-show="beforePullDown">
             <span>下拉加载更多</span>
           </div>
@@ -17,23 +17,26 @@
               <van-loading size="8vw" type="circular" color="#1989fa" />
             </div>
             <div v-show="!isPullingDown">
-              <span>刷新成功</span>
+              <span>{{ pullError ? "刷新失败" : "刷新成功" }}</span>
             </div>
           </div>
         </div>
+        <div class="finished-text" v-else>没有更多了</div>
 
-        <message
-          v-for="(item, index) in messages"
-          :data="item"
-          :key="index"
-          :audioAnim="data.id == item.id && audioAnim"
-          @itemClick="itemClick"
-          @imageLoad="imageLoad"
-          :defaultAvatar="defaultAvatar"
-          @press="press"
-          @pressup="pressup"
-          :isBack="item.isBack"
-        ></message>
+        <div class="m-chat-msg-wrap">
+          <message
+            v-for="item in messages"
+            :data="item"
+            :key="item.id"
+            :audioAnim="data.id == item.id && audioAnim"
+            @itemClick="itemClick"
+            @imageLoad="imageLoad"
+            :defaultAvatar="defaultAvatar"
+            @press="press"
+            @pressup="pressup"
+            :isBack="item.isBack"
+          ></message>
+        </div>
       </div>
     </div>
     <!-- 唯一音频元素 -->
@@ -66,6 +69,10 @@
       @recordStart="recordStart"
       @recordStop="recordStop"
       @recordCancel="recordCancel"
+      @imgAfterRead="imgAfterRead"
+      @fileAfterRead="fileAfterRead"
+      @videoAfterRead="videoAfterRead"
+      :openExtends="openExtends"
     >
       <template #right>
         <slot name="right"></slot>
@@ -99,7 +106,7 @@ import BScroll from "@better-scroll/core";
 import PullDown from "@better-scroll/pull-down";
 
 BScroll.use(PullDown);
-import { Loading, Icon } from "vant";
+import { Loading, Icon, Toast } from "vant";
 
 import Comment from "./Comment.vue";
 import Message from "./Message.vue";
@@ -137,6 +144,8 @@ export default {
         return [];
       },
     },
+    pullFinished: Boolean,
+    openExtends: Array,
   },
   components: {
     Comment,
@@ -169,6 +178,7 @@ export default {
       videoShow: false, // 显示视频播放器
       popoverShow: false, // 显示气泡框
       isPress: false,
+      pullError: false,
     };
   },
   watch: {
@@ -178,6 +188,16 @@ export default {
         this.$nextTick(() => {
           this.initScoller();
         });
+      },
+      immediate: true,
+    },
+    pullFinished: {
+      handler(val) {
+        if (val) {
+          this.$nextTick(() => {
+            this.bs.closePullDown();
+          });
+        }
       },
       immediate: true,
     },
@@ -220,11 +240,34 @@ export default {
     });
 
     document.addEventListener("click", this.hidePop);
+    this.$refs.mChatScoller.addEventListener("click", this.mChatScollerClick);
+
+    // window.addEventListener("resize", this.autoRestScoller);
   },
   beforeDestroy() {
     document.removeEventListener("click", this.hidePop);
+    this.$refs.mChatScoller.removeEventListener(
+      "click",
+      this.mChatScollerClick
+    );
+    // window.removeEventListener("resize", this.autoRestScoller);
   },
   methods: {
+    mChatScollerClick(e) {
+      this.$refs.mComment.toggleExtend(false);
+    },
+    autoRestScoller() {
+      this.initScoller();
+    },
+    imgAfterRead(file) {
+      this.$emit("imgAfterRead", file);
+    },
+    fileAfterRead(file) {
+      this.$emit("fileAfterRead", file);
+    },
+    videoAfterRead(file) {
+      this.$emit("videoAfterRead", file);
+    },
     hidePop(e) {
       const element = Array.from(e.path).find((el) => {
         const arr = el.classList ? Array.from(el.classList) : [];
@@ -267,7 +310,7 @@ export default {
       );
       const { left, top } = parent.getBoundingClientRect();
       console.log(left, top);
-      this.$refs.chatPopover.style.left = `${left - 20}px`;
+      this.$refs.chatPopover.style.left = `${left}px`;
       this.$refs.chatPopover.style.top = `${top}px`;
       this.popoverShow = true;
       this.data = obj.data;
@@ -282,7 +325,18 @@ export default {
 
       // 开启刷新模式
       this.resresh = true;
-      await this.loadMore();
+
+      try {
+        await this.loadMore();
+      } catch (error) {
+        this.pullError = true;
+        Toast.fail({
+          message: error.message,
+          onClose: () => {
+            this.pullError = false;
+          },
+        });
+      }
 
       this.isPullingDown = false;
       // 等待x秒后重置
@@ -342,10 +396,14 @@ export default {
     imageLoad() {
       this.initScoller();
     },
-    submit(content) {
-      // 空白内容允许发送
-      if (!content.replace(/\s+/g, "")) return;
-      this.$emit("submit", content);
+    submit(data) {
+      // 空白内容不允许发送
+      if (
+        data.type == "text" &&
+        (!data.content || !data.content.replace(/\s+/g, ""))
+      )
+        return;
+      this.$emit("submit", data);
     },
     toggleExtend(flag, e) {
       // // 如果触发元素是消息容器则关闭气泡框
@@ -363,7 +421,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .m-chat-wrap {
   overflow: hidden;
   box-sizing: content-box;
@@ -386,7 +444,9 @@ export default {
 .pulldown-wrapper {
   position: absolute;
   width: 100%;
-  padding: 1vw;
+  // padding: 1vw;
+  height: 10vw;
+  line-height: 10vw;
   box-sizing: border-box;
   transform: translateY(-100%) translateZ(0);
   text-align: center;
@@ -434,15 +494,23 @@ export default {
     padding: 0vw 3vw;
     // display: flex;
     &::before {
-      top: 98%;
-      width: 0;
-      height: 0;
-      left: 30%;
       content: "";
       position: absolute;
-      border-left: 5px solid transparent;
-      border-top: 5px solid #4a4a4a;
-      border-right: 5px solid transparent;
+      bottom: -1vw;
+      // width: 0;
+      // height: 0;
+      left: 40%;
+      // content: "";
+      // border-left: 3vw solid transparent;
+      // border-top: 3vw solid #4a4a4a;
+      // border-right: 3vw solid transparent;
+      border-width: 0 0 0.1vw 0.1vw;
+      border-style: solid;
+      border-color: transparent;
+      background-color: inherit;
+      transform: translate(-50%, 0%) rotate(-45deg);
+      width: 2vw;
+      height: 2vw;
     }
     .chat-pc-item {
       display: inline-flex;
@@ -453,5 +521,15 @@ export default {
       user-select: none;
     }
   }
+}
+.m-chat-msg-wrap {
+  position: relative;
+  // padding-top: 3vw;
+}
+.finished-text {
+  text-align: center;
+  margin: 3vw;
+  font-size: 4vw;
+  color: #999;
 }
 </style>

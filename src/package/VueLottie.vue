@@ -8,7 +8,7 @@
   ></div>
 </template>
 
-<script lang="ts">
+<script >
 /**
  * VueLottie
  * @description  lottie-web动画库vue封装组件
@@ -58,5 +58,5 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 </style>

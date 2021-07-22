@@ -40,7 +40,7 @@ export default {
 - [x] 语音播放
 - [x] 自定义默认头像
 - [x] 下拉加载更多
-- [ ] 图片/视频/语音发送功能和UI（暂时自定义）
+- [x] 图片/视频/语音发送功能和UI
 ## 预览
 ![main](https://m-chat-1251804846.cos.ap-nanjing.myqcloud.com/%E9%A2%84%E8%A7%88/main.png)
 
@@ -56,9 +56,6 @@ export default {
       :loadMore="loadMore"
       height="100vh"
     >
-      <template #extend>
-       <!-- 扩展面板 -->
-      </template>
     </m-chat>
 ```
 ## Props
@@ -72,6 +69,9 @@ export default {
 | comment       | Boolean  | true   | 是否显示回复框                            |
 | popoverList   | Array  | []       | 气泡框 例: [{type:'chehui',text:'撤回'}]                            |
 | customRecord  | Boolean | flase | 自定义录音功能
+| openExtends  | Array | ["image", "file", "video"] | 扩展面板显示的功能
+
+
 
 ## 消息对象
 ```
@@ -94,12 +94,11 @@ export default {
 
 | 事件名 | 说明           | 回调参数         |
 | ------ | -------------- | ---------------- |
-| submit | 输入框提交信息 | (content:string) |
+| submit | 输入框提交信息 | (content:{type:string,content:object}) |
 | popItemClick | 气泡框点击事件 | (obj:{type:string,data:object}) |
 | recordStart | 录音开始 | - |
 | recordStop | 录音停止 | ({ blob, duration})--H5录音才有回调参数自定义录音没有 |
 | recordCancel | 录音取消 | - |
-
 
 ## popItemClick Demo
 ```
@@ -117,7 +116,7 @@ export default {
 | ------ | ---------- | ---- |
 | left   | 输入框左边 | -    |
 | right  | 输入框右边 | -    |
-| extend | 扩展面板   | -    |
+<!-- | extend | 扩展面板   | -    | -->
 
 ## 方法
 通过 ref 可以获取到 mChat 实例并调用实例方法

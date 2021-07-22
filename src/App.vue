@@ -90,6 +90,7 @@ export default {
           id: 33,
           name: "王五",
           type: "audio",
+          duration: 7,
           audio:
             "https://music-10014144.cos.ap-shanghai.myqcloud.com/Cassandra%20-%20Doobi%20Doobi%20Doo%20(Don't%20Be%20Shy).mp3",
           self: false,
@@ -171,8 +172,8 @@ export default {
       return new Promise((res) => {
         setTimeout(() => {
           this.messages.unshift({
-            id: this.messages[0].id - 1,
-            name: this.messages[0].id - 1,
+            id: new Date().getTime(),
+            name: new Date().getTime(),
             content: "111111111111111111",
             self: false,
             avatar:
@@ -182,16 +183,29 @@ export default {
         }, 2000);
       });
     },
-    submit(content) {
-      console.log(content);
-      this.messages.push({
-        id: this.messages.length + 1,
-        name: this.messages.length + 1,
-        content: content,
-        self: true,
-        avatar:
-          "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
-      });
+    submit(data) {
+      console.log(data);
+      if (data.type == "text") {
+        this.messages.push({
+          id: this.messages.length + 1,
+          name: this.messages.length + 1,
+          content: data.content,
+          self: true,
+          avatar:
+            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+        });
+      }
+      if (data.type == "image") {
+        this.messages.push({
+          id: this.messages[0].id - 1,
+          name: this.messages[0].id - 1,
+          type: "image",
+          image: data.content.content,
+          self: true,
+          avatar:
+            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+        });
+      }
     },
     popItemClick(obj) {
       // 撤回

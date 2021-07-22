@@ -5,13 +5,13 @@
         <div class="m-chat-main-left">
           <!-- <slot name="left"></slot> -->
           <img
-            src="~@/package/svg/yuyin.svg"
+            src=".//svg/yuyin.svg"
             @click="changeRecord"
             v-if="!showAudio"
             class="c-icon"
           />
           <img
-            src="~@/package/svg/jianpan.svg"
+            src=".//svg/jianpan.svg"
             @click="showAudio = false"
             v-else
             class="c-icon"
@@ -54,7 +54,19 @@
       >
         <!-- <emoji @chooseEmjoy="chooseEmjoy" v-if="isEmoji" />
         <slot name="extend" v-else></slot> -->
-        <slot name="extend"></slot>
+        <!-- <slot name="extend"></slot> -->
+        <van-grid :column-num="3" icon-size="10vw" :border="false">
+          <template v-for="(item, index) in extendList">
+            <van-grid-item
+              class="my-grid-item"
+              :icon="item.icon"
+              :text="item.text"
+              v-if="includes(openExtends, item.type)"
+              :key="index"
+              @click="itemClick(item)"
+            />
+          </template>
+        </van-grid>
       </div>
     </div>
     <div class="record-overlay" v-if="recordStatus != 0">
@@ -67,16 +79,36 @@
         <p>手指上划,取消发送</p>
       </div>
       <div class="record-2 record-item" v-if="recordStatus == 2">
-        <img class="close-img" src="~@/package/svg/close.svg" />
+        <img class="close-img" src=".//svg/close.svg" />
         <p class="text">松开取消发送录音</p>
       </div>
     </div>
+    <van-uploader
+      v-if="includes(openExtends, 'image')"
+      ref="mChatImgUploader"
+      :after-read="imgAfterRead"
+      style="display: none"
+    />
+    <van-uploader
+      v-if="includes(openExtends, 'file')"
+      ref="mChatFileUploader"
+      :after-read="fileAfterRead"
+      style="display: none"
+      accept="*"
+    />
+    <van-uploader
+      v-if="includes(openExtends, 'video')"
+      ref="mChatVideoUploader"
+      :after-read="videoAfterRead"
+      style="display: none"
+      accept="video/*"
+    />
   </div>
 </template>
 
 <script>
 import { Icon, Toast } from "vant";
-import { Grid, GridItem } from "vant";
+import { Grid, GridItem, Uploader } from "vant";
 import { isOutEl } from "./utils";
 import VueLottie from "./VueLottie.vue";
 
@@ -93,9 +125,16 @@ export default {
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
     VueLottie,
+    [Uploader.name]: Uploader,
   },
   props: {
     customRecord: Boolean,
+    openExtends: {
+      type: Array,
+      default: function () {
+        return ["image", "file", "video"];
+      },
+    },
   },
   data() {
     return {
@@ -109,6 +148,23 @@ export default {
       },
       /**@type {Recorder} */
       rec: null,
+      extendList: [
+        {
+          type: "image",
+          text: "图片",
+          icon: "photo-o",
+        },
+        {
+          type: "file",
+          text: "文件",
+          icon: "description",
+        },
+        {
+          type: "video",
+          text: "视频",
+          icon: "video-o",
+        },
+      ],
     };
   },
   watch: {
@@ -149,6 +205,58 @@ export default {
     this.$refs.mChatRecord.removeEventListener("touchend", this.touchend);
   },
   methods: {
+    includes(arr, item) {
+      return arr.includes(item);
+    },
+    itemClick(item) {
+      if (item.type == "image") {
+        this.$refs.mChatImgUploader.chooseFile();
+      }
+      if (item.type == "file") {
+        this.$refs.mChatFileUploader.chooseFile();
+      }
+      if (item.type == "video") {
+        this.$refs.mChatVideoUploader.chooseFile();
+      }
+    },
+    imgAfterRead(file) {
+      // 此时可以自行将文件上传至服务器
+      console.log(file);
+      this.$emit("imgAfterRead", file);
+      this.$emit("submit", {
+        type: "image",
+        content: file,
+      });
+    },
+    fileAfterRead(file) {
+      // 此时可以自行将文件上传至服务器
+      console.log(file);
+      this.$emit("fileAfterRead", file);
+      this.$emit("submit", {
+        type: "file",
+        content: file,
+      });
+    },
+    videoAfterRead(file) {
+      // 此时可以自行将文件上传至服务器
+      console.log(file);
+      const acceptType = [
+        "video/mp4",
+        "video/mp3",
+        "video/avi",
+        "video/wmv",
+        "video/mkv",
+      ];
+      if (!acceptType.includes(file.file.type)) {
+        Toast.fail("视频格式不支持上传");
+        return;
+      }
+      this.$emit("videoAfterRead", file);
+      this.$emit("submit", {
+        type: "video",
+        content: file,
+      });
+    },
     recOpen(success) {
       this.rec = Recorder({
         type: "mp3",
@@ -258,7 +366,10 @@ export default {
       this.$emit("update:content", $e.target.value);
     },
     submit() {
-      this.$emit("submit", this.content);
+      this.$emit("submit", {
+        type: "text",
+        content: this.content,
+      });
       this.content = "";
       this.isExtend = false;
     },
@@ -289,6 +400,10 @@ export default {
         function (blob, duration) {
           self.rec.close(); //释放录音资源，当然可以不释放，后面可以连续调用start；但不释放时系统或浏览器会一直提示在录音，最佳操作是录完就close掉
           self.$emit("recordStop", { blob, duration, rec: self.rec });
+          self.$emit("submit", {
+            type: "audio",
+            content: { blob, duration, rec: self.rec },
+          });
           console.log(blob, duration, self.rec);
           // self.rec = null;
         },
@@ -303,7 +418,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .m-chat-comment {
   // position: fixed;
   // left: 0px;
@@ -337,6 +452,7 @@ export default {
       background-color: transparent;
       padding: 1vw 0px;
       margin: 0px 2vw;
+      font-size: 4vw;
     }
 
     .m-chat-comment-icon {
@@ -418,5 +534,13 @@ export default {
   height: 10vw;
 }
 .lottie {
+}
+.my-grid-item {
+  /deep/.van-grid-item__content {
+    background-color: transparent;
+  }
+  /deep/ .van-grid-item__text {
+    font-size: 3.1vw;
+  }
 }
 </style>

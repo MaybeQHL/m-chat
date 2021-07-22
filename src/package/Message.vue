@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="m-chat-msg-time" v-if="data.time">{{ data.time }}</div>
     <template v-if="isBack">
       <div class="m-chat-back-msg">该消息已经撤回</div>
     </template>
@@ -27,7 +28,7 @@
                 class="chat-message-content arrow"
                 :class="data.self ? 'row-start' : 'row-reverse'"
               >
-                <span>{{ data.duration }}</span>
+                <span v-if="data.duration">{{ data.duration }} "</span>
                 <vue-lottie
                   :options="animOptions"
                   @animCreated="animCreated"
@@ -59,6 +60,7 @@
             <template v-else>
               <div
                 class="chat-message-content arrow"
+                :class="[isPress && 'press-class']"
                 v-html="resloveContent(data.content)"
               ></div>
             </template>
@@ -98,6 +100,7 @@ export default {
           image: "", // 图片地址
           video: "", // 视频地址
           type: "text", // 文件类型 text|image|audio|video
+          time: "", // 消息发送时间
         };
       },
     },
@@ -145,6 +148,7 @@ export default {
       });
       if (this.data.self) {
         hammer.on("press", (e) => {
+          this.isPress = true;
           console.log("You're pressing me!");
           console.log(e);
           this.$emit("press", {
@@ -154,6 +158,7 @@ export default {
         });
         hammer.on("pressup", (e) => {
           console.log("You're pressup me!");
+          this.isPress = false;
           this.$emit("pressup", {
             e: e,
             data: this.data,
@@ -165,6 +170,8 @@ export default {
   beforeDestroy() {},
   methods: {
     resloveContent(content) {
+      // console.log("content", content);
+      if (!content) return "";
       // 给文本http或者https的链接添加a标签
       var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
       return content.replace(reg, "<a href='$1$2'>$1$2</a>");
@@ -197,7 +204,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .chat-message {
   display: flex;
   flex-flow: row nowrap;
@@ -232,11 +239,11 @@ export default {
       padding: 1.73333vw 2.66667vw;
       line-height: 6vw;
       border-radius: 1.33333vw;
-      background-color: #f2f6fb;
       font-size: 3.73333vw;
       box-shadow: #f2f6fb 0px 0px 1.06667vw;
       word-break: break-all;
       flex-wrap: wrap;
+      border: 1px solid transparent;
       .image {
         ::v-deep img {
           max-width: 35vw;
@@ -256,20 +263,27 @@ export default {
 .row-reverse {
   flex-direction: row-reverse;
 }
+
 .box-self {
   padding-right: 5.3333vw;
   flex-direction: row-reverse;
   .arrow::before {
     content: "";
+    display: inline-block;
     position: absolute;
-    top: 2.66667vw;
+    top: 3vw;
     right: 0px;
-    width: 0px;
-    height: 0px;
-    border-width: 2vw;
+    // width: 0px;
+    // height: 0px;
+    border-width: 0.1vw 0.1vw 0 0;
     border-style: solid;
-    border-color: transparent transparent transparent #9eea6a;
-    transform: translate(100%, 0%);
+    // border-color: transparent inherit inherit transparent;
+    border-color: inherit;
+    // transform: translate(100%, 0%);
+    background-color: inherit;
+    transform: translate(70%, 0%) rotate(45deg);
+    width: 3vw;
+    height: 3vw;
   }
   .chat-message-name {
     text-align: right;
@@ -278,7 +292,7 @@ export default {
     flex-flow: row-reverse;
   }
   .chat-message-content {
-    background-color: #9eea6a !important;
+    background-color: #9eea6a;
   }
 }
 .box-people {
@@ -287,23 +301,33 @@ export default {
 
   .arrow::before {
     content: "";
+    display: inline-block;
     position: absolute;
-    top: 2.66667vw;
+    top: 3vw;
     left: 0px;
     width: 0px;
     height: 0px;
-    border-width: 2vw;
+    // border-width: 2vw;
+    // border-style: solid;
+    // border-color: transparent inherit transparent transparent;
+    // transform: translate(-100%, 0%);
+    // background-color: red;
+    border-width: 0 0 0.1vw 0.1vw;
     border-style: solid;
-    border-color: transparent #f2f6fb transparent transparent;
-    transform: translate(-100%, 0%);
+    border-color: inherit;
+    background-color: inherit;
+    transform: translate(-50%, 0%) rotate(45deg);
+    width: 3vw;
+    height: 3vw;
   }
   .chat-message-content_wrap {
     flex-flow: row;
   }
+  .chat-message-content {
+    background-color: #f2f6fb;
+  }
 }
 
-.chat-message-content {
-}
 .img-error {
   font-size: 7vw;
   display: flex;
@@ -351,5 +375,14 @@ export default {
   font-size: 3.7vw;
   color: #6d6d6d;
   user-select: none;
+}
+.m-chat-msg-time {
+  text-align: center;
+  font-size: 3.5vw;
+  margin: 3vw 0px;
+  color: #b0b0b0;
+}
+.press-class {
+  border: 1px solid #9d9d9d !important;
 }
 </style>
