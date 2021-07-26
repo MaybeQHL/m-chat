@@ -8,8 +8,6 @@
 ## 介绍
 基于vue2.x 聊天(IM)UI组件(3.x以后支持)
 
-提示： 目前图片发送/语音发送/视频发送 功能和UI需要自己在扩展面板定义 
-
 ## 演示
 [Demo](https://m-chat-1251804846.cos.ap-nanjing.myqcloud.com/dist/index.html)
 ## 安装
@@ -86,7 +84,8 @@ export default {
     image: "", // 图片地址
     video: "", // 视频地址
     type: "text", // 文件类型:text|image|audio|video,
-    isBack:false // 控制该消息是否已经撤回
+    isBack:false // 控制该消息是否已经撤回,
+    time:'' // 时间
  }
 ```
 

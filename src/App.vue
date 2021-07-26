@@ -122,6 +122,7 @@ export default {
           self: false,
           content: "6666",
           avatar: "",
+          time: "2021-07-26 11:39:22",
         },
         {
           id: 7,
@@ -129,12 +130,13 @@ export default {
           content: "6666666666666",
           self: false,
           isBack: true,
+          time: "2021-07-26 11:39:22",
           avatar:
             "https://tiej2inxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
         },
 
         {
-          id: 44,
+          id: 55,
           name: "菲菲",
           type: "video",
           video:
@@ -143,6 +145,7 @@ export default {
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
           isBack: false,
+          time: "2021-07-26 11:39:22",
         },
       ],
       fileList: [],

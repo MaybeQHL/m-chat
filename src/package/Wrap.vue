@@ -35,6 +35,7 @@
             @press="press"
             @pressup="pressup"
             :isBack="item.isBack"
+            :isPress="item.self && isPress && item.id == data.id"
           ></message>
         </div>
       </div>
@@ -205,7 +206,6 @@ export default {
   mounted() {
     this.bs = new BScroll(this.$refs.mChatScoller, {
       scrollY: true,
-
       bounce: {
         top: true,
         bottom: false,
@@ -213,6 +213,7 @@ export default {
         right: false,
       },
       click: true,
+      dblclick: true,
       pullDownRefresh: true,
     });
     this.bs.on("pullingDown", this.pullingDownHandler);
@@ -243,6 +244,15 @@ export default {
     this.$refs.mChatScoller.addEventListener("click", this.mChatScollerClick);
 
     // window.addEventListener("resize", this.autoRestScoller);
+
+    // const hooks = this.bs.scroller.actionsHandler.hooks;
+    // hooks.on("end", (e) => {
+    //   console.log("aaaaaaaaa", e);
+    // });
+    window.ontouchend = (e) => {
+      console.log("ontouchend", e);
+      this.isPress = false;
+    };
   },
   beforeDestroy() {
     document.removeEventListener("click", this.hidePop);
@@ -300,14 +310,15 @@ export default {
       // this.toggleExtend(false, e);
     },
     pressup(e, data) {
-      // this.isPress = false;
+      this.isPress = false;
     },
     press(obj) {
       this.isPress = true;
       console.log(obj);
-      const parent = obj.e.srcEvent.path.find((el) =>
-        Array.from(el.classList).includes("chat-message-content")
-      );
+      const parent = obj.e.srcEvent.path.find((el) => {
+        return Array.from(el.classList || []).includes("chat-message-content");
+      });
+      if (!parent) return;
       const { left, top } = parent.getBoundingClientRect();
       console.log(left, top);
       this.$refs.chatPopover.style.left = `${left}px`;
@@ -361,7 +372,13 @@ export default {
     itemClick(data) {
       this.data = data.data;
       if (this.data.type == "audio") {
-        this.initAudio();
+        // 重复点击当前音频暂停或播放
+        if (this.audioAnim && data.data.id == this.data.id) {
+          this.audioAnim = false;
+          this.$refs.mAudio.pause();
+        } else {
+          this.initAudio();
+        }
       }
       if (this.data.type == "video") {
         this.clearAudio();

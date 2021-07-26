@@ -26,7 +26,10 @@
             <template v-if="data.type == 'audio'">
               <div
                 class="chat-message-content arrow"
-                :class="data.self ? 'row-start' : 'row-reverse'"
+                :class="[
+                  isPress && 'press-class',
+                  data.self ? 'row-start' : 'row-reverse',
+                ]"
               >
                 <span v-if="data.duration">{{ data.duration }} "</span>
                 <vue-lottie
@@ -40,18 +43,28 @@
             </template>
             <!-- 图片内容 -->
             <template v-else-if="data.type == 'image'">
-              <div class="chat-message-content arrow">
+              <div
+                class="chat-message-file"
+                :class="[isPress && 'press-class']"
+              >
                 <van-image
-                  class="image"
+                  class="chat-image"
                   :src="data.image"
-                  @click="imagePreview"
+                  @click.self="imagePreview"
                   @load="imageLoad"
+                  :radius="5"
                 ></van-image>
               </div>
             </template>
             <!-- 视频内容 -->
             <template v-else-if="data.type == 'video'">
-              <div class="chat-message-content arrow">
+              <div
+                class="chat-message-content arrow"
+                :class="[
+                  isPress && 'press-class',
+                  data.self ? 'row-start' : 'row-reverse',
+                ]"
+              >
                 <!-- <van-icon name="video-o" size="8vw" @click.stop="itemClick" /> -->
                 <van-image :src="videoImg" width="8vw" height="8vw"></van-image>
               </div>
@@ -77,6 +90,8 @@ import VueLottie from "./VueLottie.vue";
 import { ImagePreview, Image, Icon } from "vant";
 
 import Hammer from "hammerjs";
+
+import { isOutEl } from "./utils";
 
 export default {
   components: {
@@ -109,6 +124,7 @@ export default {
       type: String,
       default: require("./svg/default.svg"),
     },
+    isPress: Boolean,
   },
   data() {
     return {
@@ -120,7 +136,7 @@ export default {
       },
       isImgError: false,
       anim: null,
-      isPress: false,
+      // isPress: false,
     };
   },
   computed: {},
@@ -148,7 +164,7 @@ export default {
       });
       if (this.data.self) {
         hammer.on("press", (e) => {
-          this.isPress = true;
+          // this.isPress = true;
           console.log("You're pressing me!");
           console.log(e);
           this.$emit("press", {
@@ -158,7 +174,7 @@ export default {
         });
         hammer.on("pressup", (e) => {
           console.log("You're pressup me!");
-          this.isPress = false;
+          // this.isPress = false;
           this.$emit("pressup", {
             e: e,
             data: this.data,
@@ -229,9 +245,20 @@ export default {
     padding: 0px 4vw;
     .chat-message-name {
       font-size: 3.5vw;
+      color: #9d9d9d;
+    }
+    .chat-message-file {
+      display: inline-flex;
+      align-items: center;
+      background-color: transparent;
+      // margin-top: 1.06667vw;
+      padding: 1.73333vw 2.66667vw;
+      max-width: 25vw;
+      height: auto;
     }
     .chat-message-content {
-      min-height: 4vw;
+      min-width: 9vw;
+      min-height: 7vw;
       display: inline-flex;
       align-items: center;
       position: relative;
@@ -244,17 +271,17 @@ export default {
       word-break: break-all;
       flex-wrap: wrap;
       border: 1px solid transparent;
-      .image {
-        ::v-deep img {
-          max-width: 35vw;
-          height: auto;
-        }
-      }
+      user-select: text;
     }
     .chat-message-content_wrap {
       display: inline-flex;
     }
   }
+}
+.chat-image {
+  max-width: 25vw;
+  height: auto;
+  border: 1px solid #ebedf0;
 }
 
 .row-start {
@@ -272,7 +299,7 @@ export default {
     display: inline-block;
     position: absolute;
     top: 3vw;
-    right: 0px;
+    right: 0;
     // width: 0px;
     // height: 0px;
     border-width: 0.1vw 0.1vw 0 0;
@@ -281,7 +308,7 @@ export default {
     border-color: inherit;
     // transform: translate(100%, 0%);
     background-color: inherit;
-    transform: translate(70%, 0%) rotate(45deg);
+    transform: translate(50%, 0%) rotate(45deg);
     width: 3vw;
     height: 3vw;
   }
@@ -374,7 +401,6 @@ export default {
   margin: 2vw 0vw;
   font-size: 3.7vw;
   color: #6d6d6d;
-  user-select: none;
 }
 .m-chat-msg-time {
   text-align: center;
