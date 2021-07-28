@@ -47,6 +47,7 @@ export default {
     this.anim = lottie.loadAnimation(
       Object.assign(defaultOptions, this.options)
     );
+    this.anim.resize();
     this.$emit("animCreated", this.anim);
   },
   beforeDestroy() {},

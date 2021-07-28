@@ -22,6 +22,7 @@
         <div class="chat-message-name">{{ data.name }}</div>
         <div class="chat-message-content_wrap">
           <div class="chat-msg-event_wrap" ref="msgEvent">
+            <!-- {{ data.type }} -->
             <!-- 音频内容 -->
             <template v-if="data.type == 'audio'">
               <div
@@ -31,7 +32,14 @@
                   data.self ? 'row-start' : 'row-reverse',
                 ]"
               >
-                <span v-if="data.duration">{{ data.duration }} "</span>
+                <span v-if="data.content.duration"
+                  >{{ data.content.duration }} "</span
+                >
+                <van-icon
+                  :name="mediaIcon"
+                  style="margin: 0vw 2vw"
+                  size="7vw"
+                ></van-icon>
                 <vue-lottie
                   :options="animOptions"
                   @animCreated="animCreated"
@@ -44,12 +52,12 @@
             <!-- 图片内容 -->
             <template v-else-if="data.type == 'image'">
               <div
-                class="chat-message-file"
+                class="chat-message-image"
                 :class="[isPress && 'press-class']"
               >
                 <van-image
                   class="chat-image"
-                  :src="data.image"
+                  :src="data.content.imageUrl"
                   @click.self="imagePreview"
                   @load="imageLoad"
                   :radius="5"
@@ -74,7 +82,7 @@
               <div
                 class="chat-message-content arrow"
                 :class="[isPress && 'press-class']"
-                v-html="resloveContent(data.content)"
+                v-html="resloveContent(data.content.text)"
               ></div>
             </template>
           </div>
@@ -116,6 +124,13 @@ export default {
           video: "", // 视频地址
           type: "text", // 文件类型 text|image|audio|video
           time: "", // 消息发送时间
+          content: {
+            text: "", // 文本
+            duration: "", // 时长
+            imageUrl: "", // 图片地址
+            videoUrl: "", // 视频地址
+            audioUrl: "", // 音频地址
+          },
         };
       },
     },
@@ -125,6 +140,7 @@ export default {
       default: require("./svg/default.svg"),
     },
     isPress: Boolean,
+    isPlayMedia: Boolean,
   },
   data() {
     return {
@@ -137,9 +153,32 @@ export default {
       isImgError: false,
       anim: null,
       // isPress: false,
+      mediaStatus: 0, // 0 未开始播放 1播放中 2暂停 3播放完成
     };
   },
-  computed: {},
+  computed: {
+    mediaIcon() {
+      return this.audioAnim ? "pause-circle-o" : "play-circle-o";
+      let icon = "play-circle-o";
+      switch (this.mediaStatus) {
+        case 0:
+          icon = "play-circle-o";
+          break;
+        case 1:
+          icon = "pause-circle-o";
+          break;
+        case 2:
+          icon = "play-circle-o";
+          break;
+        case 3:
+          icon = "play-circle-o";
+          break;
+        default:
+          break;
+      }
+      return icon;
+    },
+  },
   watch: {
     // 控制音频动画
     audioAnim: {
@@ -185,6 +224,9 @@ export default {
   },
   beforeDestroy() {},
   methods: {
+    setMediaStatus(status) {
+      this.mediaStatus = status;
+    },
     resloveContent(content) {
       // console.log("content", content);
       if (!content) return "";
@@ -197,14 +239,14 @@ export default {
     },
     imagePreview() {
       this.itemClick();
-      ImagePreview([this.data.image]);
+      ImagePreview([this.data.content.imageUrl]);
     },
     onImgError() {
       this.isImgError = true;
     },
     itemClick() {
       if (this.data.type == "image") {
-        ImagePreview([this.data.image]);
+        ImagePreview([this.data.content.imageUrl]);
       }
       this.$emit("itemClick", {
         data: this.data,
@@ -247,14 +289,15 @@ export default {
       font-size: 3.5vw;
       color: #9d9d9d;
     }
-    .chat-message-file {
+    .chat-message-image {
       display: inline-flex;
       align-items: center;
       background-color: transparent;
       // margin-top: 1.06667vw;
-      padding: 1.73333vw 2.66667vw;
+      // padding: 1.73333vw 2.66667vw;
       max-width: 25vw;
       height: auto;
+      margin-top: 2vw;
     }
     .chat-message-content {
       min-width: 9vw;
@@ -279,7 +322,7 @@ export default {
   }
 }
 .chat-image {
-  max-width: 25vw;
+  max-width: 30vw;
   height: auto;
   border: 1px solid #ebedf0;
 }

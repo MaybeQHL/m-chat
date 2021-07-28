@@ -4,6 +4,8 @@
     ref="mChatWrap"
     :style="{ height: `calc(${height})` }"
   >
+    <!-- 初始化loading -->
+    <!-- <van-loading v-if="loading"></van-loading> -->
     <!-- 信息列表 -->
     <div class="m-chat-msg-wrap" ref="mChatScoller" @click="scollerClick">
       <div class="m-chat-content">
@@ -12,9 +14,14 @@
             <span>下拉加载更多</span>
           </div>
           <div v-show="!beforePullDown">
-            <div class="pulling-box" v-show="isPullingDown">
-              <!-- <span> 刷新中 </span> -->
-              <van-loading size="8vw" type="circular" color="#1989fa" />
+            <div class="pulling-box" v-show="isPullingDown || loading">
+              <van-loading size="30px" type="circular" color="#BABABA" />
+              <!-- <vue-lottie
+                :options="animOptions"
+                @animCreated="animCreated"
+                width="40vw"
+                height="40vw"
+              ></vue-lottie> -->
             </div>
             <div v-show="!isPullingDown">
               <span>{{ pullError ? "刷新失败" : "刷新成功" }}</span>
@@ -36,6 +43,8 @@
             @pressup="pressup"
             :isBack="item.isBack"
             :isPress="item.self && isPress && item.id == data.id"
+            @avatarClick="avatarClick"
+            :isPlayMedia="isPlayMedia && item.id == data.id"
           ></message>
         </div>
       </div>
@@ -46,7 +55,7 @@
     </div>
     <!-- 唯一视频元素 -->
     <div class="chat-video" v-show="videoShow">
-      <video ref="mVideo" :src="data.video" controls></video>
+      <video ref="mVideo" :src="data.content.videoUrl" controls></video>
       <div class="v-btn">
         <van-icon
           class="v-close-btn"
@@ -74,6 +83,10 @@
       @fileAfterRead="fileAfterRead"
       @videoAfterRead="videoAfterRead"
       :openExtends="openExtends"
+      @togglePanel="togglePanel"
+      :imgMaxSize="imgMaxSize"
+      :videoMaxSize="videoMaxSize"
+      :fileMaxSize="fileMaxSize"
     >
       <template #right>
         <slot name="right"></slot>
@@ -113,6 +126,7 @@ import Comment from "./Comment.vue";
 import Message from "./Message.vue";
 
 import { isOutEl } from "./utils";
+import VueLottie from "./VueLottie.vue";
 
 export default {
   props: {
@@ -147,12 +161,26 @@ export default {
     },
     pullFinished: Boolean,
     openExtends: Array,
+    loading: Boolean,
+    imgMaxSize: {
+      type: Number,
+      default: 500,
+    },
+    videoMaxSize: {
+      type: Number,
+      default: 500,
+    },
+    fileMaxSize: {
+      type: Number,
+      default: 500,
+    },
   },
   components: {
     Comment,
     Message,
     [Loading.name]: Loading,
     [Icon.name]: Icon,
+    VueLottie,
   },
   data() {
     return {
@@ -161,16 +189,9 @@ export default {
       isPullingDown: false,
       // 当前点击的聊天信息
       data: {
-        id: null,
-        name: "", // 姓名
-        avatar: "", // 头像地址
-        self: false, // 是否是自己发送
-        audio: "", // 音频地址
-        duration: "", // 音频时长
-        content: "", // 文本内容
-        image: "", // 图片地址
-        video: "", // 视频地址
-        type: "text", // 文件类型 text|image|audio|video
+        // 详情见Message 组件
+        type: "",
+        content: {},
       },
       audioAnim: false, // 控制是否播放音频动画
       resresh: false, // 是否刷新容器
@@ -180,6 +201,12 @@ export default {
       popoverShow: false, // 显示气泡框
       isPress: false,
       pullError: false,
+      animOptions: {
+        animationData: require("./json/loading.json"),
+        autoplay: true,
+      },
+      anim: null,
+      isPlayMedia: false,
     };
   },
   watch: {
@@ -202,6 +229,13 @@ export default {
       },
       immediate: true,
     },
+    // isPullingDown(val) {
+    //   if (val) {
+    //     this.anim.play();
+    //   } else {
+    //     this.anim.stop();
+    //   }
+    // },
   },
   mounted() {
     this.bs = new BScroll(this.$refs.mChatScoller, {
@@ -214,7 +248,13 @@ export default {
       },
       click: true,
       dblclick: true,
-      pullDownRefresh: true,
+      pullDownRefresh: {
+        stop: 40,
+      },
+      preventDefaultException: {
+        tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|AUDIO)$/, // 这些元素的默认行为都不会被阻止。
+        className: /(^|\s)chat-message-content(\s|$)/,
+      },
     });
     this.bs.on("pullingDown", this.pullingDownHandler);
     this.bs.on("scroll", this.scrollHandler);
@@ -228,14 +268,18 @@ export default {
       // console.log("main_initScoller");
       if (isExtend) {
         this.$nextTick(() => {
-          console.log(this.$refs.mComment.clientHeight);
           this.$refs.mChatScoller.style.height = `calc(${this.height} - ${this.$refs.mComment.$refs.mChatComment.clientHeight}px)`;
-          this.initScoller();
+          console.log(this.$refs.mComment.clientHeight);
+          this.$nextTick(() => {
+            this.initScoller();
+          });
         });
       } else {
         this.$nextTick(() => {
           this.$refs.mChatScoller.style.height = `calc(${this.height} - ${this.$refs.mComment.$refs.mChatComment.clientHeight}px)`;
-          this.initScoller();
+          this.$nextTick(() => {
+            this.initScoller();
+          });
         });
       }
     });
@@ -252,6 +296,7 @@ export default {
     window.ontouchend = (e) => {
       console.log("ontouchend", e);
       this.isPress = false;
+      this.$refs.mComment.toggleRecordStatus(0);
     };
   },
   beforeDestroy() {
@@ -261,8 +306,18 @@ export default {
       this.mChatScollerClick
     );
     // window.removeEventListener("resize", this.autoRestScoller);
+    window.ontouchend = null;
   },
   methods: {
+    animCreated(anim) {
+      this.anim = anim;
+    },
+    togglePanel(type) {
+      this.$emit("togglePanel", type);
+    },
+    avatarClick(data) {
+      this.$emit("avatarClick", data);
+    },
     mChatScollerClick(e) {
       this.$refs.mComment.toggleExtend(false);
     },
@@ -370,20 +425,24 @@ export default {
     },
     emojiClick() {},
     itemClick(data) {
-      this.data = data.data;
-      if (this.data.type == "audio") {
+      if (data.data.type == "audio") {
         // 重复点击当前音频暂停或播放
         if (this.audioAnim && data.data.id == this.data.id) {
           this.audioAnim = false;
           this.$refs.mAudio.pause();
+          // this.data = data.data;
+          // this.isPlayMedia = false;
         } else {
+          // this.isPlayMedia = true;
+          this.data = data.data;
           this.initAudio();
         }
       }
+      this.data = data.data;
       if (this.data.type == "video") {
         this.clearAudio();
         this.videoShow = true;
-        this.$refs.mVideo.src = this.data.video;
+        this.$refs.mVideo.src = this.data.content.videoUrl;
       }
     },
     initScoller(flag) {
@@ -397,7 +456,7 @@ export default {
     initAudio() {
       this.audioAnim = true;
       this.$refs.mAudio.pause();
-      this.$refs.mAudio.src = this.data.audio;
+      this.$refs.mAudio.src = this.data.content.audioUrl;
       this.$refs.mAudio.play();
       this.$refs.mAudio.removeEventListener("ended", this.audioListener, false);
       this.$refs.mAudio.addEventListener("ended", this.audioListener, false);
@@ -405,6 +464,7 @@ export default {
     audioListener() {
       console.log("audio play over");
       this.audioAnim = false;
+      // this.isPlayMedia = false;
     },
     clearAudio() {
       this.audioAnim = false;
@@ -461,14 +521,23 @@ export default {
 .pulldown-wrapper {
   position: absolute;
   width: 100%;
-  // padding: 1vw;
-  height: 10vw;
-  line-height: 10vw;
+  // height: 10vw;
+  // line-height: 10vw;
   box-sizing: border-box;
-  transform: translateY(-100%) translateZ(0);
+  transform: translateY(-100%);
   text-align: center;
   color: #999;
   font-size: 4vw;
+  // padding: 5vw 0vw;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  .pulling-box {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .chat-video {
   z-index: 88;
@@ -495,8 +564,7 @@ export default {
   .v-close-btn {
   }
 }
-.pulling-box {
-}
+
 .m-comment {
   // flex: 1;
 }

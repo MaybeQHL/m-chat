@@ -63,15 +63,19 @@ export default {
         {
           id: 0,
           name: "张三",
-          content: "6666666666666",
+          content: {
+            text: "6666666666666",
+          },
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
         },
         {
           id: 1,
           name: "李四",
-          content:
-            "6666666666666samj科技撒啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊是卡死的科技奥科吉卡死的科技科技安神科技科技ask佳都科技看见爱上科技的",
+          content: {
+            text: "6666666666666samj科技撒啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊是卡死的科技奥科吉卡死的科技科技安神科技科技ask佳都科技看见爱上科技的",
+          },
+
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
@@ -80,8 +84,11 @@ export default {
           id: 2,
           name: "李四",
           type: "audio",
-          audio:
-            "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/test.mp3",
+          content: {
+            duration: 7,
+            audioUrl:
+              "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/test.mp3",
+          },
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
@@ -91,8 +98,11 @@ export default {
           name: "王五",
           type: "audio",
           duration: 7,
-          audio:
-            "https://music-10014144.cos.ap-shanghai.myqcloud.com/Cassandra%20-%20Doobi%20Doobi%20Doo%20(Don't%20Be%20Shy).mp3",
+          content: {
+            duration: 7,
+            audioUrl:
+              "https://music-10014144.cos.ap-shanghai.myqcloud.com/Cassandra%20-%20Doobi%20Doobi%20Doo%20(Don't%20Be%20Shy).mp3",
+          },
           self: false,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
@@ -103,16 +113,20 @@ export default {
           content: "6666666666666",
           self: false,
           type: "image",
-          image:
-            "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/jjy.jpg",
+          content: {
+            imageUrl:
+              "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/jjy.jpg",
+          },
         },
         {
           id: 4,
           name: "李四",
           self: false,
           type: "image",
-          image:
-            "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/1.jpg",
+          content: {
+            imageUrl:
+              "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/1.jpg",
+          },
           avatar:
             "https://tiej2inxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
         },
@@ -120,14 +134,18 @@ export default {
           id: 44,
           name: "刘飞",
           self: false,
-          content: "6666",
+          content: {
+            text: "6666",
+          },
           avatar: "",
           time: "2021-07-26 11:39:22",
         },
         {
           id: 7,
           name: "李四",
-          content: "6666666666666",
+          content: {
+            text: "21321312",
+          },
           self: false,
           isBack: true,
           time: "2021-07-26 11:39:22",
@@ -139,8 +157,10 @@ export default {
           id: 55,
           name: "菲菲",
           type: "video",
-          video:
-            "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/video.mp4",
+          content: {
+            videoUrl:
+              "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/video.mp4",
+          },
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",

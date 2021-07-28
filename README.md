@@ -66,9 +66,11 @@ export default {
 | defaultAvatar | String   | -      | 默认头像(支持本地头像require导入或者地址)   |
 | comment       | Boolean  | true   | 是否显示回复框                            |
 | popoverList   | Array  | []       | 气泡框 例: [{type:'chehui',text:'撤回'}]                            |
-| customRecord  | Boolean | flase | 自定义录音功能
+| customRecord  | Boolean | flase | 自定义录音功能(设置为true后自带录音失效，并且不触发submit事件)
 | openExtends  | Array | ["image", "file", "video"] | 扩展面板显示的功能
-
+| imgMaxSize   | Number | 500 | 图片大小上传限制(kb)
+| videoMaxSize | Number | 500 | 视频大小上传限制(kb)
+| fileMaxSize | Number | 500 | 文件大小上传限制(kb)
 
 
 ## 消息对象
@@ -78,14 +80,16 @@ export default {
     name: "", // 姓名
     avatar: "", // 头像地址
     self: false, // 是否是自己
-    audio: "", // 音频地址
-    duration: "", // 音频时长
-    content: "", // 文本内容
-    image: "", // 图片地址
-    video: "", // 视频地址
+    content:{
+          text: "", // 文本内容
+          imageUrl: "", // 图片地址
+          videoUrl: "", // 视频地址
+          audioUrl: "", // 音频地址
+          duration: "", // 时长
+    },
     type: "text", // 文件类型:text|image|audio|video,
     isBack:false // 控制该消息是否已经撤回,
-    time:'' // 时间
+    time:'' // 发送时间
  }
 ```
 
@@ -96,7 +100,7 @@ export default {
 | submit | 文字、图片、视频、语音等等发送事件 | (content:{type:string,content:object}) |
 | popItemClick | 气泡框点击事件 | (obj:{type:string,data:object}) |
 | recordStart | 录音开始 | - |
-| recordStop | 录音停止 | ({ blob, duration})--H5录音才有回调参数自定义录音没有 |
+| recordStop | 录音停止 | ({ blob, duration})--H5录音才有回调参数，自定义录音没有 |
 | recordCancel | 录音取消 | - |
 
 ## popItemClick Demo

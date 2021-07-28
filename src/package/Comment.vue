@@ -6,23 +6,31 @@
           <!-- <slot name="left"></slot> -->
           <img
             src=".//svg/yuyin.svg"
-            @click="changeRecord"
-            v-if="!showAudio"
+            @click="togglePanel('audio')"
+            v-if="currentType == 'text'"
             class="c-icon"
           />
           <img
             src=".//svg/jianpan.svg"
-            @click="showAudio = false"
-            v-else
+            @click="togglePanel('text')"
+            v-if="currentType == 'audio'"
             class="c-icon"
           />
         </div>
-        <div class="m-chat-record" v-show="showAudio" ref="mChatRecord">
+        <div
+          class="m-chat-record"
+          v-show="currentType == 'audio'"
+          ref="mChatRecord"
+        >
           <span v-if="recordStatus == 0">按住开始录音</span>
           <span v-if="recordStatus == 1">松开 发送</span>
           <span v-if="recordStatus == 2">松开 取消</span>
         </div>
-        <form class="m-chat-form" v-show="!showAudio" @submit.prevent="submit">
+        <form
+          class="m-chat-form"
+          v-show="currentType == 'text'"
+          @submit.prevent="submit"
+        >
           <input
             ref="mChatInput"
             class="m-chat-input"
@@ -55,7 +63,7 @@
         <!-- <emoji @chooseEmjoy="chooseEmjoy" v-if="isEmoji" />
         <slot name="extend" v-else></slot> -->
         <!-- <slot name="extend"></slot> -->
-        <van-grid :column-num="3" icon-size="10vw" :border="false">
+        <!-- <van-grid :column-num="4" icon-size="10vw" :border="false">
           <template v-for="(item, index) in extendList">
             <van-grid-item
               class="my-grid-item"
@@ -66,7 +74,21 @@
               @click="itemClick(item)"
             />
           </template>
-        </van-grid>
+        </van-grid> -->
+        <div class="m-chat-grid">
+          <template v-for="(item, index) in extendList">
+            <div
+              class="m-chat-grid-item"
+              :key="index"
+              v-if="includes(openExtends, item.type)"
+            >
+              <div class="m-chat-grid_item_icon" @click="itemClick(item)">
+                <van-icon :name="item.icon" />
+              </div>
+              <div class="m-chat-grid_item_text">{{ item.text }}</div>
+            </div>
+          </template>
+        </div>
       </div>
     </div>
     <div class="record-overlay" v-if="recordStatus != 0">
@@ -87,12 +109,16 @@
       v-if="includes(openExtends, 'image')"
       ref="mChatImgUploader"
       :after-read="imgAfterRead"
+      :max-size="imgMaxSize * 1024"
+      @oversize="onImgOversize"
       style="display: none"
     />
     <van-uploader
       v-if="includes(openExtends, 'file')"
       ref="mChatFileUploader"
       :after-read="fileAfterRead"
+      :max-size="fileMaxSize * 1024"
+      @oversize="onFileOversize"
       style="display: none"
       accept="*"
     />
@@ -100,6 +126,8 @@
       v-if="includes(openExtends, 'video')"
       ref="mChatVideoUploader"
       :after-read="videoAfterRead"
+      :max-size="videoMaxSize * 1024"
+      @oversize="onVideoOversize"
       style="display: none"
       accept="video/*"
     />
@@ -135,11 +163,24 @@ export default {
         return ["image", "file", "video"];
       },
     },
+    imgMaxSize: {
+      type: Number,
+      default: 500,
+    },
+    videoMaxSize: {
+      type: Number,
+      default: 500,
+    },
+    fileMaxSize: {
+      type: Number,
+      default: 500,
+    },
   },
   data() {
     return {
       content: "",
       isExtend: false,
+      currentType: "text",
       showAudio: false,
       recordStatus: 0, // 0 未录音 1 录音中 2 取消录音中
       animOptions: {
@@ -167,6 +208,7 @@ export default {
       ],
     };
   },
+  computed: {},
   watch: {
     isExtend: {
       handler: function (val) {
@@ -205,6 +247,31 @@ export default {
     this.$refs.mChatRecord.removeEventListener("touchend", this.touchend);
   },
   methods: {
+    onImgOversize(file) {
+      console.log(file);
+      Toast(`图片大小不能超过 ${this.imgMaxSize}kb`);
+    },
+    onVideoOversize(file) {
+      console.log(file);
+      Toast(`视频大小不能超过 ${this.videoMaxSize}kb`);
+    },
+    onFileOversize(file) {
+      console.log(file);
+      Toast(`文件大小不能超过 ${this.fileMaxSize}kb`);
+    },
+    togglePanel(type) {
+      this.currentType = type;
+      switch (type) {
+        case "text":
+          break;
+        case "audio":
+          this.changeRecord();
+          break;
+        default:
+          break;
+      }
+      this.$emit("togglePanel", type);
+    },
     includes(arr, item) {
       return arr.includes(item);
     },
@@ -296,15 +363,18 @@ export default {
       );
     },
     touchstart(e) {
+      e.preventDefault();
       // console.log("touchstart", e);
       this.recordStatus = 1;
       if (this.customRecord) {
         this.$emit("recordStart");
+        console.log("recordStart", e);
       } else {
         this.recStart();
       }
     },
     touchmove(e) {
+      e.preventDefault();
       // console.log("touchmove", e);
       if (isOutEl(e.changedTouches[0], this.$refs.mChatRecord)) {
         this.recordStatus = 2;
@@ -313,11 +383,13 @@ export default {
       }
     },
     touchend(e) {
+      e.preventDefault();
       // 取消录音
       if (this.recordStatus == 2) {
         this.recordStatus = 0;
         if (this.customRecord) {
           this.$emit("recordCancel");
+          console.log("recordCancel", e);
           return;
         }
 
@@ -329,6 +401,7 @@ export default {
         this.recordStatus = 0;
         if (this.customRecord) {
           this.$emit("recordStop");
+          console.log("recordStop", e);
           return;
         }
 
@@ -372,6 +445,7 @@ export default {
       });
       this.content = "";
       this.isExtend = false;
+      this.$refs.mChatInput.blur();
     },
     chooseEmjoy(item) {
       console.log(item);
@@ -414,6 +488,9 @@ export default {
         }
       );
     },
+    toggleRecordStatus(status) {
+      this.recordStatus = status;
+    },
   },
 };
 </script>
@@ -429,6 +506,8 @@ export default {
   // flex-direction: column;
   background-color: #f7f7f7;
   box-sizing: content-box;
+  // 避免ios出现uibug 加上相对定位
+  position: relative;
   // height: 8vh;
   .m-chat-comment-wrap {
     overflow: hidden;
@@ -541,6 +620,35 @@ export default {
   }
   /deep/ .van-grid-item__text {
     font-size: 3.1vw;
+  }
+}
+
+.m-chat-grid {
+  display: flex;
+  flex-flow: row wrap;
+  .m-chat-grid-item {
+    box-sizing: content-box;
+    // margin: 1vw;
+    flex-basis: 25%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    .m-chat-grid_item_icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+      font-size: 10vw;
+      width: 16vw;
+      height: 16vw;
+      border-radius: 10px;
+    }
+    .m-chat-grid_item_text {
+      font-size: 3.1vw;
+      margin: 2vw 0vw;
+    }
   }
 }
 </style>
