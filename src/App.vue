@@ -56,6 +56,7 @@ export default {
       popoverList: [
         {
           type: "chehui",
+          icon: "revoke",
           text: "撤回",
         },
       ],
@@ -167,6 +168,23 @@ export default {
           isBack: false,
           time: "2021-07-26 11:39:22",
         },
+        {
+          id: 66,
+          name: "菲菲",
+          type: "file",
+          content: {
+            fileUrl:
+              "https://im.popoim.com/upload/files/202107/296102102f6747.json",
+            fileName: "奥特女战士",
+            fileSize: "200kb",
+            fileExt: "json",
+          },
+          self: true,
+          avatar:
+            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+          isBack: false,
+          time: "2021-07-26 11:39:22",
+        },
       ],
       fileList: [],
     };
@@ -197,7 +215,10 @@ export default {
           this.messages.unshift({
             id: new Date().getTime(),
             name: new Date().getTime(),
-            content: "111111111111111111",
+            content: {
+              text: "123213",
+            },
+            type: "text",
             self: false,
             avatar:
               "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
@@ -210,9 +231,12 @@ export default {
       console.log(data);
       if (data.type == "text") {
         this.messages.push({
-          id: this.messages.length + 1,
+          id: new Date().getTime(),
           name: this.messages.length + 1,
-          content: data.content,
+          content: {
+            text: data.content,
+          },
+          type: "text",
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
@@ -220,13 +244,46 @@ export default {
       }
       if (data.type == "image") {
         this.messages.push({
-          id: this.messages[0].id - 1,
+          id: new Date().getTime(),
           name: this.messages[0].id - 1,
           type: "image",
-          image: data.content.content,
+          content: {
+            imageUrl: data.content.content,
+          },
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+        });
+      }
+      if (data.type == "video") {
+        this.messages.push({
+          id: new Date().getTime(),
+          name: this.messages[0].id - 1,
+          type: "video",
+          content: {
+            videoUrl: data.content.content,
+          },
+          self: true,
+          avatar:
+            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+        });
+      }
+      if (data.type == "file") {
+        this.messages.push({
+          id: new Date().getTime(),
+          name: "菲菲",
+          type: "file",
+          content: {
+            fileUrl: data.content.content,
+            fileName: data.content.file.name,
+            fileSize: `${Math.ceil(data.content.file.size / 1024)}kb`,
+            fileExt: data.content.file.type,
+          },
+          self: true,
+          avatar:
+            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+          isBack: false,
+          time: "2021-07-26 11:39:22",
         });
       }
     },

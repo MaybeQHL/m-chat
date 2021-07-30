@@ -71,6 +71,7 @@ export default {
 | imgMaxSize   | Number | 500 | 图片大小上传限制(kb)
 | videoMaxSize | Number | 500 | 视频大小上传限制(kb)
 | fileMaxSize | Number | 500 | 文件大小上传限制(kb)
+| leadPage | String | - | 微信公众号网页下载引导页面,例: http://www.xxx.com/leadPage 会跳转到 http://www.xxx.com/leadPage?url='xxx'&name='xxxxx', 注意:参数需要用decodeComponent()解密
 
 
 ## 消息对象
@@ -81,11 +82,15 @@ export default {
     avatar: "", // 头像地址
     self: false, // 是否是自己
     content:{
-          text: "", // 文本内容
-          imageUrl: "", // 图片地址
-          videoUrl: "", // 视频地址
-          audioUrl: "", // 音频地址
-          duration: "", // 时长
+            text: "", // 文本
+            duration: "", // 时长
+            imageUrl: "", // 图片地址
+            videoUrl: "", // 视频地址
+            audioUrl: "", // 音频地址
+            fileUrl: "", // 文件地址
+            fileName: "", // 文件名称
+            fileSize: "", // 文件大小
+            filExt: "", // 文件扩展名
     },
     type: "text", // 文件类型:text|image|audio|video,
     isBack:false // 控制该消息是否已经撤回,

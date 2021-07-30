@@ -42,9 +42,12 @@
           />
         </form>
         <div class="m-chat-input-options">
-          <!-- <div class="m-chat-comment-icon c-icon">
-            <van-icon size="8vw" name="smile-o" @click="emojiClick" />
-          </div> -->
+          <van-icon
+            size="8vw"
+            class="c-icon"
+            name="smile-o"
+            @click="emojiClick"
+          />
           <!-- <van-icon class="c-icon" size="8vw" name="photo-o" /> -->
           <slot name="right"></slot>
           <van-icon
@@ -60,22 +63,17 @@
         ref="mChatCommnetExtend"
         v-show="isExtend"
       >
-        <!-- <emoji @chooseEmjoy="chooseEmjoy" v-if="isEmoji" />
-        <slot name="extend" v-else></slot> -->
-        <!-- <slot name="extend"></slot> -->
-        <!-- <van-grid :column-num="4" icon-size="10vw" :border="false">
-          <template v-for="(item, index) in extendList">
-            <van-grid-item
-              class="my-grid-item"
-              :icon="item.icon"
-              :text="item.text"
-              v-if="includes(openExtends, item.type)"
-              :key="index"
-              @click="itemClick(item)"
-            />
-          </template>
-        </van-grid> -->
-        <div class="m-chat-grid">
+        <div class="m-chat-emoji" v-if="isEmoji">
+          <div
+            class="m-chat-emoji-item"
+            v-for="(item, index) in emojiList"
+            :key="index"
+            @click="emojiItemClick($event, item)"
+          >
+            {{ item.char }}
+          </div>
+        </div>
+        <div class="m-chat-grid" v-else>
           <template v-for="(item, index) in extendList">
             <div
               class="m-chat-grid-item"
@@ -196,16 +194,18 @@ export default {
           icon: "photo-o",
         },
         {
-          type: "file",
-          text: "文件",
-          icon: "description",
-        },
-        {
           type: "video",
           text: "视频",
           icon: "video-o",
         },
+        {
+          type: "file",
+          text: "文件",
+          icon: "description",
+        },
       ],
+      emojiList: require("./json/emoji.json"),
+      isEmoji: false,
     };
   },
   computed: {},
@@ -219,7 +219,7 @@ export default {
           // this.$refs.mChatComment.style.height = "8vh";
           // this.$refs.mChatComment.classList.remove("position-relative");
         }
-        this.$parent.$emit("main_initScoller", val);
+        this.$parent.$emit("isExtend_initScoller", val);
       },
     },
   },
@@ -247,6 +247,18 @@ export default {
     this.$refs.mChatRecord.removeEventListener("touchend", this.touchend);
   },
   methods: {
+    behindWord(event) {
+      var e = event.srcElement;
+      if (!e.createTextRange) return;
+      var r = e.createTextRange();
+      r.moveStart("character", e.value.length);
+      r.collapse(true);
+      r.select();
+    },
+    emojiItemClick($event, item) {
+      this.content += item.char + " ";
+      this.$refs.mChatInput.focus();
+    },
     onImgOversize(file) {
       console.log(file);
       Toast(`图片大小不能超过 ${this.imgMaxSize}kb`);
@@ -409,8 +421,11 @@ export default {
         this.recStop();
       }
     },
-    onFocus() {
-      this.isExtend = false;
+    onFocus(event) {
+      this.behindWord(event);
+      if (!this.isEmoji) {
+        this.isExtend = false;
+      }
       // this.$refs.mChatComment &&
       //   this.$refs.mChatComment.classList.add("position-fixed");
       this.$emit("focus");
@@ -422,8 +437,13 @@ export default {
     onChange() {},
     emojiClick() {
       // this.$emit("emojiClick");
-      this.isExtend = !this.isExtend;
+      this.togglePanel("text");
+      if (this.isExtend && !this.isEmoji) {
+        this.isEmoji = true;
+        return;
+      }
       this.isEmoji = true;
+      this.isExtend = !this.isExtend;
     },
     toggleExtend(flag) {
       // 自定义关闭扩展面板
@@ -431,7 +451,12 @@ export default {
         this.isExtend = flag;
         return;
       }
-      // this.isEmoji = false;
+      //  已经打开扩展面板情况下
+      if (this.isExtend && this.isEmoji) {
+        this.isEmoji = false;
+        return;
+      }
+      this.isEmoji = false;
       this.isExtend = !this.isExtend;
       this.$emit("toggleExtend", flag);
     },
@@ -554,11 +579,12 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 4vw 3vw;
+  height: 40vw;
 }
 .c-icon {
   width: 8vw;
   height: 8vw;
-  // padding: 0px 1.1vw;
+  margin: 0vw 0.8vw;
   color: inherit;
 }
 .position-relative {
@@ -649,6 +675,21 @@ export default {
       font-size: 3.1vw;
       margin: 2vw 0vw;
     }
+  }
+}
+
+.m-chat-emoji {
+  display: flex;
+  flex-flow: row wrap;
+  height: 100%;
+  overflow-y: auto;
+  .m-chat-emoji-item {
+    flex-basis: 15%;
+    margin: 1.5vw 2vw;
+    font-size: 6vw;
+    user-select: none;
+    text-align: center;
+    box-sizing: content-box;
   }
 }
 </style>

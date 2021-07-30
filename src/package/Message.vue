@@ -74,7 +74,43 @@
                 ]"
               >
                 <!-- <van-icon name="video-o" size="8vw" @click.stop="itemClick" /> -->
-                <van-image :src="videoImg" width="8vw" height="8vw"></van-image>
+                <div class="chat-msg-video-wrapper">
+                  <van-image
+                    :src="videoImg"
+                    width="8vw"
+                    height="8vw"
+                  ></van-image>
+                </div>
+              </div>
+            </template>
+            <template v-else-if="data.type == 'file'">
+              <div
+                class="chat-message-content arrow"
+                :class="[
+                  isPress && 'press-class',
+                  data.self ? 'row-start' : 'row-reverse',
+                ]"
+              >
+                <div class="chat-msg-file-wrapper">
+                  <!-- <van-image
+                    :src="fileImg"
+                    width="12vw"
+                    height="12vw"
+                  ></van-image> -->
+                  <div class="chat-msg-file-thumb">
+                    {{ data.content.fileExt }}
+                  </div>
+                  <div class="chat-msg-file-right">
+                    <!-- :href="data.content.fileUrl"
+                      :download="data.content.fileName" -->
+                    <a class="chat-msg-file_name" @click="downloadFile">
+                      {{ data.content.fileName }}
+                    </a>
+                    <span class="chat-msg-file_size">
+                      {{ data.content.fileSize }}
+                    </span>
+                  </div>
+                </div>
               </div>
             </template>
             <!-- 普通文字 -->
@@ -99,7 +135,7 @@ import { ImagePreview, Image, Icon } from "vant";
 
 import Hammer from "hammerjs";
 
-import { isOutEl } from "./utils";
+import { isOutEl, dowanload, isWeixin, urlencode } from "./utils";
 
 export default {
   components: {
@@ -122,7 +158,7 @@ export default {
           content: "", // 文本内容
           image: "", // 图片地址
           video: "", // 视频地址
-          type: "text", // 文件类型 text|image|audio|video
+          type: "text", // 文件类型 text|image|audio|video|file
           time: "", // 消息发送时间
           content: {
             text: "", // 文本
@@ -130,6 +166,10 @@ export default {
             imageUrl: "", // 图片地址
             videoUrl: "", // 视频地址
             audioUrl: "", // 音频地址
+            fileUrl: "", // 文件地址
+            fileName: "", // 名称
+            fileSize: "", // 大小
+            fileExt: "", // 扩展名
           },
         };
       },
@@ -141,10 +181,12 @@ export default {
     },
     isPress: Boolean,
     isPlayMedia: Boolean,
+    leadPage: String,
   },
   data() {
     return {
       videoImg: require("./svg/video.svg"),
+      fileImg: require("./svg/file.svg"),
       // defaultAvatar: require("./svg/default.svg"),
       animOptions: {
         animationData: require("./json/wifi.json"),
@@ -193,6 +235,11 @@ export default {
       },
       immediate: false,
     },
+    // isBack(val) {
+    //   if (val) {
+
+    //   }  this.$parent.$emit("c_initScoller");
+    // },
   },
   created() {},
   mounted() {
@@ -224,6 +271,17 @@ export default {
   },
   beforeDestroy() {},
   methods: {
+    downloadFile() {
+      if (isWeixin() && this.leadPage) {
+        const url = `${this.leadPage}?url=${urlencode(
+          this.data.content.fileUrl
+        )}&name=${urlencode(this.data.content.fileName)}`;
+        console.log(url);
+        window.location.href = url;
+      } else {
+        dowanload(this.data.content.fileUrl, this.data.content.fileName);
+      }
+    },
     setMediaStatus(status) {
       this.mediaStatus = status;
     },
@@ -453,5 +511,43 @@ export default {
 }
 .press-class {
   border: 1px solid #9d9d9d !important;
+}
+.chat-msg-file-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .chat-msg-file-thumb {
+    width: 13vw;
+    height: 13vw;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    color: #fff;
+    font-size: 4.5vw;
+    font-weight: bold;
+  }
+  .chat-msg-file-right {
+    margin-left: 3vw;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    .chat-msg-file_name {
+      color: #098be2;
+      max-width: 25vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: normal;
+    }
+    .chat-msg-file_size {
+      color: #777;
+    }
+  }
+}
+.chat-msg-video-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

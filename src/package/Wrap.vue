@@ -15,7 +15,7 @@
           </div>
           <div v-show="!beforePullDown">
             <div class="pulling-box" v-show="isPullingDown || loading">
-              <van-loading size="30px" type="circular" color="#BABABA" />
+              <van-loading size="8vw" type="circular" color="#BABABA" />
               <!-- <vue-lottie
                 :options="animOptions"
                 @animCreated="animCreated"
@@ -45,6 +45,7 @@
             :isPress="item.self && isPress && item.id == data.id"
             @avatarClick="avatarClick"
             :isPlayMedia="isPlayMedia && item.id == data.id"
+            :leadPage="leadPage"
           ></message>
         </div>
       </div>
@@ -108,7 +109,12 @@
           :key="index"
           @click="popItemClick(item)"
         >
-          {{ item.text }}
+          <van-icon
+            class="pop-icon"
+            size="4.5vw"
+            :name="item.icon || 'ellipsis'"
+          />
+          <span>{{ item.text }}</span>
         </div>
       </div>
     </div>
@@ -125,7 +131,7 @@ import { Loading, Icon, Toast } from "vant";
 import Comment from "./Comment.vue";
 import Message from "./Message.vue";
 
-import { isOutEl } from "./utils";
+import { isOutEl, isWeixin } from "./utils";
 import VueLottie from "./VueLottie.vue";
 
 export default {
@@ -174,6 +180,7 @@ export default {
       type: Number,
       default: 500,
     },
+    leadPage: String,
   },
   components: {
     Comment,
@@ -261,10 +268,10 @@ export default {
     this.bs.on("scrollEnd", (e) => {
       // console.log("scrollEnd", e);
     });
-    // 初始化消息容器的高度
-    this.$refs.mChatScoller.style.height = `calc(${this.height} - ${this.$refs.mComment.$refs.mChatComment.clientHeight}px)`;
+    // 初始化消息容器的宽高
+    this.initScollerWH();
 
-    this.$on("main_initScoller", (isExtend) => {
+    this.$on("isExtend_initScoller", (isExtend) => {
       // console.log("main_initScoller");
       if (isExtend) {
         this.$nextTick(() => {
@@ -283,7 +290,9 @@ export default {
         });
       }
     });
-
+    this.$on("c_initScoller", () => {
+      this.initScoller();
+    });
     document.addEventListener("click", this.hidePop);
     this.$refs.mChatScoller.addEventListener("click", this.mChatScollerClick);
 
@@ -298,6 +307,7 @@ export default {
       this.isPress = false;
       this.$refs.mComment.toggleRecordStatus(0);
     };
+    this.initResizeEvent();
   },
   beforeDestroy() {
     document.removeEventListener("click", this.hidePop);
@@ -309,6 +319,31 @@ export default {
     window.ontouchend = null;
   },
   methods: {
+    // 初始化消息容器的宽高
+    initScollerWH() {
+      this.$refs.mChatScoller.style.height = `calc(${this.height} - ${this.$refs.mComment.$refs.mChatComment.clientHeight}px)`;
+    },
+    initResizeEvent() {
+      var clientHeight =
+        document.documentElement.clientHeight || document.body.clientHeight;
+      window.onresize = (e) => {
+        var nowClientHeight =
+          document.documentElement.clientHeight || document.body.clientHeight;
+        if (clientHeight > nowClientHeight) {
+          // 键盘弹出的事件处理，
+          console.log("键盘弹出的事件处理");
+          console.log(this.$refs.mChatScoller.clientHeight);
+          this.initScoller();
+        } else {
+          // 键盘收起的事件处理
+          console.log("键盘收起的事件处理");
+          console.log(this.$refs.mChatScoller.clientHeight);
+          this.initScoller();
+        }
+        // 初始化容器宽高
+        this.initScollerWH();
+      };
+    },
     animCreated(anim) {
       this.anim = anim;
     },
@@ -383,6 +418,7 @@ export default {
     },
     focus() {
       this.popoverShow = false;
+      // this.initScoller();
     },
     async pullingDownHandler() {
       console.log("trigger pullDown");
@@ -481,6 +517,7 @@ export default {
       )
         return;
       this.$emit("submit", data);
+      this.$refs.mComment.toggleExtend(false);
     },
     toggleExtend(flag, e) {
       // // 如果触发元素是消息容器则关闭气泡框
@@ -551,6 +588,9 @@ export default {
     position: fixed;
     top: 50%;
     width: 100%;
+    height: auto;
+    // height: 50%;
+    max-height: 50%;
     transform: translateY(-50%);
     // height: 100%;
   }
@@ -576,7 +616,7 @@ export default {
     background-color: #4a4a4a;
     color: #fff;
     border-radius: 5px;
-    padding: 0vw 3vw;
+    padding: 1vw 3vw;
     // display: flex;
     &::before {
       content: "";
@@ -597,13 +637,20 @@ export default {
       width: 2vw;
       height: 2vw;
     }
+    display: flex;
+    flex-flow: row wrap;
     .chat-pc-item {
-      display: inline-flex;
-      padding: 0vw 2vw;
-      font-size: 3vw;
-      height: 10vw;
-      line-height: 10vw;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      padding: 2vw 3vw;
+      font-size: 2.5vw;
+      // height: 15vw;
       user-select: none;
+      .pop-icon {
+        margin-bottom: 1vw;
+      }
     }
   }
 }
