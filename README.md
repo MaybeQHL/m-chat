@@ -40,11 +40,7 @@ export default {
 - [x] 下拉加载更多
 - [x] 图片/视频/语音发送功能和UI
 ## 预览
-![main](https://m-chat-1251804846.cos.ap-nanjing.myqcloud.com/%E9%A2%84%E8%A7%88/main.png)
-
-![loading](https://m-chat-1251804846.cos.ap-nanjing.myqcloud.com/%E9%A2%84%E8%A7%88/loading.png)
-
-![extend](https://m-chat-1251804846.cos.ap-nanjing.myqcloud.com/%E9%A2%84%E8%A7%88/extend.png)
+![main](https://m-chat-1251804846.cos.ap-nanjing.myqcloud.com/%E9%A2%84%E8%A7%88/%E5%8A%A8%E7%94%BB.gif)
 ## Demo
 ```
  <m-chat

@@ -13,6 +13,9 @@
       @recordStart="recordStart"
       @recordStop="recordStop"
       @recordCancel="recordCancel"
+      :imgMaxSize="8192"
+      :videoMaxSize="8192"
+      :fileMaxSize="8192"
     >
       <template #left> </template>
       <template #right></template>
