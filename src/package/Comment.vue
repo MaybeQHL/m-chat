@@ -58,7 +58,9 @@
             v-if="!isSubmitBtn"
           />
           <transition name="move">
-            <button v-if="isSubmitBtn" class="submit-btn">发送</button>
+            <button v-if="isSubmitBtn" @click="submit" class="submit-btn">
+              发送
+            </button>
           </transition>
         </div>
       </div>
