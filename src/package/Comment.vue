@@ -37,7 +37,7 @@
             @focus="onFocus"
             @blur="onBlur"
             v-model="content"
-            @change="onChange"
+            @input="onChange"
             type="text"
           />
         </form>
@@ -55,7 +55,11 @@
             size="8vw"
             name="add-o"
             @click="toggleExtend"
+            v-if="!isSubmitBtn"
           />
+          <transition name="move">
+            <button v-if="isSubmitBtn" class="submit-btn">发送</button>
+          </transition>
         </div>
       </div>
       <div
@@ -206,6 +210,7 @@ export default {
       ],
       emojiList: require("./json/emoji.json"),
       isEmoji: false,
+      isSubmitBtn: false,
     };
   },
   computed: {},
@@ -248,6 +253,7 @@ export default {
   },
   methods: {
     behindWord(event) {
+      console.log(event);
       var e = event.srcElement;
       if (!e.createTextRange) return;
       var r = e.createTextRange();
@@ -258,6 +264,7 @@ export default {
     emojiItemClick($event, item) {
       this.content += item.char + " ";
       this.$refs.mChatInput.focus();
+      this.isSubmitBtn = true;
     },
     onImgOversize(file) {
       console.log(file);
@@ -434,7 +441,14 @@ export default {
       this.$refs.mChatComment &&
         this.$refs.mChatComment.classList.remove("position-fixed");
     },
-    onChange() {},
+    onChange() {
+      // console.log(this.content);
+      if (this.content) {
+        this.isSubmitBtn = true;
+      } else {
+        this.isSubmitBtn = false;
+      }
+    },
     emojiClick() {
       // this.$emit("emojiClick");
       this.togglePanel("text");
@@ -470,6 +484,7 @@ export default {
       });
       this.content = "";
       this.isExtend = false;
+      this.isSubmitBtn = false;
       this.$refs.mChatInput.blur();
     },
     chooseEmjoy(item) {
@@ -534,19 +549,25 @@ export default {
   // 避免ios出现uibug 加上相对定位
   position: relative;
   // height: 8vh;
+
   .m-chat-comment-wrap {
     overflow: hidden;
     .m-chat-comment-main {
       display: flex;
       padding: 3vw 3vw;
+      flex-flow: row nowrap;
+      align-items: center;
+      height: 8vw;
     }
     .m-chat-form {
+      height: 100%;
       flex: 1;
       display: flex;
       background-color: #fff;
     }
     .m-chat-input {
-      flex: 1;
+      width: 100%;
+      // height: 5vw;
       border: none;
       // -webkit-appearance: none; /*去除阴影边框*/
       //   -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /*点击高亮的颜色*/
@@ -691,5 +712,37 @@ export default {
     text-align: center;
     box-sizing: content-box;
   }
+}
+.submit-btn {
+  display: block;
+  font-size: 4vw;
+  margin-left: 2vw;
+  padding: 2vw 4vw;
+  // width: 20vw;
+  // height: 6vw;
+  // height: 100%;
+  background-color: #0bbe62;
+  color: #fff;
+  border-radius: 1vw;
+  outline: none;
+  border: none;
+  box-sizing: content-box;
+  &:active,
+  :hover {
+    opacity: 0.6;
+  }
+}
+
+// 动画
+.move-enter-active {
+  transition: all 0.3s ease;
+}
+.move-leave-active {
+  transition: all 0.3s ease;
+}
+.move-enter, .move-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>
