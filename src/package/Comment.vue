@@ -626,6 +626,7 @@ export default {
   justify-content: center;
   user-select: none;
   font-size: 4vw;
+  height: 100%;
 }
 .record-overlay {
   position: fixed;

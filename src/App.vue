@@ -258,6 +258,22 @@ export default {
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
         });
       }
+      if (data.type == "audio") {
+        this.messages.push({
+          id: new Date().getTime(),
+          name: this.messages[0].id - 1,
+          type: "audio",
+          content: {
+            audioUrl: (window.URL || webkitURL).createObjectURL(
+              data.content.blob
+            ),
+            duration: Math.ceil(data.content.duration / 1000),
+          },
+          self: true,
+          avatar:
+            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+        });
+      }
       if (data.type == "video") {
         this.messages.push({
           id: new Date().getTime(),
