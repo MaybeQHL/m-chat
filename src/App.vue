@@ -143,7 +143,7 @@ export default {
             text: "21321312",
           },
           self: false,
-          isBack: true,
+          isCancel: true,
           time: "2021-07-26 11:39:22",
           avatar:
             "https://tiej2inxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
@@ -160,7 +160,7 @@ export default {
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
-          isBack: false,
+          isCancel: false,
           time: "2021-07-26 11:39:22",
         },
         {
@@ -177,7 +177,7 @@ export default {
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
-          isBack: false,
+          isCancel: false,
           time: "2021-07-26 11:39:22",
         },
       ],
@@ -293,7 +293,7 @@ export default {
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
-          isBack: false,
+          isCancel: false,
           time: "2021-07-26 11:39:22",
         });
       }
@@ -301,7 +301,7 @@ export default {
     popItemClick(obj) {
       // 撤回
       if (obj.type == "cancel") {
-        obj.data.isBack = true;
+        obj.data.isCancel = true;
       }
       console.log(obj.item);
     },
