@@ -26,7 +26,7 @@
             <!-- 音频内容 -->
             <template v-if="data.type == 'audio'">
               <div
-                class="chat-message-content arrow"
+                class="chat-message-content arrow contentWrap"
                 :class="[
                   isPress && 'press-class',
                   data.self ? 'row-start' : 'row-reverse',
@@ -52,8 +52,8 @@
             <!-- 图片内容 -->
             <template v-else-if="data.type == 'image'">
               <div
-                class="chat-message-image"
-                :class="[isPress && 'press-class']"
+                class="chat-message-image contentWrap"
+                :class="[isPress && 'press-img-class']"
               >
                 <van-image
                   class="chat-image"
@@ -67,7 +67,7 @@
             <!-- 视频内容 -->
             <template v-else-if="data.type == 'video'">
               <div
-                class="chat-message-content arrow"
+                class="chat-message-content arrow contentWrap"
                 :class="[
                   isPress && 'press-class',
                   data.self ? 'row-start' : 'row-reverse',
@@ -85,7 +85,7 @@
             </template>
             <template v-else-if="data.type == 'file'">
               <div
-                class="chat-message-content arrow"
+                class="chat-message-content arrow contentWrap"
                 :class="[
                   isPress && 'press-class',
                   data.self ? 'row-start' : 'row-reverse',
@@ -359,6 +359,7 @@ export default {
       max-width: 25vw;
       height: auto;
       margin-top: 2vw;
+      // background-color: transparent;
     }
     .chat-message-content {
       min-width: 2vw;
@@ -513,8 +514,11 @@ export default {
   color: #b0b0b0;
 }
 .press-class {
-  border: 1px solid #8cda57 !important;
+  // border: 1px solid #8cda57 !important;
   background-color: #91da5f !important;
+}
+.press-img-class {
+  opacity: 0.8;
 }
 .chat-msg-file-wrapper {
   display: flex;

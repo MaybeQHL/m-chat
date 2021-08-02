@@ -441,7 +441,7 @@ export default {
       this.isPress = true;
       console.log(obj);
       const parent = obj.e.srcEvent.path.find((el) => {
-        return Array.from(el.classList || []).includes("chat-message-content");
+        return Array.from(el.classList || []).includes("contentWrap");
       });
       if (!parent) return;
       console.log(parent);
