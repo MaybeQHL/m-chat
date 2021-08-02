@@ -119,7 +119,7 @@
             <!-- 普通文字 -->
             <template v-else>
               <div
-                class="chat-message-content arrow"
+                class="chat-message-content arrow contentWrap"
                 :class="[isPress && 'press-class']"
                 v-html="resloveContent(data.content.text)"
               ></div>
