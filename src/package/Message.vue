@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="m-chat-msg-time" v-if="data.time">{{ data.time }}</div>
-    <template v-if="isBack">
-      <div class="m-chat-back-msg">该消息已经撤回</div>
+    <template v-if="isCancel">
+      <div class="m-chat-back-msg">你撤回了一条消息</div>
     </template>
     <div
       v-else
@@ -103,9 +103,12 @@
                   <div class="chat-msg-file-right">
                     <!-- :href="data.content.fileUrl"
                       :download="data.content.fileName" -->
-                    <a class="chat-msg-file_name" @click="downloadFile">
+                    <div
+                      class="chat-msg-file_name"
+                      @click.stop.prevent="downloadFile"
+                    >
                       {{ data.content.fileName }}
-                    </a>
+                    </div>
                     <span class="chat-msg-file_size">
                       {{ data.content.fileSize }}
                     </span>
@@ -144,7 +147,7 @@ export default {
     [Icon.name]: Icon,
   },
   props: {
-    isBack: Boolean,
+    isCancel: Boolean,
     data: {
       type: Object,
       default: function () {
@@ -358,7 +361,7 @@ export default {
       margin-top: 2vw;
     }
     .chat-message-content {
-      min-width: 9vw;
+      min-width: 2vw;
       min-height: 7vw;
       display: inline-flex;
       align-items: center;
@@ -510,7 +513,8 @@ export default {
   color: #b0b0b0;
 }
 .press-class {
-  border: 1px solid #9d9d9d !important;
+  border: 1px solid #8cda57 !important;
+  background-color: #91da5f !important;
 }
 .chat-msg-file-wrapper {
   display: flex;

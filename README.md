@@ -60,8 +60,8 @@ export default {
 | height        | String   | 100vh   | 容器高度                              |
 | loadMore      | Function | -      | 加载更多函数                              |
 | defaultAvatar | String   | -      | 默认头像(支持本地头像require导入或者地址)   |
-| comment       | Boolean  | true   | 是否显示回复框                            |
-| popoverList   | Array  | []       | 气泡框 例: [{type:'chehui',text:'撤回'}]                            |
+| comment       | Boolean  | true   | 是否显示回复框                            |                           |
+| openPops   | Array  | ['copy','cancel']        | 气泡框内显示的功能 例: ['copy','cancel']                            |
 | customRecord  | Boolean | flase | 自定义录音功能(设置为true后自带录音失效，并且不触发submit事件)
 | openExtends  | Array | ["image", "file", "video"] | 扩展面板显示的功能
 | imgMaxSize   | Number | 500 | 图片大小上传限制(kb)
@@ -89,7 +89,7 @@ export default {
             filExt: "", // 文件扩展名
     },
     type: "text", // 文件类型:text|image|audio|video,
-    isBack:false // 控制该消息是否已经撤回,
+    isCancel:false // 控制该消息是否已经撤回,
     time:'' // 发送时间
  }
 ```
@@ -108,8 +108,8 @@ export default {
 ```
      popItemClick(obj) {
       // 撤回
-      if (obj.type == "chehui") {
-        obj.data.isBack = true;
+      if (obj.type == "cancel") {
+        obj.data.isCancel = true;
       }
       console.log(obj);
     }
@@ -120,7 +120,6 @@ export default {
 | ------ | ---------- | ---- |
 | left   | 输入框左边 | -    |
 | right  | 输入框右边 | -    |
-<!-- | extend | 扩展面板   | -    | -->
 
 ## 方法
 通过 ref 可以获取到 mChat 实例并调用实例方法

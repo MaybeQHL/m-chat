@@ -53,3 +53,30 @@ export const urlencode = (str) => {
     return encodeURIComponent(str).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').
         replace(/\)/g, '%29').replace(/\*/g, '%2A').replace(/%20/g, '+');
 }
+
+
+//h5复制文本到剪切板
+export const copyContentH5 = (content) => {
+    var copyDom = document.createElement('div');
+    copyDom.innerText = content;
+    copyDom.style.position = 'absolute';
+    copyDom.style.top = '0px';
+    copyDom.style.right = '-9999px';
+    document.body.appendChild(copyDom);
+    //创建选中范围
+    var range = document.createRange();
+    range.selectNode(copyDom);
+    //移除剪切板中内容
+    window.getSelection().removeAllRanges();
+    //添加新的内容到剪切板
+    window.getSelection().addRange(range);
+    //复制
+    var successful = document.execCommand('copy');
+    copyDom.parentNode.removeChild(copyDom);
+    try {
+        var msg = successful ? "successful" : "failed";
+        console.log('Copy command was : ' + msg);
+    } catch (err) {
+        console.log('Oops , unable to copy!');
+    }
+}

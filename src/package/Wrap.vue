@@ -41,7 +41,7 @@
             :defaultAvatar="defaultAvatar"
             @press="press"
             @pressup="pressup"
-            :isBack="item.isBack"
+            :isCancel="item.isCancel"
             :isPress="item.self && isPress && item.id == data.id"
             @avatarClick="avatarClick"
             :isPlayMedia="isPlayMedia && item.id == data.id"
@@ -100,22 +100,28 @@
     <div
       class="chat-popover"
       ref="chatPopover"
-      v-show="popoverList.length > 0 && popoverShow"
+      :style="{
+        visibility:
+          popoverList.length > 0 && popoverShow ? 'visible' : 'hidden',
+      }"
     >
       <div class="chat-popover-content">
-        <div
-          class="chat-pc-item"
-          v-for="(item, index) in popoverList"
-          :key="index"
-          @click="popItemClick(item)"
-        >
-          <van-icon
-            class="pop-icon"
-            size="4.5vw"
-            :name="item.icon || 'ellipsis'"
-          />
-          <span>{{ item.text }}</span>
-        </div>
+        <template v-for="(item, index) in popoverList">
+          <div
+            class="chat-pc-item"
+            :key="index"
+            v-if="openPops.includes(item.type)"
+            @click="popItemClick(item)"
+          >
+            <van-icon
+              class="pop-icon"
+              size="5vw"
+              :name="item.icon || 'ellipsis'"
+              color="#fff"
+            />
+            <span>{{ item.text }}</span>
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -131,7 +137,7 @@ import { Loading, Icon, Toast } from "vant";
 import Comment from "./Comment.vue";
 import Message from "./Message.vue";
 
-import { isOutEl, isWeixin } from "./utils";
+import { isOutEl, isWeixin, copyContentH5 } from "./utils";
 import VueLottie from "./VueLottie.vue";
 
 export default {
@@ -159,10 +165,16 @@ export default {
       default: true,
     },
     customRecord: Boolean,
-    popoverList: {
+    // popoverList: {
+    //   type: Array,
+    //   default: function () {
+    //     return [];
+    //   },
+    // },
+    openPops: {
       type: Array,
       default: function () {
-        return [];
+        return ["copy", "cancel"];
       },
     },
     pullFinished: Boolean,
@@ -214,6 +226,18 @@ export default {
       },
       anim: null,
       isPlayMedia: false,
+      popoverList: [
+        {
+          type: "copy",
+          icon: require("./svg/copy.svg"),
+          text: "复制",
+        },
+        {
+          type: "cancel",
+          icon: "revoke",
+          text: "撤回",
+        },
+      ],
     };
   },
   watch: {
@@ -243,6 +267,10 @@ export default {
     //     this.anim.stop();
     //   }
     // },
+    "data.type": {
+      handler(val) {},
+      immediate: true,
+    },
   },
   mounted() {
     this.bs = new BScroll(this.$refs.mChatScoller, {
@@ -260,7 +288,7 @@ export default {
       },
       preventDefaultException: {
         tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|AUDIO)$/, // 这些元素的默认行为都不会被阻止。
-        className: /(^|\s)chat-message-content(\s|$)/,
+        // className: /(^|\s)chat-message-content(\s|$)/,
       },
     });
     this.bs.on("pullingDown", this.pullingDownHandler);
@@ -388,6 +416,13 @@ export default {
     },
     popItemClick(item) {
       this.popoverShow = false;
+      if (
+        item.type == "copy" &&
+        (!this.data.type || this.data.type == "text")
+      ) {
+        copyContentH5(this.data.content.text);
+        return;
+      }
       this.$emit("popItemClick", {
         type: item.type,
         data: this.data,
@@ -409,10 +444,16 @@ export default {
         return Array.from(el.classList || []).includes("chat-message-content");
       });
       if (!parent) return;
-      const { left, top } = parent.getBoundingClientRect();
-      console.log(left, top);
-      this.$refs.chatPopover.style.left = `${left}px`;
-      this.$refs.chatPopover.style.top = `${top}px`;
+      console.log(parent);
+      const { left, top, width, height } = parent.getBoundingClientRect();
+      console.log(parent, parent.getBoundingClientRect());
+      const wWidth = window.innerWidth;
+      const chatPopWidth = this.$refs.chatPopover.clientWidth;
+      const chatPopHeight = this.$refs.chatPopover.clientHeight;
+      const cLeft = width < chatPopWidth ? left - chatPopWidth / 3 : left;
+      const cTop = top;
+      this.$refs.chatPopover.style.left = `${cLeft}px`;
+      this.$refs.chatPopover.style.top = `${cTop}px`;
       this.popoverShow = true;
       this.data = obj.data;
     },
@@ -611,6 +652,7 @@ export default {
 .chat-popover {
   position: absolute;
   transform: translate(0%, -110%);
+  visibility: hidden;
 
   .chat-popover-content {
     background-color: #4a4a4a;

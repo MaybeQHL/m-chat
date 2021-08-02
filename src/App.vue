@@ -8,7 +8,6 @@
       :comment="true"
       height="100vh"
       @popItemClick="popItemClick"
-      :popoverList="popoverList"
       :customRecord="false"
       @recordStart="recordStart"
       @recordStop="recordStop"
@@ -56,13 +55,6 @@ export default {
   },
   data() {
     return {
-      popoverList: [
-        {
-          type: "chehui",
-          icon: "revoke",
-          text: "撤回",
-        },
-      ],
       messages: [
         {
           id: 0,
@@ -308,7 +300,7 @@ export default {
     },
     popItemClick(obj) {
       // 撤回
-      if (obj.type == "chehui") {
+      if (obj.type == "cancel") {
         obj.data.isBack = true;
       }
       console.log(obj.item);
