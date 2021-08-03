@@ -21,7 +21,14 @@
       <div class="chat-message-main">
         <div class="chat-message-name">{{ data.name }}</div>
         <div class="chat-message-content_wrap">
-          <div class="chat-msg-event_wrap" ref="msgEvent">
+          <div
+            class="chat-msg-event_wrap"
+            ref="msgEvent"
+            @click.self="msgEventClick"
+            @touchstart="msgEventTouchStart"
+            @touchmove="msgEventTouchMove"
+            @touchend="msgEventTouchEnd"
+          >
             <!-- {{ data.type }} -->
             <!-- 音频内容 -->
             <template v-if="data.type == 'audio'">
@@ -105,7 +112,7 @@
                       :download="data.content.fileName" -->
                     <div
                       class="chat-msg-file_name"
-                      @click.stop.prevent="downloadFile"
+                      @click.stop.prevent.self="downloadFile"
                     >
                       {{ data.content.fileName }}
                     </div>
@@ -140,6 +147,8 @@ import Hammer from "hammerjs";
 
 import { isOutEl, dowanload, isWeixin, urlencode } from "./utils";
 
+let startTime = 0;
+let pressInterval = null;
 export default {
   components: {
     [Image.name]: Image,
@@ -262,7 +271,7 @@ export default {
           });
         });
         hammer.on("pressup", (e) => {
-          console.log("You're pressup me!");
+          console.log("You're pressup me!", e);
           // this.isPress = false;
           this.$emit("pressup", {
             e: e,
@@ -274,7 +283,39 @@ export default {
   },
   beforeDestroy() {},
   methods: {
-    downloadFile() {
+    msgEventClick(e) {
+      // this.itemClick();
+    },
+    msgEventTouchStart(e) {
+      // console.log("msgEventTouchStart", e);
+      // e.preventDefault();
+      // if (!this.data.self) return;
+      // if (pressInterval) {
+      //   clearTimeout(pressInterval);
+      //   pressInterval = null;
+      // }
+      // pressInterval = setTimeout(() => {
+      //   clearTimeout(pressInterval);
+      //   pressInterval = null;
+      //   this.$emit("press", {
+      //     e: e,
+      //     data: this.data,
+      //   });
+      // }, 300);
+    },
+    msgEventTouchMove(e) {
+      // console.log("msgEventTouchMove", e);
+    },
+    msgEventTouchEnd(e) {
+      // console.log("msgEventTouchEnd", e);
+      // if (!this.data.self) return;
+      // e.preventDefault();
+      // this.$emit("pressup", {
+      //   e: e,
+      //   data: this.data,
+      // });
+    },
+    downloadFile(e) {
       if (isWeixin() && this.leadPage) {
         const url = `${this.leadPage}?url=${urlencode(
           this.data.content.fileUrl

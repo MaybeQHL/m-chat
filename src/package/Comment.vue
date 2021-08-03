@@ -209,6 +209,11 @@ export default {
           text: "文件",
           icon: "description",
         },
+        {
+          type: "location",
+          text: "位置",
+          icon: "location-o",
+        },
       ],
       emojiList: require("./json/emoji.json"),
       isEmoji: false,
@@ -281,12 +286,18 @@ export default {
       Toast(`文件大小不能超过 ${this.fileMaxSize}kb`);
     },
     togglePanel(type) {
-      this.currentType = type;
       switch (type) {
         case "text":
+          this.currentType = type;
           break;
         case "audio":
-          this.changeRecord();
+          if (this.customRecord) {
+            this.currentType = type;
+          } else {
+            this.recOpen(() => {
+              this.currentType = type;
+            });
+          }
           break;
         default:
           break;
@@ -551,7 +562,7 @@ export default {
   // 避免ios出现uibug 加上相对定位
   position: relative;
   // height: 8vh;
-
+  // padding: 2vw 0vw;
   .m-chat-comment-wrap {
     overflow: hidden;
     .m-chat-comment-main {
@@ -560,9 +571,10 @@ export default {
       flex-flow: row nowrap;
       align-items: center;
       height: 8vw;
+      box-sizing: content-box;
     }
     .m-chat-form {
-      height: 100%;
+      // height: 100%;
       flex: 1;
       display: flex;
       background-color: #fff;
@@ -577,9 +589,11 @@ export default {
       border-radius: 2vw;
       caret-color: #9eea6a;
       background-color: transparent;
-      padding: 1vw 0px;
+      padding: 1.5vw 0px;
       margin: 0px 2vw;
       font-size: 4vw;
+      height: 5vw;
+      box-sizing: content-box;
     }
 
     .m-chat-comment-icon {

@@ -80,3 +80,34 @@ export const copyContentH5 = (content) => {
         console.log('Oops , unable to copy!');
     }
 }
+
+
+// 生成http-get查询字符串
+export const createQueryStr = (url, data) => {
+    if (typeof (url) == 'undefined' || url == null || url == '') {
+        return '';
+    }
+    if (typeof (data) == 'undefined' || data == null || typeof (data) != 'object') {
+        return '';
+    }
+    url += (url.indexOf("?") != -1) ? "" : "?";
+    for (var k in data) {
+        url += ((url.indexOf("=") != -1) ? "&" : "") + k + "=" + encodeURI(data[k]);
+        console.log(url);
+    }
+    return url;
+}
+
+
+/**
+ *  跳转高德H5版本
+ * @param {*} type 模块前缀 例如：'单点标注'=>'marker'.....
+ * @param {*} options 
+ * @description 高德开放平台URI开发工具
+ * @doc 文档地址 https://lbs.amap.com/api/uri-api/gettingstarted
+ */
+export const openURIMap = (type, options = {}) => {
+    const prefix = 'https://uri.amap.com'
+    const url = createQueryStr(`${prefix}/${type}`, options)
+    window.location.href = url;
+}

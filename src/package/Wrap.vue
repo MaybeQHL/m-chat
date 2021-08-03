@@ -331,7 +331,7 @@ export default {
     //   console.log("aaaaaaaaa", e);
     // });
     window.ontouchend = (e) => {
-      console.log("ontouchend", e);
+      // console.log("ontouchend", e);
       this.isPress = false;
       this.$refs.mComment.toggleRecordStatus(0);
     };
@@ -443,15 +443,21 @@ export default {
       const parent = obj.e.srcEvent.path.find((el) => {
         return Array.from(el.classList || []).includes("contentWrap");
       });
+      // const parent = obj.e.path.find((el) => {
+      //   return Array.from(el.classList || []).includes("contentWrap");
+      // });
       if (!parent) return;
       console.log(parent);
       const { left, top, width, height } = parent.getBoundingClientRect();
       console.log(parent, parent.getBoundingClientRect());
       const wWidth = window.innerWidth;
+      const wHeight = window.innerHeight;
       const chatPopWidth = this.$refs.chatPopover.clientWidth;
       const chatPopHeight = this.$refs.chatPopover.clientHeight;
+      const mChatWrapHeight = this.$refs.mChatWrap.clientHeight;
       const cLeft = width < chatPopWidth ? left - chatPopWidth / 3 : left;
-      const cTop = top;
+
+      const cTop = top - (wHeight - mChatWrapHeight);
       this.$refs.chatPopover.style.left = `${cLeft}px`;
       this.$refs.chatPopover.style.top = `${cTop}px`;
       this.popoverShow = true;

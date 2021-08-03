@@ -1,6 +1,6 @@
 {
   "name": "@maybecode/m-chat",
-  "version": "1.2.14",
+  "version": "1.2.18",
   "private": false,
   "main": "lib-dist/m-chat.umd.min.js",
   "types": "types/index.d.ts",
