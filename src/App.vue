@@ -71,13 +71,12 @@ export default {
           content: {
             text: "6666666666666samj科技撒啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊是卡死的科技奥科吉卡死的科技科技安神科技科技ask佳都科技看见爱上科技的",
           },
-
           self: true,
           avatar:
             "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
         },
         {
-          id: 2,
+          id: 3332,
           name: "李四",
           type: "audio",
           content: {

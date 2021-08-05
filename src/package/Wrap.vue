@@ -97,33 +97,45 @@
       </template>
     </comment>
     <!-- 气泡弹出框 -->
-    <div
-      class="chat-popover"
-      ref="chatPopover"
-      :style="{
-        visibility:
-          popoverList.length > 0 && popoverShow ? 'visible' : 'hidden',
-      }"
-    >
-      <div class="chat-popover-content">
-        <template v-for="(item, index) in popoverList">
-          <div
-            class="chat-pc-item"
-            :key="index"
-            v-if="openPops.includes(item.type)"
-            @click="popItemClick(item)"
-          >
-            <van-icon
-              class="pop-icon"
-              size="5vw"
-              :name="item.icon || 'ellipsis'"
-              color="#fff"
-            />
-            <span>{{ item.text }}</span>
-          </div>
-        </template>
+    <transition name="fade">
+      <div
+        class="chat-popover"
+        ref="chatPopover"
+        :style="{
+          visibility:
+            popoverList.length > 0 && popoverShow ? 'visible' : 'hidden',
+        }"
+        v-show="popoverList.length > 0 && popoverShow"
+      >
+        <div class="chat-popover-content">
+          <template v-for="(item, index) in popoverList">
+            <template v-if="item.type != 'copy' && !data.self"> </template>
+            <template
+              v-else-if="
+                item.type == 'copy' && data.type && data.type != 'text'
+              "
+            >
+            </template>
+            <template v-else>
+              <div
+                class="chat-pc-item"
+                :key="index"
+                v-if="openPops.includes(item.type)"
+                @click="popItemClick(item)"
+              >
+                <van-icon
+                  class="pop-icon"
+                  size="5vw"
+                  :name="item.icon || 'ellipsis'"
+                  color="#fff"
+                />
+                <span>{{ item.text }}</span>
+              </div>
+            </template>
+          </template>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -331,8 +343,11 @@ export default {
     //   console.log("aaaaaaaaa", e);
     // });
     window.ontouchend = (e) => {
+      // debugger;
       // console.log("ontouchend", e);
       this.isPress = false;
+      // this.popoverShow = false;
+
       this.$refs.mComment.toggleRecordStatus(0);
     };
     this.initResizeEvent();
@@ -397,7 +412,8 @@ export default {
       this.$emit("videoAfterRead", file);
     },
     hidePop(e) {
-      const element = Array.from(e.path).find((el) => {
+      if (!e || !e.path) return;
+      const element = e.path.find((el) => {
         const arr = el.classList ? Array.from(el.classList) : [];
         return arr.includes("chat-msg-event_wrap");
       });
@@ -438,6 +454,8 @@ export default {
       this.isPress = false;
     },
     press(obj) {
+      // if (obj.data.type && obj.data.type != "text") return;
+      this.popoverShow = false;
       this.isPress = true;
       console.log(obj);
       const parent = obj.e.srcEvent.path.find((el) => {
@@ -448,6 +466,7 @@ export default {
       // });
       if (!parent) return;
       console.log(parent);
+      // debugger;
       const { left, top, width, height } = parent.getBoundingClientRect();
       console.log(parent, parent.getBoundingClientRect());
       const wWidth = window.innerWidth;
@@ -455,7 +474,7 @@ export default {
       const chatPopWidth = this.$refs.chatPopover.clientWidth;
       const chatPopHeight = this.$refs.chatPopover.clientHeight;
       const mChatWrapHeight = this.$refs.mChatWrap.clientHeight;
-      const cLeft = width < chatPopWidth ? left - chatPopWidth / 3 : left;
+      const cLeft = width < chatPopWidth ? left - chatPopWidth / 4 : left;
 
       const cTop = top - (wHeight - mChatWrapHeight);
       this.$refs.chatPopover.style.left = `${cLeft}px`;

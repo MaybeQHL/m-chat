@@ -110,10 +110,7 @@
                   <div class="chat-msg-file-right">
                     <!-- :href="data.content.fileUrl"
                       :download="data.content.fileName" -->
-                    <div
-                      class="chat-msg-file_name"
-                      @click.stop.prevent.self="downloadFile"
-                    >
+                    <div class="chat-msg-file_name" @click="downloadFile">
                       {{ data.content.fileName }}
                     </div>
                     <span class="chat-msg-file_size">
@@ -255,31 +252,36 @@ export default {
   },
   created() {},
   mounted() {
-    if (this.$refs.msgEvent) {
-      var hammer = new Hammer(this.$refs.msgEvent);
+    this.$nextTick(() => {
+      if (!this.$refs.msgEvent) return;
+      // 非文本非自己发送不触发长按事件（触发气泡框）
+      if (this.data.type && this.data.type != "text" && !this.data.self) return;
+      var hammer = new Hammer(this.$refs.msgEvent, {
+        // domEvents: true,
+        // enable: true,
+      });
       hammer.on("tap", (e) => {
         this.itemClick();
       });
-      if (this.data.self) {
-        hammer.on("press", (e) => {
-          // this.isPress = true;
-          console.log("You're pressing me!");
-          console.log(e);
-          this.$emit("press", {
-            e: e,
-            data: this.data,
-          });
+      hammer.on("press", (e) => {
+        // this.isPress = true;
+        console.log("You're pressing me!");
+        console.log(e);
+        // console.log("data:::", this.data);
+        this.$emit("press", {
+          e: e,
+          data: this.data,
         });
-        hammer.on("pressup", (e) => {
-          console.log("You're pressup me!", e);
-          // this.isPress = false;
-          this.$emit("pressup", {
-            e: e,
-            data: this.data,
-          });
+      });
+      hammer.on("pressup", (e) => {
+        console.log("You're pressup me!", e);
+        // this.isPress = false;
+        this.$emit("pressup", {
+          e: e,
+          data: this.data,
         });
-      }
-    }
+      });
+    });
   },
   beforeDestroy() {},
   methods: {
@@ -365,6 +367,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+@import "./css/animate.css";
 .chat-message {
   display: flex;
   flex-flow: row nowrap;
@@ -583,6 +586,7 @@ export default {
     flex-flow: column nowrap;
     justify-content: space-between;
     .chat-msg-file_name {
+      display: inline-block;
       color: #098be2;
       max-width: 25vw;
       overflow: hidden;
