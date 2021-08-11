@@ -86,7 +86,7 @@ export default {
             fileUrl: "", // 文件地址
             fileName: "", // 文件名称
             fileSize: "", // 文件大小
-            filExt: "", // 文件扩展名
+            fileExt: "", // 文件扩展名
     },
     type: "text", // 文件类型:text|image|audio|video,
     isCancel:false // 控制该消息是否已经撤回,

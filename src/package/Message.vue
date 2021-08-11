@@ -252,34 +252,32 @@ export default {
   },
   created() {},
   mounted() {
-    this.$nextTick(() => {
-      if (!this.$refs.msgEvent) return;
-      // 非文本非自己发送不触发长按事件（触发气泡框）
-      if (this.data.type && this.data.type != "text" && !this.data.self) return;
-      var hammer = new Hammer(this.$refs.msgEvent, {
-        // domEvents: true,
-        // enable: true,
+    if (!this.$refs.msgEvent) return;
+    var hammer = new Hammer(this.$refs.msgEvent, {
+      // domEvents: true,
+      // enable: true,
+    });
+    hammer.on("tap", (e) => {
+      this.itemClick();
+    });
+    // 非文本非自己发送不触发长按事件（触发气泡框）
+    if (this.data.type && this.data.type != "text" && !this.data.self) return;
+    hammer.on("press", (e) => {
+      // this.isPress = true;
+      console.log("You're pressing me!");
+
+      // console.log("data:::", this.data);
+      this.$emit("press", {
+        e: e,
+        data: this.data,
       });
-      hammer.on("tap", (e) => {
-        this.itemClick();
-      });
-      hammer.on("press", (e) => {
-        // this.isPress = true;
-        console.log("You're pressing me!");
-        console.log(e);
-        // console.log("data:::", this.data);
-        this.$emit("press", {
-          e: e,
-          data: this.data,
-        });
-      });
-      hammer.on("pressup", (e) => {
-        console.log("You're pressup me!", e);
-        // this.isPress = false;
-        this.$emit("pressup", {
-          e: e,
-          data: this.data,
-        });
+    });
+    hammer.on("pressup", (e) => {
+      console.log("You're pressup me!", e);
+      // this.isPress = false;
+      this.$emit("pressup", {
+        e: e,
+        data: this.data,
       });
     });
   },

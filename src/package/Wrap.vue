@@ -15,7 +15,12 @@
           </div>
           <div v-show="!beforePullDown">
             <div class="pulling-box" v-show="isPullingDown || loading">
-              <van-loading size="8vw" type="circular" color="#BABABA" />
+              <van-loading
+                ref="chatLoading"
+                size="8vw"
+                type="circular"
+                color="#BABABA"
+              />
               <!-- <vue-lottie
                 :options="animOptions"
                 @animCreated="animCreated"
@@ -285,6 +290,7 @@ export default {
     },
   },
   mounted() {
+    const pullStopHeight = window.innerWidth * 0.08 + 15;
     this.bs = new BScroll(this.$refs.mChatScoller, {
       scrollY: true,
       bounce: {
@@ -296,7 +302,8 @@ export default {
       click: true,
       dblclick: true,
       pullDownRefresh: {
-        stop: 40,
+        // threshold: 100,
+        stop: pullStopHeight,
       },
       preventDefaultException: {
         tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|AUDIO)$/, // 这些元素的默认行为都不会被阻止。
@@ -308,6 +315,7 @@ export default {
     this.bs.on("scrollEnd", (e) => {
       // console.log("scrollEnd", e);
     });
+
     // 初始化消息容器的宽高
     this.initScollerWH();
 
@@ -474,7 +482,7 @@ export default {
       const chatPopWidth = this.$refs.chatPopover.clientWidth;
       const chatPopHeight = this.$refs.chatPopover.clientHeight;
       const mChatWrapHeight = this.$refs.mChatWrap.clientHeight;
-      const cLeft = width < chatPopWidth ? left - chatPopWidth / 4 : left;
+      const cLeft = width < wWidth / 2 ? left : left + width / 4;
 
       const cTop = top - (wHeight - mChatWrapHeight);
       this.$refs.chatPopover.style.left = `${cLeft}px`;
