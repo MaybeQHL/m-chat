@@ -7,13 +7,13 @@
           <img
             src=".//svg/yuyin.svg"
             @click="togglePanel('audio')"
-            v-if="currentType == 'text'"
+            v-if="currentType == 'text' && includes(openBases, 'audio')"
             class="c-icon"
           />
           <img
             src=".//svg/jianpan.svg"
             @click="togglePanel('text')"
-            v-if="currentType == 'audio'"
+            v-if="currentType == 'audio' && includes(openBases, 'text')"
             class="c-icon"
           />
         </div>
@@ -46,6 +46,7 @@
             size="8vw"
             class="c-icon"
             name="smile-o"
+            v-if="includes(openBases, 'emoji')"
             @click="emojiClick"
           />
           <!-- <van-icon class="c-icon" size="8vw" name="photo-o" /> -->
@@ -55,7 +56,7 @@
             size="8vw"
             name="add-o"
             @click="toggleExtend"
-            v-if="!isSubmitBtn"
+            v-if="!isSubmitBtn && openExtends.length > 0"
           />
           <transition name="move">
             <button v-if="isSubmitBtn" @click="submit" class="submit-btn">
@@ -167,6 +168,12 @@ export default {
         return ["image", "file", "video"];
       },
     },
+    openBases: {
+      type: Array,
+      default: function () {
+        return ["audio", "text", "emoji"];
+      },
+    },
     imgMaxSize: {
       type: Number,
       default: 500,
@@ -234,6 +241,17 @@ export default {
         this.$parent.$emit("isExtend_initScoller", val);
       },
     },
+    openBases: {
+      handler: function () {
+        if (
+          !this.openBases.includes("text") &&
+          this.openBases.includes("audio")
+        ) {
+          this.currentType = "audio";
+        }
+      },
+      immediate: true,
+    },
   },
   mounted() {
     // if (this.$refs.mChatRecord) {
@@ -286,6 +304,7 @@ export default {
       Toast(`文件大小不能超过 ${this.fileMaxSize}kb`);
     },
     togglePanel(type) {
+      if (!this.openBases.includes(type)) return;
       switch (type) {
         case "text":
           this.currentType = type;

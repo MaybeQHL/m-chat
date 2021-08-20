@@ -93,6 +93,7 @@
       :imgMaxSize="imgMaxSize"
       :videoMaxSize="videoMaxSize"
       :fileMaxSize="fileMaxSize"
+      :openBases="openBases"
     >
       <template #right>
         <slot name="right"></slot>
@@ -114,7 +115,21 @@
       >
         <div class="chat-popover-content">
           <template v-for="(item, index) in popoverList">
-            <template v-if="item.type != 'copy' && !data.self"> </template>
+            <div
+              class="chat-pc-item"
+              :key="index"
+              v-if="openPops.includes(item.type)"
+              @click="popItemClick(item)"
+            >
+              <van-icon
+                class="pop-icon"
+                size="5vw"
+                :name="item.icon || 'ellipsis'"
+                color="#fff"
+              />
+              <span>{{ item.text }}</span>
+            </div>
+            <!-- <template v-if="item.type != 'copy' && !data.self"> </template>
             <template
               v-else-if="
                 item.type == 'copy' && data.type && data.type != 'text'
@@ -136,7 +151,7 @@
                 />
                 <span>{{ item.text }}</span>
               </div>
-            </template>
+            </template> -->
           </template>
         </div>
       </div>
@@ -210,6 +225,7 @@ export default {
       default: 500,
     },
     leadPage: String,
+    openBases: Array,
   },
   components: {
     Comment,
@@ -462,7 +478,7 @@ export default {
       this.isPress = false;
     },
     press(obj) {
-      // if (obj.data.type && obj.data.type != "text") return;
+      console.log(obj);
       this.popoverShow = false;
       this.isPress = true;
       console.log(obj);

@@ -64,6 +64,7 @@ export default {
 | openPops   | Array  | ['copy','cancel']        | 气泡框内显示的功能 例: ['copy','cancel']                            |
 | customRecord  | Boolean | flase | 自定义录音功能(设置为true后自带录音失效，并且不触发submit事件)
 | openExtends  | Array | ["image", "file", "video"] | 扩展面板显示的功能
+| openBases  | Array | ["text", "audio", "emoji"] | 控制基础功能显示
 | imgMaxSize   | Number | 500 | 图片大小上传限制(kb)
 | videoMaxSize | Number | 500 | 视频大小上传限制(kb)
 | fileMaxSize | Number | 500 | 文件大小上传限制(kb)
