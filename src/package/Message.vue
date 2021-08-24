@@ -428,6 +428,7 @@ export default {
 .chat-image {
   max-width: 30vw;
   height: auto;
+  max-height: 40vw;
   border: 1px solid #ebedf0;
 }
 
