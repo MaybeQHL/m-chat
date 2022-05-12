@@ -1,6 +1,6 @@
 {
   "name": "@maybecode/m-chat",
-  "version": "1.2.22",
+  "version": "1.3.0",
   "private": false,
   "main": "lib-dist/m-chat.umd.min.js",
   "types": "types/index.d.ts",
@@ -16,6 +16,7 @@
     "@better-scroll/pull-down": "^2.3.1",
     "core-js": "^3.6.5",
     "hammerjs": "^2.0.8",
+    "lodash": "^4.17.21",
     "lottie-web": "^5.7.8",
     "mitt": "^2.1.0",
     "recorder-core": "^1.1.21021500",

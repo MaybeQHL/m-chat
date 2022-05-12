@@ -4,60 +4,26 @@
       <div class="m-chat-comment-main">
         <div class="m-chat-main-left">
           <!-- <slot name="left"></slot> -->
-          <img
-            src=".//svg/yuyin.svg"
-            @click="togglePanel('audio')"
-            v-if="currentType == 'text' && includes(openBases, 'audio')"
-            class="c-icon"
-          />
-          <img
-            src=".//svg/jianpan.svg"
-            @click="togglePanel('text')"
-            v-if="currentType == 'audio' && includes(openBases, 'text')"
-            class="c-icon"
-          />
+          <img src=".//svg/yuyin.svg" @click="togglePanel('audio')"
+            v-if="currentType == 'text' && includes(openBases, 'audio')" class="c-icon" />
+          <img src=".//svg/jianpan.svg" @click="togglePanel('text')"
+            v-if="currentType == 'audio' && includes(openBases, 'text')" class="c-icon" />
         </div>
-        <div
-          class="m-chat-record"
-          v-show="currentType == 'audio'"
-          ref="mChatRecord"
-        >
+        <div class="m-chat-record" v-show="currentType == 'audio'" ref="mChatRecord">
           <span v-if="recordStatus == 0">按住开始录音</span>
           <span v-if="recordStatus == 1">松开 发送</span>
           <span v-if="recordStatus == 2">松开 取消</span>
         </div>
-        <form
-          class="m-chat-form"
-          v-show="currentType == 'text'"
-          @submit.prevent="submit"
-        >
-          <input
-            ref="mChatInput"
-            class="m-chat-input"
-            @focus="onFocus"
-            @blur="onBlur"
-            v-model="content"
-            @input="onChange"
-            type="text"
-          />
+        <form class="m-chat-form" v-show="currentType == 'text'" @submit.prevent="submit">
+          <input ref="mChatInput" class="m-chat-input" @focus="onFocus" @blur="onBlur" v-model="content"
+            @input="onChange" type="text" />
         </form>
         <div class="m-chat-input-options">
-          <van-icon
-            size="8vw"
-            class="c-icon"
-            name="smile-o"
-            v-if="includes(openBases, 'emoji')"
-            @click="emojiClick"
-          />
+          <van-icon size="8vw" class="c-icon" name="smile-o" v-if="includes(openBases, 'emoji')" @click="emojiClick" />
           <!-- <van-icon class="c-icon" size="8vw" name="photo-o" /> -->
           <slot name="right"></slot>
-          <van-icon
-            class="c-icon"
-            size="8vw"
-            name="add-o"
-            @click="toggleExtend"
-            v-if="!isSubmitBtn && openExtends.length > 0"
-          />
+          <van-icon class="c-icon" size="8vw" name="add-o" @click="toggleExtend"
+            v-if="!isSubmitBtn && openExtends.length > 0" />
           <transition name="move">
             <button v-if="isSubmitBtn" @click="submit" class="submit-btn">
               发送
@@ -65,28 +31,16 @@
           </transition>
         </div>
       </div>
-      <div
-        class="m-chat-comment-extend"
-        ref="mChatCommnetExtend"
-        v-show="isExtend"
-      >
+      <div class="m-chat-comment-extend" ref="mChatCommnetExtend" v-show="isExtend">
         <div class="m-chat-emoji" v-if="isEmoji">
-          <div
-            class="m-chat-emoji-item"
-            v-for="(item, index) in emojiList"
-            :key="index"
-            @click="emojiItemClick($event, item)"
-          >
+          <div class="m-chat-emoji-item" v-for="(item, index) in emojiList" :key="index"
+            @click="emojiItemClick($event, item)">
             {{ item.char }}
           </div>
         </div>
         <div class="m-chat-grid" v-else>
           <template v-for="(item, index) in extendList">
-            <div
-              class="m-chat-grid-item"
-              :key="index"
-              v-if="includes(openExtends, item.type)"
-            >
+            <div class="m-chat-grid-item" :key="index" v-if="includes(openExtends, item.type)">
               <div class="m-chat-grid_item_icon" @click="itemClick(item)">
                 <van-icon :name="item.icon" />
               </div>
@@ -98,11 +52,7 @@
     </div>
     <div class="record-overlay" v-if="recordStatus != 0">
       <div class="record-1 record-item" v-if="recordStatus == 1">
-        <vue-lottie
-          :options="animOptions"
-          width="20vw"
-          height="20vw"
-        ></vue-lottie>
+        <vue-lottie :options="animOptions" width="20vw" height="20vw"></vue-lottie>
         <p>手指上划,取消发送</p>
       </div>
       <div class="record-2 record-item" v-if="recordStatus == 2">
@@ -110,32 +60,15 @@
         <p class="text">松开取消发送录音</p>
       </div>
     </div>
-    <van-uploader
-      v-if="includes(openExtends, 'image')"
-      ref="mChatImgUploader"
-      :after-read="imgAfterRead"
-      :max-size="imgMaxSize * 1024"
-      @oversize="onImgOversize"
-      style="display: none"
-    />
-    <van-uploader
-      v-if="includes(openExtends, 'file')"
-      ref="mChatFileUploader"
-      :after-read="fileAfterRead"
-      :max-size="fileMaxSize * 1024"
-      @oversize="onFileOversize"
-      style="display: none"
-      accept="*"
-    />
-    <van-uploader
-      v-if="includes(openExtends, 'video')"
-      ref="mChatVideoUploader"
-      :after-read="videoAfterRead"
-      :max-size="videoMaxSize * 1024"
-      @oversize="onVideoOversize"
-      style="display: none"
-      accept="video/*"
-    />
+    <van-uploader v-if="includes(openExtends, 'image')" ref="mChatImgUploader" :after-read="imgAfterRead"
+      :accept="joinAcceptArr(mConfig.image.accept)" :max-size="(mConfig.image.maxSize || imgMaxSize) * 1024"
+      @oversize="onImgOversize" style="display: none" />
+    <van-uploader v-if="includes(openExtends, 'file')" ref="mChatFileUploader" :after-read="fileAfterRead"
+      :max-size="(mConfig.file.maxSize || fileMaxSize) * 1024" @oversize="onFileOversize" style="display: none"
+      :accept="joinAcceptArr(mConfig.file.accept)" />
+    <van-uploader v-if="includes(openExtends, 'video')" ref="mChatVideoUploader" :after-read="videoAfterRead"
+      :max-size="(mConfig.video.maxSize || videoMaxSize) * 1024" @oversize="onVideoOversize" style="display: none"
+      :accept="joinAcceptArr(mConfig.video.accept)" />
   </div>
 </template>
 
@@ -152,6 +85,8 @@ import Recorder from "recorder-core";
 import "recorder-core/src/engine/mp3";
 import "recorder-core/src/engine/mp3-engine";
 
+import merge from 'lodash/merge'
+
 export default {
   components: {
     [Icon.name]: Icon,
@@ -161,6 +96,9 @@ export default {
     [Uploader.name]: Uploader,
   },
   props: {
+    config: {
+      type: Object,
+    },
     customRecord: Boolean,
     openExtends: {
       type: Array,
@@ -227,7 +165,42 @@ export default {
       isSubmitBtn: false,
     };
   },
-  computed: {},
+  computed: {
+    mConfig() {
+      const baseConfig = {
+        /**
+         * 图片上传
+         */
+        image: {
+          /**
+           * 上传大小最大值(kb)
+           */
+          maxSize: 500,
+          /**
+           * 允许的文件类型
+           */
+          accept: ['image/*']
+        },
+        /**
+         * 文件上传
+         */
+        file: {
+          maxSize: 500,
+          accept: ['*']
+        },
+        /**
+         * 视频上传
+         */
+        video: {
+          maxSize: 500,
+          accept: ['video/*']
+        }
+      };
+      const rconfig = merge(baseConfig, this.config);
+
+      return rconfig;
+    },
+  },
   watch: {
     isExtend: {
       handler: function (val) {
@@ -277,6 +250,9 @@ export default {
     this.$refs.mChatRecord.removeEventListener("touchend", this.touchend);
   },
   methods: {
+    joinAcceptArr(arr) {
+      return arr.join(',')
+    },
     behindWord(event) {
       console.log(event);
       var e = event.srcElement;
@@ -340,6 +316,20 @@ export default {
     imgAfterRead(file) {
       // 此时可以自行将文件上传至服务器
       console.log(file);
+
+      const acceptType = this.mConfig.image.accept || [
+        "image/png",
+        "image/jpg",
+        "image/jpeg",
+        "image/gif",
+        "image/webp",
+      ];
+
+      if (acceptType[0] != '*' && !acceptType.includes(file.file.type)) {
+        Toast.fail("图片格式不支持上传");
+        return;
+      }
+
       this.$emit("imgAfterRead", file);
       this.$emit("submit", {
         type: "image",
@@ -349,6 +339,15 @@ export default {
     fileAfterRead(file) {
       // 此时可以自行将文件上传至服务器
       console.log(file);
+
+      const acceptType = this.mConfig.file.accept || [
+        "*",
+      ];
+      if (acceptType[0] != '*' && !acceptType.includes(file.file.type)) {
+        Toast.fail("文件格式不支持上传");
+        return;
+      }
+
       this.$emit("fileAfterRead", file);
       this.$emit("submit", {
         type: "file",
@@ -356,9 +355,10 @@ export default {
       });
     },
     videoAfterRead(file) {
+
       // 此时可以自行将文件上传至服务器
       console.log(file);
-      const acceptType = [
+      const acceptType = this.mConfig.video.accept || [
         "video/mp4",
         "video/mp3",
         "video/avi",
@@ -580,10 +580,12 @@ export default {
   box-sizing: content-box;
   // 避免ios出现uibug 加上相对定位
   position: relative;
+
   // height: 8vh;
   // padding: 2vw 0vw;
   .m-chat-comment-wrap {
     overflow: hidden;
+
     .m-chat-comment-main {
       display: flex;
       padding: 3vw 3vw;
@@ -592,12 +594,14 @@ export default {
       height: 8vw;
       box-sizing: content-box;
     }
+
     .m-chat-form {
       // height: 100%;
       flex: 1;
       display: flex;
       background-color: #fff;
     }
+
     .m-chat-input {
       width: 100%;
       // height: 5vw;
@@ -618,6 +622,7 @@ export default {
     .m-chat-comment-icon {
       // margin: 0px 1vw;
     }
+
     .m-chat-main-left,
     .m-chat-input-options {
       display: flex;
@@ -626,10 +631,12 @@ export default {
     }
   }
 }
+
 .m-chat-div_input {
   flex: 1;
   background-color: #fff;
 }
+
 .m-chat-comment-extend {
   // height: 18vh;
   overflow-y: auto;
@@ -637,20 +644,24 @@ export default {
   padding: 4vw 3vw;
   height: 40vw;
 }
+
 .c-icon {
   width: 8vw;
   height: 8vw;
   margin: 0vw 0.8vw;
   color: inherit;
 }
+
 .position-relative {
   position: relative;
 }
+
 .position-fixed {
   position: fixed;
   bottom: 0px;
   left: 0px;
 }
+
 .m-chat-record {
   flex: 1;
   background-color: #fff;
@@ -661,6 +672,7 @@ export default {
   font-size: 4vw;
   height: 100%;
 }
+
 .record-overlay {
   position: fixed;
   top: 49.5%;
@@ -673,6 +685,7 @@ export default {
   transform: translate(-50%, -50%);
   width: 40vw;
   font-size: 4vw;
+
   .record-item {
     position: relative;
     height: 25vw;
@@ -680,27 +693,32 @@ export default {
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
+
     .icon {
       position: absolute;
       top: 49.5%;
       left: 49.5%;
       transform: translate(-50%, -50%);
     }
+
     .text {
       margin-top: 3vw;
     }
   }
 }
+
 .close-img {
   width: 10vw;
   height: 10vw;
 }
-.lottie {
-}
+
+.lottie {}
+
 .my-grid-item {
   /deep/.van-grid-item__content {
     background-color: transparent;
   }
+
   /deep/ .van-grid-item__text {
     font-size: 3.1vw;
   }
@@ -709,6 +727,7 @@ export default {
 .m-chat-grid {
   display: flex;
   flex-flow: row wrap;
+
   .m-chat-grid-item {
     box-sizing: content-box;
     // margin: 1vw;
@@ -728,6 +747,7 @@ export default {
       height: 16vw;
       border-radius: 10px;
     }
+
     .m-chat-grid_item_text {
       font-size: 3.1vw;
       margin: 2vw 0vw;
@@ -740,6 +760,7 @@ export default {
   flex-flow: row wrap;
   height: 100%;
   overflow-y: auto;
+
   .m-chat-emoji-item {
     flex-basis: 15%;
     margin: 1.5vw 2vw;
@@ -749,6 +770,7 @@ export default {
     box-sizing: content-box;
   }
 }
+
 .submit-btn {
   display: block;
   font-size: 4vw;
@@ -763,6 +785,7 @@ export default {
   outline: none;
   border: none;
   box-sizing: content-box;
+
   &:active,
   :hover {
     opacity: 0.6;
@@ -773,11 +796,16 @@ export default {
 .move-enter-active {
   transition: all 0.3s ease;
 }
+
 .move-leave-active {
   transition: all 0.3s ease;
 }
-.move-enter, .move-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
+
+.move-enter,
+.move-leave-to
+
+/* .slide-fade-leave-active for below version 2.1.8 */
+  {
   transform: translateX(10px);
   opacity: 0;
 }

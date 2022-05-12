@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="m-chat-wrap"
-    ref="mChatWrap"
-    :style="{ height: `calc(${height})` }"
-  >
+  <div class="m-chat-wrap" ref="mChatWrap" :style="{ height: `calc(${height})` }">
     <!-- 初始化loading -->
     <!-- <van-loading v-if="loading"></van-loading> -->
     <!-- 信息列表 -->
@@ -15,12 +11,7 @@
           </div>
           <div v-show="!beforePullDown">
             <div class="pulling-box" v-show="isPullingDown || loading">
-              <van-loading
-                ref="chatLoading"
-                size="8vw"
-                type="circular"
-                color="#BABABA"
-              />
+              <van-loading ref="chatLoading" size="8vw" type="circular" color="#BABABA" />
               <!-- <vue-lottie
                 :options="animOptions"
                 @animCreated="animCreated"
@@ -36,22 +27,10 @@
         <div class="finished-text" v-else>没有更多了</div>
 
         <div class="m-chat-msg-wrap">
-          <message
-            v-for="item in messages"
-            :data="item"
-            :key="item.id"
-            :audioAnim="data.id == item.id && audioAnim"
-            @itemClick="itemClick"
-            @imageLoad="imageLoad"
-            :defaultAvatar="defaultAvatar"
-            @press="press"
-            @pressup="pressup"
-            :isCancel="item.isCancel"
-            :isPress="item.self && isPress && item.id == data.id"
-            @avatarClick="avatarClick"
-            :isPlayMedia="isPlayMedia && item.id == data.id"
-            :leadPage="leadPage"
-          ></message>
+          <message v-for="item in messages" :data="item" :key="item.id" :audioAnim="data.id == item.id && audioAnim"
+            @itemClick="itemClick" @imageLoad="imageLoad" :defaultAvatar="defaultAvatar" @press="press"
+            @pressup="pressup" :isCancel="item.isCancel" :isPress="item.self && isPress && item.id == data.id"
+            @avatarClick="avatarClick" :isPlayMedia="isPlayMedia && item.id == data.id" :leadPage="leadPage"></message>
         </div>
       </div>
     </div>
@@ -63,38 +42,15 @@
     <div class="chat-video" v-show="videoShow">
       <video ref="mVideo" :src="data.content.videoUrl" controls></video>
       <div class="v-btn">
-        <van-icon
-          class="v-close-btn"
-          name="close"
-          size="7vw"
-          color="#fff"
-          @click="vClose"
-        ></van-icon>
+        <van-icon class="v-close-btn" name="close" size="7vw" color="#fff" @click="vClose"></van-icon>
       </div>
     </div>
     <!-- 回复框 -->
-    <comment
-      v-if="comment"
-      class="m-comment"
-      ref="mComment"
-      @submit="submit"
-      @emojiClick="emojiClick"
-      @focus="focus"
-      @toggleExtend="commentExtend"
-      :customRecord="customRecord"
-      @recordStart="recordStart"
-      @recordStop="recordStop"
-      @recordCancel="recordCancel"
-      @imgAfterRead="imgAfterRead"
-      @fileAfterRead="fileAfterRead"
-      @videoAfterRead="videoAfterRead"
-      :openExtends="openExtends"
-      @togglePanel="togglePanel"
-      :imgMaxSize="imgMaxSize"
-      :videoMaxSize="videoMaxSize"
-      :fileMaxSize="fileMaxSize"
-      :openBases="openBases"
-    >
+    <comment v-if="comment" class="m-comment" ref="mComment" @submit="submit" @emojiClick="emojiClick" @focus="focus"
+      @toggleExtend="commentExtend" :customRecord="customRecord" @recordStart="recordStart" @recordStop="recordStop"
+      @recordCancel="recordCancel" @imgAfterRead="imgAfterRead" @fileAfterRead="fileAfterRead"
+      @videoAfterRead="videoAfterRead" :openExtends="openExtends" @togglePanel="togglePanel" :imgMaxSize="imgMaxSize"
+      :videoMaxSize="videoMaxSize" :fileMaxSize="fileMaxSize" :openBases="openBases" :config="config">
       <template #right>
         <slot name="right"></slot>
       </template>
@@ -104,29 +60,14 @@
     </comment>
     <!-- 气泡弹出框 -->
     <transition name="fade">
-      <div
-        class="chat-popover"
-        ref="chatPopover"
-        :style="{
-          visibility:
-            popoverList.length > 0 && popoverShow ? 'visible' : 'hidden',
-        }"
-        v-show="popoverList.length > 0 && popoverShow"
-      >
+      <div class="chat-popover" ref="chatPopover" :style="{
+        visibility:
+          popoverList.length > 0 && popoverShow ? 'visible' : 'hidden',
+      }" v-show="popoverList.length > 0 && popoverShow">
         <div class="chat-popover-content">
           <template v-for="(item, index) in popoverList">
-            <div
-              class="chat-pc-item"
-              :key="index"
-              v-if="openPops.includes(item.type)"
-              @click="popItemClick(item)"
-            >
-              <van-icon
-                class="pop-icon"
-                size="5vw"
-                :name="item.icon || 'ellipsis'"
-                color="#fff"
-              />
+            <div class="chat-pc-item" :key="index" v-if="openPops.includes(item.type)" @click="popItemClick(item)">
+              <van-icon class="pop-icon" size="5vw" :name="item.icon || 'ellipsis'" color="#fff" />
               <span>{{ item.text }}</span>
             </div>
             <!-- <template v-if="item.type != 'copy' && !data.self"> </template>
@@ -174,6 +115,9 @@ import VueLottie from "./VueLottie.vue";
 
 export default {
   props: {
+    config: {
+      type: Object
+    },
     messages: {
       type: Array,
       default: function () {
@@ -301,7 +245,7 @@ export default {
     //   }
     // },
     "data.type": {
-      handler(val) {},
+      handler(val) { },
       immediate: true,
     },
   },
@@ -549,7 +493,7 @@ export default {
         this.resresh = false;
       }, 1000);
     },
-    emojiClick() {},
+    emojiClick() { },
     itemClick(data) {
       if (data.data.type == "audio") {
         // 重复点击当前音频暂停或播放
@@ -631,6 +575,7 @@ export default {
   box-sizing: content-box;
   display: flex;
   flex-direction: column;
+
   // height: 100vh;
   // padding: 5vw 0px 5vw 0px;
   .m-chat-msg-wrap {
@@ -639,12 +584,15 @@ export default {
     box-sizing: content-box;
   }
 }
+
 .media-wrap {
   display: none;
 }
+
 .m-chat-content {
   position: relative;
 }
+
 .pulldown-wrapper {
   position: absolute;
   width: 100%;
@@ -655,6 +603,7 @@ export default {
   text-align: center;
   color: #999;
   font-size: 4vw;
+
   // padding: 5vw 0vw;
   // display: flex;
   // justify-content: center;
@@ -666,6 +615,7 @@ export default {
     align-items: center;
   }
 }
+
 .chat-video {
   z-index: 88;
   position: fixed;
@@ -674,6 +624,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color: #000;
+
   video {
     position: fixed;
     top: 50%;
@@ -684,6 +635,7 @@ export default {
     transform: translateY(-50%);
     // height: 100%;
   }
+
   .v-btn {
     z-index: 99;
     position: fixed;
@@ -691,13 +643,14 @@ export default {
     left: 0px;
     padding: 5vw;
   }
-  .v-close-btn {
-  }
+
+  .v-close-btn {}
 }
 
 .m-comment {
   // flex: 1;
 }
+
 .chat-popover {
   position: absolute;
   transform: translate(0%, -110%);
@@ -708,6 +661,7 @@ export default {
     color: #fff;
     border-radius: 5px;
     padding: 1vw 3vw;
+
     // display: flex;
     &::before {
       content: "";
@@ -728,8 +682,10 @@ export default {
       width: 2vw;
       height: 2vw;
     }
+
     display: flex;
     flex-flow: row wrap;
+
     .chat-pc-item {
       display: flex;
       flex-flow: column nowrap;
@@ -739,16 +695,19 @@ export default {
       font-size: 2.5vw;
       // height: 15vw;
       user-select: none;
+
       .pop-icon {
         margin-bottom: 1vw;
       }
     }
   }
 }
+
 .m-chat-msg-wrap {
   position: relative;
   // padding-top: 3vw;
 }
+
 .finished-text {
   text-align: center;
   margin: 3vw;

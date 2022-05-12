@@ -153,6 +153,9 @@ export default {
     [Icon.name]: Icon,
   },
   props: {
+    config:{
+      type:Object,
+    },
     isCancel: Boolean,
     data: {
       type: Object,

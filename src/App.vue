@@ -1,33 +1,14 @@
 <template>
   <div id="app">
-    <m-chat
-      ref="mChat"
-      :messages="messages"
-      @submit="submit"
-      :loadMore="loadMore"
-      :comment="true"
-      height="100vh"
-      @popItemClick="popItemClick"
-      :customRecord="false"
-      @recordStart="recordStart"
-      @recordStop="recordStop"
-      @recordCancel="recordCancel"
-      :imgMaxSize="8192"
-      :videoMaxSize="8192"
-      :fileMaxSize="8192"
-    >
+    <m-chat ref="mChat" :messages="messages" @submit="submit" :loadMore="loadMore" :comment="true" height="100vh"
+      @popItemClick="popItemClick" :customRecord="false" @recordStart="recordStart" @recordStop="recordStop"
+      @recordCancel="recordCancel" :imgMaxSize="8192" :videoMaxSize="8192" :fileMaxSize="8192" :config="config">
       <template #left> </template>
       <template #right></template>
       <template #extend>
         <van-grid :column-num="3" icon-size="10vw" :border="false">
-          <van-grid-item
-            class="my-grid-item"
-            icon="photo-o"
-            text="图片"
-            v-for="item in 6"
-            :key="item"
-            @click="itemClick"
-          />
+          <van-grid-item class="my-grid-item" icon="photo-o" text="图片" v-for="item in 6" :key="item"
+            @click="itemClick" />
         </van-grid>
       </template>
     </m-chat>
@@ -55,6 +36,11 @@ export default {
   },
   data() {
     return {
+      config: {
+        file: {
+          accept: ['*'],
+        }
+      },
       messages: [
         {
           id: 0,
@@ -314,11 +300,13 @@ export default {
   margin: 0px;
   padding: 0px;
 }
+
 html,
 body {
   height: 100%;
   width: 100%;
 }
+
 .van-grid-item__content {
   padding: 1vw 8vw;
   background-color: transparent;
