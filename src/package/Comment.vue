@@ -317,15 +317,8 @@ export default {
       // 此时可以自行将文件上传至服务器
       console.log(file);
 
-      const acceptType = this.mConfig.image.accept || [
-        "image/png",
-        "image/jpg",
-        "image/jpeg",
-        "image/gif",
-        "image/webp",
-      ];
-
-      if (acceptType[0] != '*' && !acceptType.includes(file.file.type)) {
+      const acceptType = this.mConfig.image.accept;
+      if ((acceptType.includes('image/*') && !file.file.type.includes('image/')) && !acceptType.includes(file.file.type)) {
         Toast.fail("图片格式不支持上传");
         return;
       }
@@ -340,10 +333,8 @@ export default {
       // 此时可以自行将文件上传至服务器
       console.log(file);
 
-      const acceptType = this.mConfig.file.accept || [
-        "*",
-      ];
-      if (acceptType[0] != '*' && !acceptType.includes(file.file.type)) {
+      const acceptType = this.mConfig.file.accept;
+      if (!acceptType.includes('*') && !acceptType.includes(file.file.type)) {
         Toast.fail("文件格式不支持上传");
         return;
       }
@@ -358,14 +349,8 @@ export default {
 
       // 此时可以自行将文件上传至服务器
       console.log(file);
-      const acceptType = this.mConfig.video.accept || [
-        "video/mp4",
-        "video/mp3",
-        "video/avi",
-        "video/wmv",
-        "video/mkv",
-      ];
-      if (!acceptType.includes(file.file.type)) {
+      const acceptType = this.mConfig.video.accept;
+      if ((acceptType.includes('video/*') && !file.file.type.includes('video/')) && !acceptType.includes(file.file.type)) {
         Toast.fail("视频格式不支持上传");
         return;
       }
