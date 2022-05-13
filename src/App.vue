@@ -18,6 +18,7 @@
       v-model="fileList"
       style="display: none"
     /> -->
+    <van-button class="btn-theme" type="warning" @click="clickTheme">切换主题</van-button>
   </div>
 </template>
 
@@ -26,13 +27,14 @@
 import MChat from "@/package";
 // import MChat from "../lib-dist/m-chat.umd.js";
 
-import { Grid, GridItem, Uploader } from "vant";
+import { Grid, GridItem, Uploader, Button } from "vant";
 export default {
   components: {
     MChat,
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
     [Uploader.name]: Uploader,
+    [Button.name]: Button
   },
   data() {
     return {
@@ -171,6 +173,13 @@ export default {
     };
   },
   methods: {
+    clickTheme() {
+      if (this.config.theme == 'light') {
+        this.config.theme = 'dark'
+      } else {
+        this.config.theme = 'light'
+      }
+    },
     recordStart() {
       console.log("recordStart");
     },
@@ -311,5 +320,12 @@ body {
 .van-grid-item__content {
   padding: 1vw 8vw;
   background-color: transparent;
+}
+
+
+.btn-theme {
+  position: fixed;
+  left: 20px;
+  top: 50%;
 }
 </style>
