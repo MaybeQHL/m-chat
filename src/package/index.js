@@ -1,6 +1,8 @@
 export { default as MChatComment } from './Comment.vue'
 export { default as MChatMessage } from './Message.vue'
 
+import './iconfont/iconfont.css'
+import './css/common.scss'
 import Mchat from './Wrap.vue'
 
 // vue的install方法，用于定义vue插件

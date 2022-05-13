@@ -4,100 +4,52 @@
     <template v-if="isCancel">
       <div class="m-chat-back-msg">你撤回了一条消息</div>
     </template>
-    <div
-      v-else
-      class="chat-message"
-      :class="[data.self ? 'box-self' : 'box-people']"
-    >
+    <div v-else class="chat-message" :class="[data.self ? 'box-self' : 'box-people']">
       <div class="chat-message-avatar">
-        <van-image
-          :src="data.avatar || defaultAvatar"
-          @click="avatarClick"
-          round
-          width="10vw"
-          height="10vw"
-        />
+        <van-image :src="data.avatar || defaultAvatar" @click="avatarClick" round width="10vw" height="10vw" />
       </div>
       <div class="chat-message-main">
         <div class="chat-message-name">{{ data.name }}</div>
         <div class="chat-message-content_wrap">
-          <div
-            class="chat-msg-event_wrap"
-            ref="msgEvent"
-            @click.self="msgEventClick"
-            @touchstart="msgEventTouchStart"
-            @touchmove="msgEventTouchMove"
-            @touchend="msgEventTouchEnd"
-          >
+          <div class="chat-msg-event_wrap" ref="msgEvent" @click.self="msgEventClick" @touchstart="msgEventTouchStart"
+            @touchmove="msgEventTouchMove" @touchend="msgEventTouchEnd">
             <!-- {{ data.type }} -->
             <!-- 音频内容 -->
             <template v-if="data.type == 'audio'">
-              <div
-                class="chat-message-content arrow contentWrap"
-                :class="[
-                  isPress && 'press-class',
-                  data.self ? 'row-start' : 'row-reverse',
-                ]"
-              >
-                <span v-if="data.content.duration"
-                  >{{ data.content.duration }} "</span
-                >
-                <van-icon
-                  :name="mediaIcon"
-                  style="margin: 0vw 2vw"
-                  size="7vw"
-                ></van-icon>
-                <vue-lottie
-                  :options="animOptions"
-                  @animCreated="animCreated"
-                  :className="data.self ? 'audio-right' : 'audio-left'"
-                  :width="'7vw'"
-                  :height="'7vw'"
-                ></vue-lottie>
+              <div class="chat-message-content arrow contentWrap" :class="[
+                isPress && 'press-class',
+                data.self ? 'row-start' : 'row-reverse',
+              ]">
+                <span v-if="data.content.duration">{{ data.content.duration }} "</span>
+                <van-icon :name="mediaIcon" style="margin: 0vw 2vw" size="7vw"></van-icon>
+                <vue-lottie :options="animOptions" @animCreated="animCreated"
+                  :className="data.self ? 'audio-right' : 'audio-left'" :width="'7vw'" :height="'7vw'"></vue-lottie>
               </div>
             </template>
             <!-- 图片内容 -->
             <template v-else-if="data.type == 'image'">
-              <div
-                class="chat-message-image contentWrap"
-                :class="[isPress && 'press-img-class']"
-              >
-                <van-image
-                  class="chat-image"
-                  :src="data.content.imageUrl"
-                  @click.self="imagePreview"
-                  @load="imageLoad"
-                  :radius="5"
-                ></van-image>
+              <div class="chat-message-image contentWrap" :class="[isPress && 'press-img-class']">
+                <van-image class="chat-image" :src="data.content.imageUrl" @click.self="imagePreview" @load="imageLoad"
+                  :radius="5"></van-image>
               </div>
             </template>
             <!-- 视频内容 -->
             <template v-else-if="data.type == 'video'">
-              <div
-                class="chat-message-content arrow contentWrap"
-                :class="[
-                  isPress && 'press-class',
-                  data.self ? 'row-start' : 'row-reverse',
-                ]"
-              >
+              <div class="chat-message-content arrow contentWrap" :class="[
+                isPress && 'press-class',
+                data.self ? 'row-start' : 'row-reverse',
+              ]">
                 <!-- <van-icon name="video-o" size="8vw" @click.stop="itemClick" /> -->
                 <div class="chat-msg-video-wrapper">
-                  <van-image
-                    :src="videoImg"
-                    width="8vw"
-                    height="8vw"
-                  ></van-image>
+                  <van-image :src="videoImg" width="8vw" height="8vw"></van-image>
                 </div>
               </div>
             </template>
             <template v-else-if="data.type == 'file'">
-              <div
-                class="chat-message-content arrow contentWrap"
-                :class="[
-                  isPress && 'press-class',
-                  data.self ? 'row-start' : 'row-reverse',
-                ]"
-              >
+              <div class="chat-message-content arrow contentWrap" :class="[
+                isPress && 'press-class',
+                data.self ? 'row-start' : 'row-reverse',
+              ]">
                 <div class="chat-msg-file-wrapper">
                   <!-- <van-image
                     :src="fileImg"
@@ -122,11 +74,8 @@
             </template>
             <!-- 普通文字 -->
             <template v-else>
-              <div
-                class="chat-message-content arrow contentWrap"
-                :class="[isPress && 'press-class']"
-                v-html="resloveContent(data.content.text)"
-              ></div>
+              <div class="chat-message-content arrow contentWrap" :class="[isPress && 'press-class']"
+                v-html="resloveContent(data.content.text)"></div>
             </template>
           </div>
         </div>
@@ -153,8 +102,8 @@ export default {
     [Icon.name]: Icon,
   },
   props: {
-    config:{
-      type:Object,
+    config: {
+      type: Object,
     },
     isCancel: Boolean,
     data: {
@@ -253,7 +202,7 @@ export default {
     //   }  this.$parent.$emit("c_initScoller");
     // },
   },
-  created() {},
+  created() { },
   mounted() {
     if (!this.$refs.msgEvent) return;
     var hammer = new Hammer(this.$refs.msgEvent, {
@@ -284,7 +233,7 @@ export default {
       });
     });
   },
-  beforeDestroy() {},
+  beforeDestroy() { },
   methods: {
     msgEventClick(e) {
       // this.itemClick();
@@ -369,32 +318,38 @@ export default {
 
 <style scoped lang="less">
 @import "./css/animate.css";
+
 .chat-message {
   display: flex;
   flex-flow: row nowrap;
   padding: 2.666vw;
   overflow: hidden;
+
   .chat-message-avatar {
     // width: 10vw;
     // height: 10vw;
     // border-radius: 50%;
     // background-color: #f2f6fb;
     overflow: hidden;
+
     img {
       width: 100%;
       height: 100%;
     }
   }
+
   .chat-message-main {
     flex: 1;
     display: flex;
     flex-direction: column;
 
     padding: 0px 4vw;
+
     .chat-message-name {
       font-size: 3.5vw;
       color: #9d9d9d;
     }
+
     .chat-message-image {
       display: inline-flex;
       align-items: center;
@@ -406,6 +361,7 @@ export default {
       margin-top: 2vw;
       // background-color: transparent;
     }
+
     .chat-message-content {
       min-width: 2vw;
       min-height: 7vw;
@@ -423,11 +379,13 @@ export default {
       border: 1px solid transparent;
       user-select: text;
     }
+
     .chat-message-content_wrap {
       display: inline-flex;
     }
   }
 }
+
 .chat-image {
   max-width: 30vw;
   height: auto;
@@ -438,6 +396,7 @@ export default {
 .row-start {
   flex-direction: row;
 }
+
 .row-reverse {
   flex-direction: row-reverse;
 }
@@ -445,6 +404,7 @@ export default {
 .box-self {
   padding-right: 5.3333vw;
   flex-direction: row-reverse;
+
   .arrow::before {
     content: "";
     display: inline-block;
@@ -463,16 +423,20 @@ export default {
     width: 3vw;
     height: 3vw;
   }
+
   .chat-message-name {
     text-align: right;
   }
+
   .chat-message-content_wrap {
     flex-flow: row-reverse;
   }
+
   .chat-message-content {
     background-color: #9eea6a;
   }
 }
+
 .box-people {
   padding-right: 5.3333vw;
   flex-direction: row;
@@ -498,9 +462,11 @@ export default {
     width: 3vw;
     height: 3vw;
   }
+
   .chat-message-content_wrap {
     flex-flow: row;
   }
+
   .chat-message-content {
     background-color: #f2f6fb;
   }
@@ -512,34 +478,42 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.audio-left {
-}
+
+.audio-left {}
+
 .audio-right {
   transform: rotateY(180deg);
 }
+
 .audio-play {
   animation: anim-audio-play 1s infinite;
 }
+
 .audio-stop {
   animation-play-state: paused;
 }
+
 @keyframes anim-audio-play {
   0% {
     transform: scaleX(1);
   }
+
   50% {
     transform: scaleX(1.2);
   }
+
   100% {
     transform: scaleX(1.8);
   }
 }
+
 .m-chat-video {
   position: relative;
 
   video {
     width: 20vw;
   }
+
   .play-btn {
     z-index: 2;
     position: absolute;
@@ -547,29 +521,35 @@ export default {
     left: 50%;
   }
 }
+
 .m-chat-back-msg {
   text-align: center;
   margin: 2vw 0vw;
   font-size: 3.7vw;
   color: #6d6d6d;
 }
+
 .m-chat-msg-time {
   text-align: center;
   font-size: 3.5vw;
   margin: 3vw 0px;
   color: #b0b0b0;
 }
+
 .press-class {
   // border: 1px solid #8cda57 !important;
   background-color: #91da5f !important;
 }
+
 .press-img-class {
   opacity: 0.8;
 }
+
 .chat-msg-file-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+
   .chat-msg-file-thumb {
     width: 13vw;
     height: 13vw;
@@ -582,11 +562,13 @@ export default {
     font-size: 4.5vw;
     font-weight: bold;
   }
+
   .chat-msg-file-right {
     margin-left: 3vw;
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
+
     .chat-msg-file_name {
       display: inline-block;
       color: #098be2;
@@ -595,11 +577,13 @@ export default {
       text-overflow: ellipsis;
       word-break: normal;
     }
+
     .chat-msg-file_size {
       color: #777;
     }
   }
 }
+
 .chat-msg-video-wrapper {
   display: flex;
   justify-content: center;

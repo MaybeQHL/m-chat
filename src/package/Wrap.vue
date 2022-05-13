@@ -1,9 +1,10 @@
 <template>
-  <div class="m-chat-wrap" ref="mChatWrap" :style="{ height: `calc(${height})` }">
+  <div class="m-chat-wrap" :class="`theme-${config.theme || 'light'}`" ref="mChatWrap"
+    :style="{ height: `calc(${height})` }">
     <!-- 初始化loading -->
     <!-- <van-loading v-if="loading"></van-loading> -->
     <!-- 信息列表 -->
-    <div class="m-chat-msg-wrap" ref="mChatScoller" @click="scollerClick">
+    <div class="m-chat-msg-wrap msg-wrap-background" ref="mChatScoller" @click="scollerClick">
       <div class="m-chat-content">
         <div class="pulldown-wrapper" v-if="!pullFinished">
           <div v-show="beforePullDown">
@@ -46,11 +47,12 @@
       </div>
     </div>
     <!-- 回复框 -->
-    <comment v-if="comment" class="m-comment" ref="mComment" @submit="submit" @emojiClick="emojiClick" @focus="focus"
-      @toggleExtend="commentExtend" :customRecord="customRecord" @recordStart="recordStart" @recordStop="recordStop"
-      @recordCancel="recordCancel" @imgAfterRead="imgAfterRead" @fileAfterRead="fileAfterRead"
-      @videoAfterRead="videoAfterRead" :openExtends="openExtends" @togglePanel="togglePanel" :imgMaxSize="imgMaxSize"
-      :videoMaxSize="videoMaxSize" :fileMaxSize="fileMaxSize" :openBases="openBases" :config="config">
+    <comment v-if="comment" class="m-comment comment-wrap-background" ref="mComment" @submit="submit"
+      @emojiClick="emojiClick" @focus="focus" @toggleExtend="commentExtend" :customRecord="customRecord"
+      @recordStart="recordStart" @recordStop="recordStop" @recordCancel="recordCancel" @imgAfterRead="imgAfterRead"
+      @fileAfterRead="fileAfterRead" @videoAfterRead="videoAfterRead" :openExtends="openExtends"
+      @togglePanel="togglePanel" :imgMaxSize="imgMaxSize" :videoMaxSize="videoMaxSize" :fileMaxSize="fileMaxSize"
+      :openBases="openBases" :config="config">
       <template #right>
         <slot name="right"></slot>
       </template>
@@ -712,6 +714,6 @@ export default {
   text-align: center;
   margin: 3vw;
   font-size: 4vw;
-  color: #999;
+  color: #000;
 }
 </style>

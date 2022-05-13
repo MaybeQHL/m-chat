@@ -12,9 +12,11 @@
 
 基于vue2.x 聊天(IM)UI组件(3.x以后支持)
 
+如果可以请给一个免费的小星星❤
+
 ## 演示
 
-[Demo](https://m-chat-1251804846.cos.ap-nanjing.myqcloud.com/dist/index.html)
+[Demo](http://null_639_5368.gitee.io/m-chat)
 
 ## 安装
 
@@ -93,6 +95,10 @@ export default {
 
 ```
 {
+         /**
+          * 主题 'light'(亮色)|'dark'(暗色)
+          */
+         theme: 'light',
         /**
          * 图片上传
          */
@@ -170,7 +176,7 @@ export default {
     }
 ```
 
-## Slots
+## Slots（废弃）
 
 | 名称  | 说明       | 参数 |
 | ----- | ---------- | ---- |

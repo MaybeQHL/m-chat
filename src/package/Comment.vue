@@ -4,10 +4,10 @@
       <div class="m-chat-comment-main">
         <div class="m-chat-main-left">
           <!-- <slot name="left"></slot> -->
-          <img src=".//svg/yuyin.svg" @click="togglePanel('audio')"
-            v-if="currentType == 'text' && includes(openBases, 'audio')" class="c-icon" />
-          <img src=".//svg/jianpan.svg" @click="togglePanel('text')"
-            v-if="currentType == 'audio' && includes(openBases, 'text')" class="c-icon" />
+          <van-icon class-prefix="my-icon" name="yuyin" class="c-icon comment-icon" @click="togglePanel('audio')"
+            v-if="currentType == 'text' && includes(openBases, 'audio')" />
+          <van-icon class-prefix="my-icon" name="jianpan" class="c-icon comment-icon" @click="togglePanel('text')"
+            v-if="currentType == 'audio' && includes(openBases, 'text')" />
         </div>
         <div class="m-chat-record" v-show="currentType == 'audio'" ref="mChatRecord">
           <span v-if="recordStatus == 0">按住开始录音</span>
@@ -18,7 +18,7 @@
           <input ref="mChatInput" class="m-chat-input" @focus="onFocus" @blur="onBlur" v-model="content"
             @input="onChange" type="text" />
         </form>
-        <div class="m-chat-input-options">
+        <div class="m-chat-input-options comment-icon">
           <van-icon size="8vw" class="c-icon" name="smile-o" v-if="includes(openBases, 'emoji')" @click="emojiClick" />
           <!-- <van-icon class="c-icon" size="8vw" name="photo-o" /> -->
           <slot name="right"></slot>
@@ -41,10 +41,10 @@
         <div class="m-chat-grid" v-else>
           <template v-for="(item, index) in extendList">
             <div class="m-chat-grid-item" :key="index" v-if="includes(openExtends, item.type)">
-              <div class="m-chat-grid_item_icon" @click="itemClick(item)">
+              <div class="m-chat-grid_item_icon comment-extend-icon" @click="itemClick(item)">
                 <van-icon :name="item.icon" />
               </div>
-              <div class="m-chat-grid_item_text">{{ item.text }}</div>
+              <div class="m-chat-grid_item_text comment-extend-text-color">{{ item.text }}</div>
             </div>
           </template>
         </div>
@@ -635,6 +635,7 @@ export default {
   height: 8vw;
   margin: 0vw 0.8vw;
   color: inherit;
+  font-size: 8vw;
 }
 
 .position-relative {
@@ -726,7 +727,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #fff;
+      // background-color: #fff;
       font-size: 10vw;
       width: 16vw;
       height: 16vw;
