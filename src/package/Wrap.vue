@@ -1,6 +1,5 @@
 <template>
-  <div class="m-chat-wrap" :class="`theme-${config.theme || 'light'}`" ref="mChatWrap"
-    :style="{ height: `calc(${height})` }">
+  <div class="m-chat-wrap" :class="getTheme()" ref="mChatWrap" :style="{ height: `calc(${height})` }">
     <!-- 初始化loading -->
     <!-- <van-loading v-if="loading"></van-loading> -->
     <!-- 信息列表 -->
@@ -105,6 +104,7 @@
 <script>
 import BScroll from "@better-scroll/core";
 import PullDown from "@better-scroll/pull-down";
+import { config } from "process";
 
 BScroll.use(PullDown);
 import { Loading, Icon, Toast } from "vant";
@@ -332,6 +332,12 @@ export default {
     window.ontouchend = null;
   },
   methods: {
+    getTheme() {
+      if (config && config.theme) {
+        return 'theme-' + config.theme;
+      }
+      return 'theme-light'
+    },
     // 初始化消息容器的宽高
     initScollerWH() {
       this.$refs.mChatScoller.style.height = `calc(${this.height} - ${this.$refs.mComment.$refs.mChatComment.clientHeight}px)`;

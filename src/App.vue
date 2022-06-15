@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       config: {
-        theme: 'light',
+        // theme: 'light',
         file: {
           accept: ['*'],
         }
