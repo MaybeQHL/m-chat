@@ -42,7 +42,8 @@ export default {
         // theme: 'light',
         file: {
           accept: ['*'],
-        }
+        },
+        isImagePreview: true
       },
       messages: [
         {

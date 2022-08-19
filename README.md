@@ -125,7 +125,11 @@ export default {
         video: {
           maxSize: 500,
           accept: ['video/*']
-        }
+        },
+        /**
+         * 是否开启图片预览 默认true
+         */
+        isImagePreview: true
 }
 ```
 
@@ -156,13 +160,13 @@ export default {
 
 ## 事件
 
-| 事件名       | 说明                               | 回调参数                                                |
-| ------------ | ---------------------------------- | ------------------------------------------------------- |
+| 事件名       | 说明                                     | 回调参数                                                |
+| ------------ | ---------------------------------------- | ------------------------------------------------------- |
 | submit       | 文字、图片、视频、语音、文件等等发送事件 | (content:{type:string, content:object})                 |
-| popItemClick | 气泡框点击事件                     | (obj:{type:string, data:object})                        |
-| recordStart  | 录音开始                           | -                                                       |
-| recordStop   | 录音停止                           | ({ blob, duration})--H5录音才有回调参数，自定义录音没有 |
-| recordCancel | 录音取消                           | -                                                       |
+| popItemClick | 气泡框点击事件                           | (obj:{type:string, data:object})                        |
+| recordStart  | 录音开始                                 | -                                                       |
+| recordStop   | 录音停止                                 | ({ blob, duration})--H5录音才有回调参数，自定义录音没有 |
+| recordCancel | 录音取消                                 | -                                                       |
 
 ## popItemClick Demo
 

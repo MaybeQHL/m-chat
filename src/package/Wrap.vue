@@ -30,7 +30,8 @@
           <message v-for="item in messages" :data="item" :key="item.id" :audioAnim="data.id == item.id && audioAnim"
             @itemClick="itemClick" @imageLoad="imageLoad" :defaultAvatar="defaultAvatar" @press="press"
             @pressup="pressup" :isCancel="item.isCancel" :isPress="item.self && isPress && item.id == data.id"
-            @avatarClick="avatarClick" :isPlayMedia="isPlayMedia && item.id == data.id" :leadPage="leadPage"></message>
+            @avatarClick="avatarClick" :isPlayMedia="isPlayMedia && item.id == data.id" :leadPage="leadPage"
+            :isImagePreview="config.isImagePreview"></message>
         </div>
       </div>
     </div>
@@ -104,7 +105,6 @@
 <script>
 import BScroll from "@better-scroll/core";
 import PullDown from "@better-scroll/pull-down";
-import { config } from "process";
 
 BScroll.use(PullDown);
 import { Loading, Icon, Toast } from "vant";
@@ -333,8 +333,8 @@ export default {
   },
   methods: {
     getTheme() {
-      if (config && config.theme) {
-        return 'theme-' + config.theme;
+      if (this.config && this.config.theme) {
+        return 'theme-' + this.config.theme;
       }
       return 'theme-light'
     },

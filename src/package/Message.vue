@@ -29,8 +29,8 @@
             <!-- 图片内容 -->
             <template v-else-if="data.type == 'image'">
               <div class="chat-message-image contentWrap" :class="[isPress && 'press-img-class']">
-                <van-image class="chat-image" :src="data.content.imageUrl" @click.self="imagePreview" @load="imageLoad"
-                  :radius="5"></van-image>
+                <van-image class="chat-image" :src="data.content.imageUrl" @click.self="clickImagePreview"
+                  @load="imageLoad" :radius="5"></van-image>
               </div>
             </template>
             <!-- 视频内容 -->
@@ -143,6 +143,10 @@ export default {
     isPress: Boolean,
     isPlayMedia: Boolean,
     leadPage: String,
+    isImagePreview: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {
@@ -291,15 +295,14 @@ export default {
     avatarClick() {
       this.$emit("avatarClick", this.data);
     },
-    imagePreview() {
+    clickImagePreview() {
       this.itemClick();
-      ImagePreview([this.data.content.imageUrl]);
     },
     onImgError() {
       this.isImgError = true;
     },
     itemClick() {
-      if (this.data.type == "image") {
+      if (this.data.type == "image" && this.isImagePreview) {
         ImagePreview([this.data.content.imageUrl]);
       }
       this.$emit("itemClick", {
