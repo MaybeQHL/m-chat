@@ -43,7 +43,12 @@ export default {
         file: {
           accept: ['*'],
         },
-        isImagePreview: true
+        /**
+         * 图片预览配置（兼容vant ImagePreview 配置）
+         */
+        imagePreviewConfig: {
+          closeable: true
+        }
       },
       messages: [
         {

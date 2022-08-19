@@ -31,7 +31,7 @@
             @itemClick="itemClick" @imageLoad="imageLoad" :defaultAvatar="defaultAvatar" @press="press"
             @pressup="pressup" :isCancel="item.isCancel" :isPress="item.self && isPress && item.id == data.id"
             @avatarClick="avatarClick" :isPlayMedia="isPlayMedia && item.id == data.id" :leadPage="leadPage"
-            :isImagePreview="config.isImagePreview"></message>
+            :isImagePreview="config.isImagePreview" :imagePreviewConfig="config.imagePreviewConfig"></message>
         </div>
       </div>
     </div>

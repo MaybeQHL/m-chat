@@ -146,6 +146,9 @@ export default {
     isImagePreview: {
       type: Boolean,
       default: true
+    },
+    imagePreviewConfig: {
+      type: Object
     }
   },
   data() {
@@ -303,7 +306,10 @@ export default {
     },
     itemClick() {
       if (this.data.type == "image" && this.isImagePreview) {
-        ImagePreview([this.data.content.imageUrl]);
+        let conf = Object.assign({
+          images: [this.data.content.imageUrl],
+        }, this.imagePreviewConfig);
+        ImagePreview(conf);
       }
       this.$emit("itemClick", {
         data: this.data,
