@@ -1,14 +1,34 @@
 <template>
   <div id="app">
-    <m-chat ref="mChat" :messages="messages" @submit="submit" :loadMore="loadMore" :comment="true" height="100vh"
-      @popItemClick="popItemClick" :customRecord="false" @recordStart="recordStart" @recordStop="recordStop"
-      @recordCancel="recordCancel" :imgMaxSize="8192" :videoMaxSize="8192" :fileMaxSize="8192" :config="config">
+    <m-chat
+      ref="mChat"
+      :messages="messages"
+      @submit="submit"
+      :loadMore="loadMore"
+      :comment="true"
+      height="100vh"
+      @popItemClick="popItemClick"
+      :customRecord="false"
+      @recordStart="recordStart"
+      @recordStop="recordStop"
+      @recordCancel="recordCancel"
+      :imgMaxSize="8192"
+      :videoMaxSize="8192"
+      :fileMaxSize="8192"
+      :config="config"
+    >
       <template #left> </template>
       <template #right></template>
       <template #extend>
         <van-grid :column-num="3" icon-size="10vw" :border="false">
-          <van-grid-item class="my-grid-item" icon="photo-o" text="图片" v-for="item in 6" :key="item"
-            @click="itemClick" />
+          <van-grid-item
+            class="my-grid-item"
+            icon="photo-o"
+            text="图片"
+            v-for="item in 6"
+            :key="item"
+            @click="itemClick"
+          />
         </van-grid>
       </template>
     </m-chat>
@@ -18,7 +38,9 @@
       v-model="fileList"
       style="display: none"
     /> -->
-    <van-button class="btn-theme" type="warning" @click="clickTheme">切换主题</van-button>
+    <van-button class="btn-theme" type="warning" @click="clickTheme"
+      >切换主题</van-button
+    >
   </div>
 </template>
 
@@ -34,21 +56,21 @@ export default {
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
     [Uploader.name]: Uploader,
-    [Button.name]: Button
+    [Button.name]: Button,
   },
   data() {
     return {
       config: {
         // theme: 'light',
         file: {
-          accept: ['*'],
+          accept: ["*"],
         },
         /**
          * 图片预览配置（兼容vant ImagePreview 配置）
          */
         imagePreviewConfig: {
-          closeable: true
-        }
+          closeable: true,
+        },
       },
       messages: [
         {
@@ -180,10 +202,10 @@ export default {
   },
   methods: {
     clickTheme() {
-      if (this.config.theme == 'light') {
-        this.config.theme = 'dark'
+      if (this.config.theme == "light") {
+        this.config.theme = "dark";
       } else {
-        this.config.theme = 'light'
+        this.config.theme = "light";
       }
     },
     recordStart() {
@@ -327,7 +349,6 @@ body {
   padding: 1vw 8vw;
   background-color: transparent;
 }
-
 
 .btn-theme {
   position: fixed;
