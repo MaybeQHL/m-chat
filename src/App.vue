@@ -23,7 +23,7 @@ export default {
     [Grid.name]: Grid,
     [GridItem.name]: GridItem,
     [Uploader.name]: Uploader,
-    [Button.name]: Button
+    [Button.name]: Button,
   },
   data() {
     return {
@@ -31,7 +31,7 @@ export default {
         theme: "light",
         // theme: 'light',
         file: {
-          accept: ['*'],
+          accept: ["*"],
         },
         /**
          * 图片预览配置（兼容vant ImagePreview 配置）
@@ -182,10 +182,10 @@ export default {
   },
   methods: {
     clickTheme() {
-      if (this.config.theme == 'light') {
-        this.config.theme = 'dark'
+      if (this.config.theme == "light") {
+        this.config.theme = "dark";
       } else {
-        this.config.theme = 'light'
+        this.config.theme = "light";
       }
     },
     recordStart() {
@@ -219,7 +219,7 @@ export default {
             type: "text",
             self: false,
             avatar:
-              "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+              "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
           });
           res();
         }, 2000);
@@ -237,7 +237,7 @@ export default {
           type: "text",
           self: true,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         });
       }
       if (data.type == "image") {
@@ -250,7 +250,7 @@ export default {
           },
           self: true,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         });
       }
       if (data.type == "audio") {
@@ -266,7 +266,7 @@ export default {
           },
           self: true,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         });
       }
       if (data.type == "video") {
@@ -279,7 +279,7 @@ export default {
           },
           self: true,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         });
       }
       if (data.type == "file") {
@@ -295,7 +295,7 @@ export default {
           },
           self: true,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
           isCancel: false,
           time: "2021-07-26 11:39:22",
         });
@@ -336,7 +336,6 @@ body {
   padding: 1vw 8vw;
   background-color: transparent;
 }
-
 
 .btn-theme {
   position: fixed;

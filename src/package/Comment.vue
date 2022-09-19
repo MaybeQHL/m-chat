@@ -4,22 +4,53 @@
       <div class="m-chat-comment-main">
         <div class="m-chat-main-left">
           <!-- <slot name="left"></slot> -->
-          <van-icon class-prefix="my-icon" name="yuyin" class="c-icon comment-icon" @click="togglePanel('audio')"
-            v-if="currentType == 'text' && includes(openBases, 'audio')" />
-          <van-icon class-prefix="my-icon" name="jianpan" class="c-icon comment-icon" @click="togglePanel('text')"
-            v-if="currentType == 'audio' && includes(openBases, 'text')" />
+          <van-icon
+            class-prefix="my-icon"
+            name="yuyin"
+            class="c-icon comment-icon"
+            @click="togglePanel('audio')"
+            v-if="currentType == 'text' && includes(openBases, 'audio')"
+          />
+          <van-icon
+            class-prefix="my-icon"
+            name="jianpan"
+            class="c-icon comment-icon"
+            @click="togglePanel('text')"
+            v-if="currentType == 'audio' && includes(openBases, 'text')"
+          />
         </div>
-        <div class="m-chat-record" v-show="currentType == 'audio'" ref="mChatRecord">
+        <div
+          class="m-chat-record"
+          v-show="currentType == 'audio'"
+          ref="mChatRecord"
+        >
           <span v-if="recordStatus == 0">按住开始录音</span>
           <span v-if="recordStatus == 1">松开 发送</span>
           <span v-if="recordStatus == 2">松开 取消</span>
         </div>
-        <form class="m-chat-form" v-show="currentType == 'text'" @submit.prevent="submit">
-          <input ref="mChatInput" class="m-chat-input" @focus="onFocus" @blur="onBlur" v-model="content"
-            @input="onChange" type="text" />
+        <form
+          class="m-chat-form"
+          v-show="currentType == 'text'"
+          @submit.prevent="submit"
+        >
+          <input
+            ref="mChatInput"
+            class="m-chat-input"
+            @focus="onFocus"
+            @blur="onBlur"
+            v-model="content"
+            @input="onChange"
+            type="text"
+          />
         </form>
         <div class="m-chat-input-options comment-icon">
-          <van-icon size="8vw" class="c-icon" name="smile-o" v-if="includes(openBases, 'emoji')" @click="emojiClick" />
+          <van-icon
+            size="8vw"
+            class="c-icon"
+            name="smile-o"
+            v-if="includes(openBases, 'emoji')"
+            @click="emojiClick"
+          />
           <!-- <van-icon class="c-icon" size="8vw" name="photo-o" /> -->
           <slot name="right"></slot>
           <van-icon class="c-icon" size="8vw" name="add-o" @click="toggleExtend"
@@ -31,10 +62,18 @@
           </transition>
         </div>
       </div>
-      <div class="m-chat-comment-extend" ref="mChatCommnetExtend" v-show="isExtend">
+      <div
+        class="m-chat-comment-extend"
+        ref="mChatCommnetExtend"
+        v-show="isExtend"
+      >
         <div class="m-chat-emoji" v-if="isEmoji">
-          <div class="m-chat-emoji-item" v-for="(item, index) in emojiList" :key="index"
-            @click="emojiItemClick($event, item)">
+          <div
+            class="m-chat-emoji-item"
+            v-for="(item, index) in emojiList"
+            :key="index"
+            @click="emojiItemClick($event, item)"
+          >
             {{ item.char }}
           </div>
         </div>
@@ -44,7 +83,9 @@
               <div class="m-chat-grid_item_icon comment-extend-icon" @click="itemClick(item)">
                 <van-icon :name="item.icon" />
               </div>
-              <div class="m-chat-grid_item_text comment-extend-text-color">{{ item.text }}</div>
+              <div class="m-chat-grid_item_text comment-extend-text-color">
+                {{ item.text }}
+              </div>
             </div>
           </template>
         </div>
@@ -52,7 +93,11 @@
     </div>
     <div class="record-overlay" v-if="recordStatus != 0">
       <div class="record-1 record-item" v-if="recordStatus == 1">
-        <vue-lottie :options="animOptions" width="20vw" height="20vw"></vue-lottie>
+        <vue-lottie
+          :options="animOptions"
+          width="20vw"
+          height="20vw"
+        ></vue-lottie>
         <p>手指上划,取消发送</p>
       </div>
       <div class="record-2 record-item" v-if="recordStatus == 2">
@@ -85,7 +130,7 @@ import Recorder from "recorder-core";
 import "recorder-core/src/engine/mp3";
 import "recorder-core/src/engine/mp3-engine";
 
-import merge from 'lodash/merge'
+import merge from "lodash/merge";
 
 export default {
   components: {
@@ -180,14 +225,14 @@ export default {
           /**
            * 允许的文件类型
            */
-          accept: ['image/*']
+          accept: ["image/*"],
         },
         /**
          * 文件上传
          */
         file: {
           maxSize: 500,
-          accept: ['*']
+          accept: ["*"],
         },
         /**
          * 视频上传
@@ -261,7 +306,7 @@ export default {
   },
   methods: {
     joinAcceptArr(arr) {
-      return arr.join(',')
+      return arr.join(",");
     },
     behindWord(event) {
       console.log(event);
@@ -329,7 +374,11 @@ export default {
       console.log(file);
 
       const acceptType = this.mConfig.image.accept;
-      if ((acceptType.includes('image/*') && !file.file.type.includes('image/')) && !acceptType.includes(file.file.type)) {
+      if (
+        acceptType.includes("image/*") &&
+        !file.file.type.includes("image/") &&
+        !acceptType.includes(file.file.type)
+      ) {
         Toast.fail("图片格式不支持上传");
         return;
       }
@@ -345,7 +394,7 @@ export default {
       console.log(file);
 
       const acceptType = this.mConfig.file.accept;
-      if (!acceptType.includes('*') && !acceptType.includes(file.file.type)) {
+      if (!acceptType.includes("*") && !acceptType.includes(file.file.type)) {
         Toast.fail("文件格式不支持上传");
         return;
       }
@@ -357,11 +406,14 @@ export default {
       });
     },
     videoAfterRead(file) {
-
       // 此时可以自行将文件上传至服务器
       console.log(file);
       const acceptType = this.mConfig.video.accept;
-      if ((acceptType.includes('video/*') && !file.file.type.includes('video/')) && !acceptType.includes(file.file.type)) {
+      if (
+        acceptType.includes("video/*") &&
+        !file.file.type.includes("video/") &&
+        !acceptType.includes(file.file.type)
+      ) {
         Toast.fail("视频格式不支持上传");
         return;
       }
@@ -541,7 +593,7 @@ export default {
       this.rec.stop(
         function (blob, duration) {
           self.rec.close(); //释放录音资源，当然可以不释放，后面可以连续调用start；但不释放时系统或浏览器会一直提示在录音，最佳操作是录完就close掉
-          self.$emit("recordStop", { blob, duration, rec: self.rec });
+          // self.$emit("recordStop", { blob, duration, rec: self.rec });
           self.$emit("submit", {
             type: "audio",
             content: { blob, duration, rec: self.rec },
@@ -709,7 +761,8 @@ export default {
   height: 10vw;
 }
 
-.lottie {}
+.lottie {
+}
 
 .my-grid-item {
   /deep/.van-grid-item__content {
@@ -801,8 +854,7 @@ export default {
 .move-enter,
 .move-leave-to
 
-/* .slide-fade-leave-active for below version 2.1.8 */
-  {
+/* .slide-fade-leave-active for below version 2.1.8 */ {
   transform: translateX(10px);
   opacity: 0;
 }
