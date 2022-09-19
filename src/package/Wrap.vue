@@ -1,5 +1,5 @@
 <template>
-  <div class="m-chat-wrap" :class="getTheme()" ref="mChatWrap" :style="{ height: `calc(${height})` }">
+  <div class="m-chat-wrap" :class="[theme]" ref="mChatWrap" :style="{ height: `calc(${height})` }">
     <!-- 初始化loading -->
     <!-- <van-loading v-if="loading"></van-loading> -->
     <!-- 信息列表 -->
@@ -52,7 +52,7 @@
       @recordStart="recordStart" @recordStop="recordStop" @recordCancel="recordCancel" @imgAfterRead="imgAfterRead"
       @fileAfterRead="fileAfterRead" @videoAfterRead="videoAfterRead" :openExtends="openExtends"
       @togglePanel="togglePanel" :imgMaxSize="imgMaxSize" :videoMaxSize="videoMaxSize" :fileMaxSize="fileMaxSize"
-      :openBases="openBases" :config="config">
+      :openBases="openBases" :config="config" @extendItemClick="extendItemClick">
       <template #right>
         <slot name="right"></slot>
       </template>
@@ -171,7 +171,7 @@ export default {
       default: 500,
     },
     leadPage: String,
-    openBases: Array,
+    openBases: Array
   },
   components: {
     Comment,
@@ -216,8 +216,13 @@ export default {
           icon: "revoke",
           text: "撤回",
         },
-      ],
+      ]
     };
+  },
+  computed: {
+    theme() {
+      return this.getTheme();
+    }
   },
   watch: {
     messages: {
@@ -286,7 +291,7 @@ export default {
       if (isExtend) {
         this.$nextTick(() => {
           this.$refs.mChatScoller.style.height = `calc(${this.height} - ${this.$refs.mComment.$refs.mChatComment.clientHeight}px)`;
-          console.log(this.$refs.mComment.clientHeight);
+          // console.log(this.$refs.mComment.clientHeight);
           this.$nextTick(() => {
             this.initScoller();
           });
@@ -573,6 +578,9 @@ export default {
       this.$refs.mVideo.pause();
       this.$refs.mVideo.src = null;
     },
+    extendItemClick(item) {
+      this.$emit('extendItemClick', item)
+    }
   },
 };
 </script>

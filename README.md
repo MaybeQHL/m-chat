@@ -201,6 +201,45 @@ export default {
 | ------------ | ---------------------------------------------- | -------------- | ------ |
 | toggleExtend | 控制扩展面板, 通过参数可以控制是否展示扩展面板 | (flag:boolean) | -      |
 
+
+## 常见问题
+### 如何自定义扩展面板item
+模板
+```js
+  <m-chat ref="mChat" :config="config"
+      @extendItemClick="extendItemClick">
+    </m-chat>
+
+```
+配置
+```js
+ config: {
+        /**
+         * 需展示的扩展面板item
+         */
+        openExtends: ['image', 'video', 'file', 'custom'],
+        /**
+         * 需额外添加的扩展面板item
+         */
+        extendArr: [{
+          type: "custom",
+          text: "位置",
+          icon: "location-o"
+        },]
+      },
+```
+回调
+```js
+
+extendItemClick(item) {
+      console.log('扩展面板item点击了', item)
+      if (item.type == 'custom') {
+        // 控制扩展面板显示和隐藏
+        this.$refs.mChat.toggleExtend();
+      }
+```
+
+
 ## LICENSE
 
  版权所有Copyright ©  by 或许

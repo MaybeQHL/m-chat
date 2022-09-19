@@ -23,7 +23,7 @@
           <!-- <van-icon class="c-icon" size="8vw" name="photo-o" /> -->
           <slot name="right"></slot>
           <van-icon class="c-icon" size="8vw" name="add-o" @click="toggleExtend"
-            v-if="!isSubmitBtn && openExtends.length > 0" />
+            v-if="!isSubmitBtn && mOpenExtends.length > 0" />
           <transition name="move">
             <button v-if="isSubmitBtn" @click="submit" class="submit-btn">
               发送
@@ -39,8 +39,8 @@
           </div>
         </div>
         <div class="m-chat-grid" v-else>
-          <template v-for="(item, index) in extendList">
-            <div class="m-chat-grid-item" :key="index" v-if="includes(openExtends, item.type)">
+          <template v-for="(item, index) in mExtendList">
+            <div class="m-chat-grid-item" :key="index" v-if="includes(mOpenExtends, item.type)">
               <div class="m-chat-grid_item_icon comment-extend-icon" @click="itemClick(item)">
                 <van-icon :name="item.icon" />
               </div>
@@ -60,13 +60,13 @@
         <p class="text">松开取消发送录音</p>
       </div>
     </div>
-    <van-uploader v-if="includes(openExtends, 'image')" ref="mChatImgUploader" :after-read="imgAfterRead"
+    <van-uploader v-if="includes(mOpenExtends, 'image')" ref="mChatImgUploader" :after-read="imgAfterRead"
       :accept="joinAcceptArr(mConfig.image.accept)" :max-size="(mConfig.image.maxSize || imgMaxSize) * 1024"
       @oversize="onImgOversize" style="display: none" />
-    <van-uploader v-if="includes(openExtends, 'file')" ref="mChatFileUploader" :after-read="fileAfterRead"
+    <van-uploader v-if="includes(mOpenExtends, 'file')" ref="mChatFileUploader" :after-read="fileAfterRead"
       :max-size="(mConfig.file.maxSize || fileMaxSize) * 1024" @oversize="onFileOversize" style="display: none"
       :accept="joinAcceptArr(mConfig.file.accept)" />
-    <van-uploader v-if="includes(openExtends, 'video')" ref="mChatVideoUploader" :after-read="videoAfterRead"
+    <van-uploader v-if="includes(mOpenExtends, 'video')" ref="mChatVideoUploader" :after-read="videoAfterRead"
       :max-size="(mConfig.video.maxSize || videoMaxSize) * 1024" @oversize="onVideoOversize" style="display: none"
       :accept="joinAcceptArr(mConfig.video.accept)" />
   </div>
@@ -153,12 +153,7 @@ export default {
           type: "file",
           text: "文件",
           icon: "description",
-        },
-        {
-          type: "location",
-          text: "位置",
-          icon: "location-o",
-        },
+        }
       ],
       emojiList: require("./json/emoji.json"),
       isEmoji: false,
@@ -166,6 +161,12 @@ export default {
     };
   },
   computed: {
+    mOpenExtends() {
+      return [...this.openExtends, ...this.mConfig.openExtends]
+    },
+    mExtendList() {
+      return [...this.extendList, ...this.mConfig.extendArr]
+    },
     mConfig() {
       const baseConfig = {
         /**
@@ -194,7 +195,16 @@ export default {
         video: {
           maxSize: 500,
           accept: ['video/*']
-        }
+        },
+        /**
+         * 需显示的扩展面板item
+         */
+        openExtends: [],
+        /**
+         * 扩展面板定制额外的item
+         * 注：需要在openExtends中配置type,例如type=custom openExtends=['custom']
+         */
+        extendArr: [],
       };
       const rconfig = merge(baseConfig, this.config);
 
@@ -312,6 +322,7 @@ export default {
       if (item.type == "video") {
         this.$refs.mChatVideoUploader.chooseFile();
       }
+      this.$emit('extendItemClick', item)
     },
     imgAfterRead(file) {
       // 此时可以自行将文件上传至服务器

@@ -2,28 +2,17 @@
   <div id="app">
     <m-chat ref="mChat" :messages="messages" @submit="submit" :loadMore="loadMore" :comment="true" height="100vh"
       @popItemClick="popItemClick" :customRecord="false" @recordStart="recordStart" @recordStop="recordStop"
-      @recordCancel="recordCancel" :imgMaxSize="8192" :videoMaxSize="8192" :fileMaxSize="8192" :config="config">
-      <template #left> </template>
-      <template #right></template>
-      <template #extend>
-        <van-grid :column-num="3" icon-size="10vw" :border="false">
-          <van-grid-item class="my-grid-item" icon="photo-o" text="图片" v-for="item in 6" :key="item"
-            @click="itemClick" />
-        </van-grid>
-      </template>
+      @recordCancel="recordCancel" :imgMaxSize="8192" :videoMaxSize="8192" :fileMaxSize="8192" :config="config"
+      @extendItemClick="extendItemClick">
     </m-chat>
-    <!-- <van-uploader
-      ref="uploader"
-      :after-read="afterRead"
-      v-model="fileList"
-      style="display: none"
-    /> -->
+
     <van-button class="btn-theme" type="warning" @click="clickTheme">切换主题</van-button>
   </div>
 </template>
 
 
-<script>
+<script>// @ts-nocheck
+
 import MChat from "@/package";
 // import MChat from "../lib-dist/m-chat.umd.js";
 
@@ -39,6 +28,7 @@ export default {
   data() {
     return {
       config: {
+        theme: "light",
         // theme: 'light',
         file: {
           accept: ['*'],
@@ -48,7 +38,19 @@ export default {
          */
         imagePreviewConfig: {
           closeable: true
-        }
+        },
+        /**
+         * 需展示的扩展面板item
+         */
+        openExtends: ['image', 'video', 'file', 'custom'],
+        /**
+         * 需额外添加的扩展面板item
+         */
+        extendArr: [{
+          type: "custom",
+          text: "位置",
+          icon: "location-o"
+        },]
       },
       messages: [
         {
@@ -58,7 +60,7 @@ export default {
             text: "6666666666666",
           },
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         },
         {
           id: 1,
@@ -68,7 +70,7 @@ export default {
           },
           self: true,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         },
         {
           id: 3332,
@@ -81,7 +83,7 @@ export default {
           },
           self: true,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         },
         {
           id: 33,
@@ -91,11 +93,11 @@ export default {
           content: {
             duration: 7,
             audioUrl:
-              "https://music-10014144.cos.ap-shanghai.myqcloud.com/Cassandra%20-%20Doobi%20Doobi%20Doo%20(Don't%20Be%20Shy).mp3",
+              "https://link.jscdn.cn/sharepoint/aHR0cHM6Ly9vbmVkcnYtbXkuc2hhcmVwb2ludC5jb20vOnU6L2cvcGVyc29uYWwvc3Rvcl9vbmVkcnZfb25taWNyb3NvZnRfY29tL0VWSUtBcWRtNnZaTm5NTjJDeWVVWVk4QkYzSm02ZnJyY0lGRDg1SlR5ZGM0WXc.mp3",
           },
           self: false,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         },
         {
           id: 3,
@@ -105,7 +107,7 @@ export default {
           type: "image",
           content: {
             imageUrl:
-              "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/jjy.jpg",
+              "https://img1.imgtp.com/2022/09/19/sJu7LhuQ.jpg"
           },
         },
         {
@@ -115,10 +117,10 @@ export default {
           type: "image",
           content: {
             imageUrl:
-              "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/1.jpg",
+              "https://img1.imgtp.com/2022/09/19/sJu7LhuQ.jpg"
           },
           avatar:
-            "https://tiej2inxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         },
         {
           id: 44,
@@ -140,7 +142,7 @@ export default {
           isCancel: true,
           time: "2021-07-26 11:39:22",
           avatar:
-            "https://tiej2inxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
         },
 
         {
@@ -149,11 +151,11 @@ export default {
           type: "video",
           content: {
             videoUrl:
-              "https://common-1251804846.cos.ap-guangzhou.myqcloud.com/video.mp4",
+              "http://vjs.zencdn.net/v/oceans.mp4"
           },
           self: true,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
           isCancel: false,
           time: "2021-07-26 11:39:22",
         },
@@ -170,7 +172,7 @@ export default {
           },
           self: true,
           avatar:
-            "https://tiejinxiaoyuan-v2-1251804846.cos.ap-guangzhou.myqcloud.com/avatar_3.jpg",
+            "https://img1.imgtp.com/2022/09/19/7alL9xne.png",
           isCancel: false,
           time: "2021-07-26 11:39:22",
         },
@@ -306,6 +308,13 @@ export default {
       }
       console.log(obj.item);
     },
+    extendItemClick(item) {
+      console.log('扩展面板item点击了', item)
+      if (item.type == 'custom') {
+        // 控制扩展面板显示和隐藏
+        this.$refs.mChat.toggleExtend();
+      }
+    }
   },
 };
 </script>
