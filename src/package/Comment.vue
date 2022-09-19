@@ -4,53 +4,22 @@
       <div class="m-chat-comment-main">
         <div class="m-chat-main-left">
           <!-- <slot name="left"></slot> -->
-          <van-icon
-            class-prefix="my-icon"
-            name="yuyin"
-            class="c-icon comment-icon"
-            @click="togglePanel('audio')"
-            v-if="currentType == 'text' && includes(openBases, 'audio')"
-          />
-          <van-icon
-            class-prefix="my-icon"
-            name="jianpan"
-            class="c-icon comment-icon"
-            @click="togglePanel('text')"
-            v-if="currentType == 'audio' && includes(openBases, 'text')"
-          />
+          <van-icon class-prefix="my-icon" name="yuyin" class="c-icon comment-icon" @click="togglePanel('audio')"
+            v-if="currentType == 'text' && includes(openBases, 'audio')" />
+          <van-icon class-prefix="my-icon" name="jianpan" class="c-icon comment-icon" @click="togglePanel('text')"
+            v-if="currentType == 'audio' && includes(openBases, 'text')" />
         </div>
-        <div
-          class="m-chat-record"
-          v-show="currentType == 'audio'"
-          ref="mChatRecord"
-        >
+        <div class="m-chat-record" v-show="currentType == 'audio'" ref="mChatRecord">
           <span v-if="recordStatus == 0">按住开始录音</span>
           <span v-if="recordStatus == 1">松开 发送</span>
           <span v-if="recordStatus == 2">松开 取消</span>
         </div>
-        <form
-          class="m-chat-form"
-          v-show="currentType == 'text'"
-          @submit.prevent="submit"
-        >
-          <input
-            ref="mChatInput"
-            class="m-chat-input"
-            @focus="onFocus"
-            @blur="onBlur"
-            v-model="content"
-            @input="onChange"
-            type="text"
-          />
+        <form class="m-chat-form" v-show="currentType == 'text'" @submit.prevent="submit">
+          <input ref="mChatInput" class="m-chat-input" @focus="onFocus" @blur="onBlur" v-model="content"
+            @input="onChange" type="text" />
         </form>
         <div class="m-chat-input-options comment-icon">
-          <van-icon
-            size="8vw"
-            class="c-icon"
-            name="smile-o"
-            v-if="includes(openBases, 'emoji')"
-            @click="emojiClick"
-          />
+          <van-icon size="8vw" class="c-icon" name="smile-o" v-if="includes(openBases, 'emoji')" @click="emojiClick" />
           <!-- <van-icon class="c-icon" size="8vw" name="photo-o" /> -->
           <slot name="right"></slot>
           <van-icon class="c-icon" size="8vw" name="add-o" @click="toggleExtend"
@@ -62,18 +31,10 @@
           </transition>
         </div>
       </div>
-      <div
-        class="m-chat-comment-extend"
-        ref="mChatCommnetExtend"
-        v-show="isExtend"
-      >
+      <div class="m-chat-comment-extend" ref="mChatCommnetExtend" v-show="isExtend">
         <div class="m-chat-emoji" v-if="isEmoji">
-          <div
-            class="m-chat-emoji-item"
-            v-for="(item, index) in emojiList"
-            :key="index"
-            @click="emojiItemClick($event, item)"
-          >
+          <div class="m-chat-emoji-item" v-for="(item, index) in emojiList" :key="index"
+            @click="emojiItemClick($event, item)">
             {{ item.char }}
           </div>
         </div>
@@ -81,7 +42,7 @@
           <template v-for="(item, index) in mExtendList">
             <div class="m-chat-grid-item" :key="index" v-if="includes(mOpenExtends, item.type)">
               <div class="m-chat-grid_item_icon comment-extend-icon" @click="itemClick(item)">
-                <van-icon :name="item.icon" />
+                <van-icon :name="item.icon" :class-prefix="item.classPrefix" />
               </div>
               <div class="m-chat-grid_item_text comment-extend-text-color">
                 {{ item.text }}
@@ -93,11 +54,7 @@
     </div>
     <div class="record-overlay" v-if="recordStatus != 0">
       <div class="record-1 record-item" v-if="recordStatus == 1">
-        <vue-lottie
-          :options="animOptions"
-          width="20vw"
-          height="20vw"
-        ></vue-lottie>
+        <vue-lottie :options="animOptions" width="20vw" height="20vw"></vue-lottie>
         <p>手指上划,取消发送</p>
       </div>
       <div class="record-2 record-item" v-if="recordStatus == 2">
@@ -761,8 +718,7 @@ export default {
   height: 10vw;
 }
 
-.lottie {
-}
+.lottie {}
 
 .my-grid-item {
   /deep/.van-grid-item__content {
@@ -854,7 +810,8 @@ export default {
 .move-enter,
 .move-leave-to
 
-/* .slide-fade-leave-active for below version 2.1.8 */ {
+/* .slide-fade-leave-active for below version 2.1.8 */
+  {
   transform: translateX(10px);
   opacity: 0;
 }

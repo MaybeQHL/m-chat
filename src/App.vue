@@ -45,11 +45,13 @@ export default {
         openExtends: ['image', 'video', 'file', 'custom'],
         /**
          * 需额外添加的扩展面板item
+         * 如需自定义图标参考vant-icon文档 https://vant-contrib.gitee.io/vant/v2/#/zh-CN/icon#zi-ding-yi-tu-biao
          */
         extendArr: [{
           type: "custom",
           text: "位置",
-          icon: "location-o"
+          icon: "location-o",
+          classPrefix: 'van-icon',
         },]
       },
       messages: [

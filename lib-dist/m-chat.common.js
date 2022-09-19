@@ -1818,6 +1818,22 @@ module.exports = isArrayLike;
 
 /***/ }),
 
+/***/ "3289":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("75d9");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("11f6f73c", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "32b3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4763,17 +4779,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "5499":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Comment_vue_vue_type_style_index_0_id_19cea5a0_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("7beb");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Comment_vue_vue_type_style_index_0_id_19cea5a0_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Comment_vue_vue_type_style_index_0_id_19cea5a0_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "55a3":
 /***/ (function(module, exports) {
 
@@ -6207,20 +6212,6 @@ module.exports = listCacheDelete;
 
 /***/ }),
 
-/***/ "69e9":
-/***/ (function(module, exports, __webpack_require__) {
-
-// Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("24fb");
-exports = ___CSS_LOADER_API_IMPORT___(false);
-// Module
-exports.push([module.i, ".m-chat-comment[data-v-19cea5a0]{width:100%;background-color:#f7f7f7;box-sizing:content-box;position:relative}.m-chat-comment .m-chat-comment-wrap[data-v-19cea5a0]{overflow:hidden}.m-chat-comment .m-chat-comment-wrap .m-chat-comment-main[data-v-19cea5a0]{display:flex;padding:3vw 3vw;flex-flow:row nowrap;align-items:center;height:8vw;box-sizing:content-box}.m-chat-comment .m-chat-comment-wrap .m-chat-form[data-v-19cea5a0]{flex:1;display:flex;background-color:#fff}.m-chat-comment .m-chat-comment-wrap .m-chat-input[data-v-19cea5a0]{width:100%;border:none;outline:none;border-radius:2vw;caret-color:#9eea6a;background-color:transparent;padding:1.5vw 0;margin:0 2vw;font-size:4vw;height:5vw;box-sizing:content-box}.m-chat-comment .m-chat-comment-wrap .m-chat-input-options[data-v-19cea5a0],.m-chat-comment .m-chat-comment-wrap .m-chat-main-left[data-v-19cea5a0]{display:flex;align-items:center;padding:0 2vw}.m-chat-div_input[data-v-19cea5a0]{flex:1;background-color:#fff}.m-chat-comment-extend[data-v-19cea5a0]{overflow-y:auto;overflow-x:hidden;padding:4vw 3vw;height:40vw}.c-icon[data-v-19cea5a0]{width:8vw;height:8vw;margin:0 .8vw;color:inherit;font-size:8vw}.position-relative[data-v-19cea5a0]{position:relative}.position-fixed[data-v-19cea5a0]{position:fixed;bottom:0;left:0}.m-chat-record[data-v-19cea5a0]{flex:1;background-color:#fff;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-size:4vw;height:100%}.record-overlay[data-v-19cea5a0]{position:fixed;top:49.5%;left:49.5%;padding:3vw;background-color:rgba(0,0,0,.9);z-index:99;color:#fff;text-align:center;transform:translate(-50%,-50%);width:40vw;font-size:4vw}.record-overlay .record-item[data-v-19cea5a0]{position:relative;height:25vw;display:flex;flex-flow:column nowrap;align-items:center;justify-content:center}.record-overlay .record-item .icon[data-v-19cea5a0]{position:absolute;top:49.5%;left:49.5%;transform:translate(-50%,-50%)}.record-overlay .record-item .text[data-v-19cea5a0]{margin-top:3vw}.close-img[data-v-19cea5a0]{width:10vw;height:10vw}.my-grid-item[data-v-19cea5a0] .van-grid-item__content{background-color:transparent}.my-grid-item[data-v-19cea5a0] .van-grid-item__text{font-size:3.1vw}.m-chat-grid[data-v-19cea5a0]{display:flex;flex-flow:row wrap}.m-chat-grid .m-chat-grid-item[data-v-19cea5a0]{box-sizing:content-box;flex-basis:25%;display:flex;flex-flow:column nowrap;justify-content:center;align-items:center}.m-chat-grid .m-chat-grid-item .m-chat-grid_item_icon[data-v-19cea5a0]{display:flex;align-items:center;justify-content:center;font-size:10vw;width:16vw;height:16vw;border-radius:10px}.m-chat-grid .m-chat-grid-item .m-chat-grid_item_text[data-v-19cea5a0]{font-size:3.1vw;margin:2vw 0}.m-chat-emoji[data-v-19cea5a0]{display:flex;flex-flow:row wrap;height:100%;overflow-y:auto}.m-chat-emoji .m-chat-emoji-item[data-v-19cea5a0]{flex-basis:15%;margin:1.5vw 2vw;font-size:6vw;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;text-align:center;box-sizing:content-box}.submit-btn[data-v-19cea5a0]{display:block;font-size:4vw;margin-left:2vw;padding:2vw 4vw;background-color:#0bbe62;color:#fff;border-radius:1vw;outline:none;border:none;box-sizing:content-box}.submit-btn[data-v-19cea5a0]:active,.submit-btn[data-v-19cea5a0] :hover{opacity:.6}.move-enter-active[data-v-19cea5a0],.move-leave-active[data-v-19cea5a0]{transition:all .3s ease}.move-enter[data-v-19cea5a0],.move-leave-to[data-v-19cea5a0]{transform:translateX(10px);opacity:0}", ""]);
-// Exports
-module.exports = exports;
-
-
-/***/ }),
-
 /***/ "69f3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6622,6 +6613,20 @@ var update = add("90b43712", content, true, {"sourceMap":false,"shadowMode":fals
 
 /***/ }),
 
+/***/ "75d9":
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__("24fb");
+exports = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+exports.push([module.i, ".m-chat-comment[data-v-142e23da]{width:100%;background-color:#f7f7f7;box-sizing:content-box;position:relative}.m-chat-comment .m-chat-comment-wrap[data-v-142e23da]{overflow:hidden}.m-chat-comment .m-chat-comment-wrap .m-chat-comment-main[data-v-142e23da]{display:flex;padding:3vw 3vw;flex-flow:row nowrap;align-items:center;height:8vw;box-sizing:content-box}.m-chat-comment .m-chat-comment-wrap .m-chat-form[data-v-142e23da]{flex:1;display:flex;background-color:#fff}.m-chat-comment .m-chat-comment-wrap .m-chat-input[data-v-142e23da]{width:100%;border:none;outline:none;border-radius:2vw;caret-color:#9eea6a;background-color:transparent;padding:1.5vw 0;margin:0 2vw;font-size:4vw;height:5vw;box-sizing:content-box}.m-chat-comment .m-chat-comment-wrap .m-chat-input-options[data-v-142e23da],.m-chat-comment .m-chat-comment-wrap .m-chat-main-left[data-v-142e23da]{display:flex;align-items:center;padding:0 2vw}.m-chat-div_input[data-v-142e23da]{flex:1;background-color:#fff}.m-chat-comment-extend[data-v-142e23da]{overflow-y:auto;overflow-x:hidden;padding:4vw 3vw;height:40vw}.c-icon[data-v-142e23da]{width:8vw;height:8vw;margin:0 .8vw;color:inherit;font-size:8vw}.position-relative[data-v-142e23da]{position:relative}.position-fixed[data-v-142e23da]{position:fixed;bottom:0;left:0}.m-chat-record[data-v-142e23da]{flex:1;background-color:#fff;display:flex;align-items:center;justify-content:center;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-size:4vw;height:100%}.record-overlay[data-v-142e23da]{position:fixed;top:49.5%;left:49.5%;padding:3vw;background-color:rgba(0,0,0,.9);z-index:99;color:#fff;text-align:center;transform:translate(-50%,-50%);width:40vw;font-size:4vw}.record-overlay .record-item[data-v-142e23da]{position:relative;height:25vw;display:flex;flex-flow:column nowrap;align-items:center;justify-content:center}.record-overlay .record-item .icon[data-v-142e23da]{position:absolute;top:49.5%;left:49.5%;transform:translate(-50%,-50%)}.record-overlay .record-item .text[data-v-142e23da]{margin-top:3vw}.close-img[data-v-142e23da]{width:10vw;height:10vw}.my-grid-item[data-v-142e23da] .van-grid-item__content{background-color:transparent}.my-grid-item[data-v-142e23da] .van-grid-item__text{font-size:3.1vw}.m-chat-grid[data-v-142e23da]{display:flex;flex-flow:row wrap}.m-chat-grid .m-chat-grid-item[data-v-142e23da]{box-sizing:content-box;flex-basis:25%;display:flex;flex-flow:column nowrap;justify-content:center;align-items:center}.m-chat-grid .m-chat-grid-item .m-chat-grid_item_icon[data-v-142e23da]{display:flex;align-items:center;justify-content:center;font-size:10vw;width:16vw;height:16vw;border-radius:10px}.m-chat-grid .m-chat-grid-item .m-chat-grid_item_text[data-v-142e23da]{font-size:3.1vw;margin:2vw 0}.m-chat-emoji[data-v-142e23da]{display:flex;flex-flow:row wrap;height:100%;overflow-y:auto}.m-chat-emoji .m-chat-emoji-item[data-v-142e23da]{flex-basis:15%;margin:1.5vw 2vw;font-size:6vw;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;text-align:center;box-sizing:content-box}.submit-btn[data-v-142e23da]{display:block;font-size:4vw;margin-left:2vw;padding:2vw 4vw;background-color:#0bbe62;color:#fff;border-radius:1vw;outline:none;border:none;box-sizing:content-box}.submit-btn[data-v-142e23da]:active,.submit-btn[data-v-142e23da] :hover{opacity:.6}.move-enter-active[data-v-142e23da],.move-leave-active[data-v-142e23da]{transition:all .3s ease}.move-enter[data-v-142e23da],.move-leave-to[data-v-142e23da]{transform:translateX(10px);opacity:0}", ""]);
+// Exports
+module.exports = exports;
+
+
+/***/ }),
+
 /***/ "7839":
 /***/ (function(module, exports) {
 
@@ -6766,22 +6771,6 @@ MapCache.prototype.set = mapCacheSet;
 
 module.exports = MapCache;
 
-
-/***/ }),
-
-/***/ "7beb":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("69e9");
-if(content.__esModule) content = content.default;
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("5f9f9c7a", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -46028,6 +46017,17 @@ module.exports = function (key, value) {
 
 /***/ }),
 
+/***/ "cf89":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Comment_vue_vue_type_style_index_0_id_142e23da_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("3289");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Comment_vue_vue_type_style_index_0_id_142e23da_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_11_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_11_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_11_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_11_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_1_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Comment_vue_vue_type_style_index_0_id_142e23da_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "d012":
 /***/ (function(module, exports) {
 
@@ -49385,12 +49385,12 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3ffbd555-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader/lib??vue-loader-options!./src/package/Comment.vue?vue&type=template&id=19cea5a0&scoped=true&
-var Commentvue_type_template_id_19cea5a0_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"mChatComment",staticClass:"m-chat-comment"},[_c('div',{staticClass:"m-chat-comment-wrap"},[_c('div',{staticClass:"m-chat-comment-main"},[_c('div',{staticClass:"m-chat-main-left"},[(_vm.currentType == 'text' && _vm.includes(_vm.openBases, 'audio'))?_c('van-icon',{staticClass:"c-icon comment-icon",attrs:{"class-prefix":"my-icon","name":"yuyin"},on:{"click":function($event){return _vm.togglePanel('audio')}}}):_vm._e(),(_vm.currentType == 'audio' && _vm.includes(_vm.openBases, 'text'))?_c('van-icon',{staticClass:"c-icon comment-icon",attrs:{"class-prefix":"my-icon","name":"jianpan"},on:{"click":function($event){return _vm.togglePanel('text')}}}):_vm._e()],1),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentType == 'audio'),expression:"currentType == 'audio'"}],ref:"mChatRecord",staticClass:"m-chat-record"},[(_vm.recordStatus == 0)?_c('span',[_vm._v("按住开始录音")]):_vm._e(),(_vm.recordStatus == 1)?_c('span',[_vm._v("松开 发送")]):_vm._e(),(_vm.recordStatus == 2)?_c('span',[_vm._v("松开 取消")]):_vm._e()]),_c('form',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentType == 'text'),expression:"currentType == 'text'"}],staticClass:"m-chat-form",on:{"submit":function($event){$event.preventDefault();return _vm.submit.apply(null, arguments)}}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.content),expression:"content"}],ref:"mChatInput",staticClass:"m-chat-input",attrs:{"type":"text"},domProps:{"value":(_vm.content)},on:{"focus":_vm.onFocus,"blur":_vm.onBlur,"input":[function($event){if($event.target.composing){ return; }_vm.content=$event.target.value},_vm.onChange]}})]),_c('div',{staticClass:"m-chat-input-options comment-icon"},[(_vm.includes(_vm.openBases, 'emoji'))?_c('van-icon',{staticClass:"c-icon",attrs:{"size":"8vw","name":"smile-o"},on:{"click":_vm.emojiClick}}):_vm._e(),_vm._t("right"),(!_vm.isSubmitBtn && _vm.mOpenExtends.length > 0)?_c('van-icon',{staticClass:"c-icon",attrs:{"size":"8vw","name":"add-o"},on:{"click":_vm.toggleExtend}}):_vm._e(),_c('transition',{attrs:{"name":"move"}},[(_vm.isSubmitBtn)?_c('button',{staticClass:"submit-btn",on:{"click":_vm.submit}},[_vm._v(" 发送 ")]):_vm._e()])],2)]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isExtend),expression:"isExtend"}],ref:"mChatCommnetExtend",staticClass:"m-chat-comment-extend"},[(_vm.isEmoji)?_c('div',{staticClass:"m-chat-emoji"},_vm._l((_vm.emojiList),function(item,index){return _c('div',{key:index,staticClass:"m-chat-emoji-item",on:{"click":function($event){return _vm.emojiItemClick($event, item)}}},[_vm._v(" "+_vm._s(item.char)+" ")])}),0):_c('div',{staticClass:"m-chat-grid"},[_vm._l((_vm.mExtendList),function(item,index){return [(_vm.includes(_vm.mOpenExtends, item.type))?_c('div',{key:index,staticClass:"m-chat-grid-item"},[_c('div',{staticClass:"m-chat-grid_item_icon comment-extend-icon",on:{"click":function($event){return _vm.itemClick(item)}}},[_c('van-icon',{attrs:{"name":item.icon}})],1),_c('div',{staticClass:"m-chat-grid_item_text comment-extend-text-color"},[_vm._v(" "+_vm._s(item.text)+" ")])]):_vm._e()]})],2)])]),(_vm.recordStatus != 0)?_c('div',{staticClass:"record-overlay"},[(_vm.recordStatus == 1)?_c('div',{staticClass:"record-1 record-item"},[_c('vue-lottie',{attrs:{"options":_vm.animOptions,"width":"20vw","height":"20vw"}}),_c('p',[_vm._v("手指上划,取消发送")])],1):_vm._e(),(_vm.recordStatus == 2)?_c('div',{staticClass:"record-2 record-item"},[_c('img',{staticClass:"close-img",attrs:{"src":__webpack_require__("7231")}}),_c('p',{staticClass:"text"},[_vm._v("松开取消发送录音")])]):_vm._e()]):_vm._e(),(_vm.includes(_vm.mOpenExtends, 'image'))?_c('van-uploader',{ref:"mChatImgUploader",staticStyle:{"display":"none"},attrs:{"after-read":_vm.imgAfterRead,"accept":_vm.joinAcceptArr(_vm.mConfig.image.accept),"max-size":(_vm.mConfig.image.maxSize || _vm.imgMaxSize) * 1024},on:{"oversize":_vm.onImgOversize}}):_vm._e(),(_vm.includes(_vm.mOpenExtends, 'file'))?_c('van-uploader',{ref:"mChatFileUploader",staticStyle:{"display":"none"},attrs:{"after-read":_vm.fileAfterRead,"max-size":(_vm.mConfig.file.maxSize || _vm.fileMaxSize) * 1024,"accept":_vm.joinAcceptArr(_vm.mConfig.file.accept)},on:{"oversize":_vm.onFileOversize}}):_vm._e(),(_vm.includes(_vm.mOpenExtends, 'video'))?_c('van-uploader',{ref:"mChatVideoUploader",staticStyle:{"display":"none"},attrs:{"after-read":_vm.videoAfterRead,"max-size":(_vm.mConfig.video.maxSize || _vm.videoMaxSize) * 1024,"accept":_vm.joinAcceptArr(_vm.mConfig.video.accept)},on:{"oversize":_vm.onVideoOversize}}):_vm._e()],1)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3ffbd555-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/vue-loader/lib??vue-loader-options!./src/package/Comment.vue?vue&type=template&id=142e23da&scoped=true&
+var Commentvue_type_template_id_142e23da_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"mChatComment",staticClass:"m-chat-comment"},[_c('div',{staticClass:"m-chat-comment-wrap"},[_c('div',{staticClass:"m-chat-comment-main"},[_c('div',{staticClass:"m-chat-main-left"},[(_vm.currentType == 'text' && _vm.includes(_vm.openBases, 'audio'))?_c('van-icon',{staticClass:"c-icon comment-icon",attrs:{"class-prefix":"my-icon","name":"yuyin"},on:{"click":function($event){return _vm.togglePanel('audio')}}}):_vm._e(),(_vm.currentType == 'audio' && _vm.includes(_vm.openBases, 'text'))?_c('van-icon',{staticClass:"c-icon comment-icon",attrs:{"class-prefix":"my-icon","name":"jianpan"},on:{"click":function($event){return _vm.togglePanel('text')}}}):_vm._e()],1),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentType == 'audio'),expression:"currentType == 'audio'"}],ref:"mChatRecord",staticClass:"m-chat-record"},[(_vm.recordStatus == 0)?_c('span',[_vm._v("按住开始录音")]):_vm._e(),(_vm.recordStatus == 1)?_c('span',[_vm._v("松开 发送")]):_vm._e(),(_vm.recordStatus == 2)?_c('span',[_vm._v("松开 取消")]):_vm._e()]),_c('form',{directives:[{name:"show",rawName:"v-show",value:(_vm.currentType == 'text'),expression:"currentType == 'text'"}],staticClass:"m-chat-form",on:{"submit":function($event){$event.preventDefault();return _vm.submit.apply(null, arguments)}}},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.content),expression:"content"}],ref:"mChatInput",staticClass:"m-chat-input",attrs:{"type":"text"},domProps:{"value":(_vm.content)},on:{"focus":_vm.onFocus,"blur":_vm.onBlur,"input":[function($event){if($event.target.composing){ return; }_vm.content=$event.target.value},_vm.onChange]}})]),_c('div',{staticClass:"m-chat-input-options comment-icon"},[(_vm.includes(_vm.openBases, 'emoji'))?_c('van-icon',{staticClass:"c-icon",attrs:{"size":"8vw","name":"smile-o"},on:{"click":_vm.emojiClick}}):_vm._e(),_vm._t("right"),(!_vm.isSubmitBtn && _vm.mOpenExtends.length > 0)?_c('van-icon',{staticClass:"c-icon",attrs:{"size":"8vw","name":"add-o"},on:{"click":_vm.toggleExtend}}):_vm._e(),_c('transition',{attrs:{"name":"move"}},[(_vm.isSubmitBtn)?_c('button',{staticClass:"submit-btn",on:{"click":_vm.submit}},[_vm._v(" 发送 ")]):_vm._e()])],2)]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isExtend),expression:"isExtend"}],ref:"mChatCommnetExtend",staticClass:"m-chat-comment-extend"},[(_vm.isEmoji)?_c('div',{staticClass:"m-chat-emoji"},_vm._l((_vm.emojiList),function(item,index){return _c('div',{key:index,staticClass:"m-chat-emoji-item",on:{"click":function($event){return _vm.emojiItemClick($event, item)}}},[_vm._v(" "+_vm._s(item.char)+" ")])}),0):_c('div',{staticClass:"m-chat-grid"},[_vm._l((_vm.mExtendList),function(item,index){return [(_vm.includes(_vm.mOpenExtends, item.type))?_c('div',{key:index,staticClass:"m-chat-grid-item"},[_c('div',{staticClass:"m-chat-grid_item_icon comment-extend-icon",on:{"click":function($event){return _vm.itemClick(item)}}},[_c('van-icon',{attrs:{"name":item.icon,"class-prefix":item.classPrefix}})],1),_c('div',{staticClass:"m-chat-grid_item_text comment-extend-text-color"},[_vm._v(" "+_vm._s(item.text)+" ")])]):_vm._e()]})],2)])]),(_vm.recordStatus != 0)?_c('div',{staticClass:"record-overlay"},[(_vm.recordStatus == 1)?_c('div',{staticClass:"record-1 record-item"},[_c('vue-lottie',{attrs:{"options":_vm.animOptions,"width":"20vw","height":"20vw"}}),_c('p',[_vm._v("手指上划,取消发送")])],1):_vm._e(),(_vm.recordStatus == 2)?_c('div',{staticClass:"record-2 record-item"},[_c('img',{staticClass:"close-img",attrs:{"src":__webpack_require__("7231")}}),_c('p',{staticClass:"text"},[_vm._v("松开取消发送录音")])]):_vm._e()]):_vm._e(),(_vm.includes(_vm.mOpenExtends, 'image'))?_c('van-uploader',{ref:"mChatImgUploader",staticStyle:{"display":"none"},attrs:{"after-read":_vm.imgAfterRead,"accept":_vm.joinAcceptArr(_vm.mConfig.image.accept),"max-size":(_vm.mConfig.image.maxSize || _vm.imgMaxSize) * 1024},on:{"oversize":_vm.onImgOversize}}):_vm._e(),(_vm.includes(_vm.mOpenExtends, 'file'))?_c('van-uploader',{ref:"mChatFileUploader",staticStyle:{"display":"none"},attrs:{"after-read":_vm.fileAfterRead,"max-size":(_vm.mConfig.file.maxSize || _vm.fileMaxSize) * 1024,"accept":_vm.joinAcceptArr(_vm.mConfig.file.accept)},on:{"oversize":_vm.onFileOversize}}):_vm._e(),(_vm.includes(_vm.mOpenExtends, 'video'))?_c('van-uploader',{ref:"mChatVideoUploader",staticStyle:{"display":"none"},attrs:{"after-read":_vm.videoAfterRead,"max-size":(_vm.mConfig.video.maxSize || _vm.videoMaxSize) * 1024,"accept":_vm.joinAcceptArr(_vm.mConfig.video.accept)},on:{"oversize":_vm.onVideoOversize}}):_vm._e()],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/package/Comment.vue?vue&type=template&id=19cea5a0&scoped=true&
+// CONCATENATED MODULE: ./src/package/Comment.vue?vue&type=template&id=142e23da&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/vant/es/style/base.css
 var base = __webpack_require__("68ef");
@@ -54089,8 +54089,8 @@ var _components;
 });
 // CONCATENATED MODULE: ./src/package/Comment.vue?vue&type=script&lang=js&
  /* harmony default export */ var package_Commentvue_type_script_lang_js_ = (Commentvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./src/package/Comment.vue?vue&type=style&index=0&id=19cea5a0&lang=less&scoped=true&
-var Commentvue_type_style_index_0_id_19cea5a0_lang_less_scoped_true_ = __webpack_require__("5499");
+// EXTERNAL MODULE: ./src/package/Comment.vue?vue&type=style&index=0&id=142e23da&lang=less&scoped=true&
+var Commentvue_type_style_index_0_id_142e23da_lang_less_scoped_true_ = __webpack_require__("cf89");
 
 // CONCATENATED MODULE: ./src/package/Comment.vue
 
@@ -54103,11 +54103,11 @@ var Commentvue_type_style_index_0_id_19cea5a0_lang_less_scoped_true_ = __webpack
 
 var Comment_component = normalizeComponent(
   package_Commentvue_type_script_lang_js_,
-  Commentvue_type_template_id_19cea5a0_scoped_true_render,
+  Commentvue_type_template_id_142e23da_scoped_true_render,
   staticRenderFns,
   false,
   null,
-  "19cea5a0",
+  "142e23da",
   null
   
 )
