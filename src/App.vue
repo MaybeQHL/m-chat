@@ -4,6 +4,9 @@
       @popItemClick="popItemClick" :customRecord="false" @recordStart="recordStart" @recordStop="recordStop"
       @recordCancel="recordCancel" :imgMaxSize="8192" :videoMaxSize="8192" :fileMaxSize="8192" :config="config"
       @extendItemClick="extendItemClick">
+      <!-- <template #extend>
+        自定义扩展面板
+      </template> -->
     </m-chat>
 
     <van-button class="btn-theme" type="warning" @click="clickTheme">切换主题</van-button>

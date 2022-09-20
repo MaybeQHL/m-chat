@@ -39,8 +39,10 @@
           </div>
         </div>
         <div class="m-chat-grid" v-else>
-          <template v-for="(item, index) in mExtendList">
-            <div class="m-chat-grid-item" :key="index" v-if="includes(mOpenExtends, item.type)">
+          <slot name="extend" v-if="$slots.extend"></slot>
+          <template v-else>
+            <div class="m-chat-grid-item" v-for="(item, index) in mExtendList" :key="index"
+              v-if="includes(mOpenExtends, item.type)">
               <div class="m-chat-grid_item_icon comment-extend-icon" @click="itemClick(item)">
                 <van-icon :name="item.icon" :class-prefix="item.classPrefix" />
               </div>

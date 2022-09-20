@@ -241,7 +241,14 @@ extendItemClick(item) {
       }
 ```
 
-
+### 完全自定义扩展面板
+```js
+<m-chat>
+   <template #extend>
+        自定义扩展面板
+   </template>
+</m-chat>
+```
 ## LICENSE
 
  版权所有Copyright ©  by 或许
