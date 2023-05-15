@@ -1,0 +1,16 @@
+.move-enter-active {
+  transition: all 0.3s ease;
+}
+
+.move-leave-active {
+  transition: all 0.3s ease;
+}
+
+.move-enter,
+.move-leave-to
+
+/* .slide-fade-leave-active for below version 2.1.8 */
+  {
+  transform: translateX(10px);
+  opacity: 0;
+}

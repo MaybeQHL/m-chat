@@ -1,0 +1,53 @@
+{
+  "name": "@maybecode/m-chat",
+  "version": "3.0.0-beta.1",
+  "description": "Mobile IM Component",
+  "type": "module",
+  "files": [
+    "dist",
+    "types",
+    "scripts"
+  ],
+  "style": "./dist/style.css",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/m-chat.umd.cjs",
+  "module": "./dist/m-chat.js",
+  "exports": {
+    ".": {
+      "import": "./dist/m-chat.js",
+      "require": "./dist/m-chat.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vue-tsc --noEmit && vite build --config ./build/vite.config.ts --watch",
+    "build": "vue-tsc --noEmit && vite build --config ./build/vite.config.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
+    "@jtsang/vite-plugin-style-import": "^2.0.0",
+    "@types/node": "^18.7.21",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "@vueuse/core": "^10.1.2",
+    "any-touch": "^2.2.0",
+    "lodash": "^4.17.21",
+    "lottie-web": "^5.9.6",
+    "mitt": "^3.0.0",
+    "postcss-px-to-viewport-8-plugin": "^1.1.5",
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.55.0",
+    "vant": "^3.6.3",
+    "vite": "^3.1.0",
+    "vite-plugin-dts": "^2.3.0",
+    "vite-plugin-libcss": "^1.0.5",
+    "vite-plugin-svgicon": "^1.3.1",
+    "vite-plugin-theme": "^0.8.6",
+    "vite-plugin-vue-setup-extend": "^0.4.0",
+    "vite-svg-loader": "^4.0.0",
+    "vue": "^3.2.37",
+    "vue-tsc": "^0.40.13"
+  },
+  "author": "maybe",
+  "license": "MIT",
+  "homepage": "https://gitee.com/null_639_5368/m-chat/v3"
+}

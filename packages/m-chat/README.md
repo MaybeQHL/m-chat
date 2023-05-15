@@ -21,7 +21,7 @@
 
 ## 示例
 
-示例源码：[源码](./packages/examples//vue3//src/App.vue)
+示例源码：参考`examples`目录下面的`App.vue`文件
 在线示例：[Demo](http://null_639_5368.gitee.io/m-chat)
 
 ## 安装

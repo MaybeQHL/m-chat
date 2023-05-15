@@ -1,0 +1,28 @@
+.theme-light {}
+
+.theme-dark {
+    $text-color: #ffffff;
+    $icon-color: #D4D4D4;
+
+    .mc-msgs {
+        background-color: #000;
+    }
+
+    .mc-comment,
+    .mc-comment__panel {
+        background-color: #000;
+    }
+
+    .mc-comment__icon {
+        color: $icon-color;
+    }
+
+    .mc-comment-grid__item-icon {
+        background-color: rgba(41, 41, 41, 0.8);
+        color: $icon-color;
+    }
+
+    .mc-comment-grid__item-text {
+        color: $text-color;
+    }
+}
