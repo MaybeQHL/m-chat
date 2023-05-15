@@ -1,9 +1,9 @@
 # m-chat
 <p style="text-align:center;font-size:20px">基于vue3的拆箱即用的IM组件</p>
 
-[![npm](https://img.shields.io/npm/v/@maybecode/m-chat.svg)](https://www.npmjs.com/package/@maybecode/m-chat)
+[![npm](https://img.shields.io/npm/v/@maybecode/m-chat/next.svg)](https://www.npmjs.com/package/@maybecode/m-chat)
 
-[![npm](https://img.shields.io/npm/dt/@maybecode/m-chat.svg)](https://www.npmjs.com/package/@maybecode/m-chat)
+[![npm](https://img.shields.io/npm/dt/@maybecode/m-chat/next.svg)](https://www.npmjs.com/package/@maybecode/m-chat)
 
 
 
@@ -27,7 +27,7 @@
 ## 安装
 
 ```
-npm install @maybecode/m-chat@v3
+npm install @maybecode/m-chat@next
 ```
 
 ## Props
