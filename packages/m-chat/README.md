@@ -32,12 +32,13 @@ npm install @maybecode/m-chat@next
 
 ## Props
 
-| 参数     | 类型     | 默认值 | 说明                           |
-| -------- | -------- | ------ | ------------------------------ |
-| messages | Array    | []     | 消息数组                       |
-| height   | String   | 100vh  | 容器高度                       |
-| refresh  | Function | -      | 刷新(加载更多)回调             |
-| config   | Object   | -      | 高级配置(详情见下方config定义) |
+| 参数         | 类型     | 默认值 | 说明                                   |
+| ------------ | -------- | ------ | -------------------------------------- |
+| messages     | Array    | []     | 消息数组                               |
+| height       | String   | 100vh  | 容器高度                               |
+| refresh      | Function | -      | 刷新(加载更多)回调                     |
+| config       | Object   | -      | 高级配置(详情见下方config定义)         |
+| disabledPull | Boolean  | false  | 禁用下拉刷新(可用于下拉数据加载完成后) |
 
 
 ## config 

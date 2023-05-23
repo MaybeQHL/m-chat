@@ -1,7 +1,7 @@
 
 <template>
     <div class="m-chat" :class="[`theme-${config.theme}`]" :style="{ height }">
-        <Messages :messages="messages" :refresh="refresh">
+        <Messages :messages="messages" :refresh="refresh" :disabledPull="props.disabledPull">
             <template v-for="st in slotsList" #[st.name]="{ item }">
                 <slot :name="st.name" :key="st.name" :item="item"></slot>
             </template>
@@ -52,6 +52,9 @@ const props = defineProps({
     },
     refresh: {
         type: Function as PropType<() => any>
+    },
+    disabledPull: {
+        type: Boolean
     }
 })
 

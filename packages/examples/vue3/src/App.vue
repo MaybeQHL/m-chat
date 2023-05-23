@@ -9,6 +9,7 @@ import '../node_modules/@maybecode/m-chat/dist/style.css'
 const conf = ref<Config>({
   // theme: 'dark',
   // open: ["image"], // 默认全开功能
+  open: ["text"],
   videoUploader: {
     maxSize: 9999,
     accept: ['video/*']
@@ -156,7 +157,7 @@ const messages = ref<MessageData[]>([{
     "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
 },
 ])
-
+const disabledPull = ref(false)
 
 const onSubmit = (data: any) => {
   const typeKey = data.type == MessageType.text ? data.type : (data.type + 'Url') as any;
@@ -208,6 +209,10 @@ const refresh = () => {
         avatar:
           "https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg",
       });
+      // 仅供测试 模拟数据加载完成后
+      if (messages.value.length > 10) {
+        disabledPull.value = true;
+      }
       res(null);
     }, 2000);
   })
@@ -237,9 +242,9 @@ const onClickPanelItem = (item: any) => {
 
 <template>
   <div>
-    <m-chat ref="mChatRef" height="100vh" :config="conf" :messages="messages" @submit="onSubmit"
-      @recordStart="onRecordStart" @recordCancel="onRecordCancel" @recordStop="onRecordStop" :refresh="refresh"
-      @clickAvatar="onClickAvatar" @clickPanelItem="onClickPanelItem">
+    <m-chat ref="mChatRef" height="100vh" :config="conf" :messages="messages" :disabledPull="disabledPull"
+      @submit="onSubmit" @recordStart="onRecordStart" @recordCancel="onRecordCancel" @recordStop="onRecordStop"
+      :refresh="refresh" @clickAvatar="onClickAvatar" @clickPanelItem="onClickPanelItem">
       <!-- <template #panel>
         <div style="text-align: center;">自定义控制面板</div>
       </template> -->

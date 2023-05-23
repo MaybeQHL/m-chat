@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev:lib": "pnpm --dir ./packages/m-chat dev",
+    "dev:demo": "pnpm --dir ./packages/examples/vue3 dev",
+    "build:lib": "pnpm --dir ./packages/m-chat build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

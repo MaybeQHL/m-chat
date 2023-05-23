@@ -2,7 +2,11 @@
 <template>
     <!-- mc => mc -->
     <div class="mc-msgs" :style="{ height: height }" ref="mchatScoller">
-        <van-pull-refresh v-model="state.loading" @refresh="onRefresh">
+        <!-- 没有更多了 -->
+        <!-- <div class="mc-msgs-finished" v-if="props.finished">
+            没有更多了
+        </div> -->
+        <van-pull-refresh :disabled="props.disabledPull" v-model="state.loading" @refresh="onRefresh">
             <div class="mc-msg" v-for="item in messages" :key="item.id">
                 <div class="mc-msg__time" v-if="item.time">{{ item.time }}</div>
                 <div class="mc-msg__row" :class="[`mc-msg--${item.self ? 'self' : 'person'}`]">
@@ -123,6 +127,13 @@ const props = defineProps({
     },
     refresh: {
         type: Function as PropType<() => any>
+    },
+    /**
+     * 是否禁用下拉刷新
+     * @description 可用于下拉加载数据全部完成后禁用下拉动作，防止无效触发
+     */
+    disabledPull: {
+        type: Boolean
     }
 })
 const state = reactive({
@@ -372,6 +383,16 @@ onUnmounted(() => {
 .mc-msgs {
     // height: calc(100vh - 25vw);
     overflow-y: auto;
+}
+
+.mc-msgs-finished {
+    text-align: center;
+    font-size: 28px;
+    color: #969799;
+    // padding: 15px 0px;
+    height: 75px;
+    line-height: 75px;
+
 }
 
 .mc-msg {

@@ -58,8 +58,8 @@ export default defineConfig({
     css: {
         postcss: {
             plugins: [
-                // pxToViewPort(vantPxtovwConfig),
-                // pxToViewPort(basePxtovwConfig)
+                pxToViewPort(vantPxtovwConfig),
+                pxToViewPort(basePxtovwConfig)
             ]
         }
     },

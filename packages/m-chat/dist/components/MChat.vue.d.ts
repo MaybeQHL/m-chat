@@ -15,6 +15,9 @@ declare const _sfc_main: import("vue").DefineComponent<{
     refresh: {
         type: PropType<() => any>;
     };
+    disabledPull: {
+        type: BooleanConstructor;
+    };
 }, {
     switchPanel: (val: any) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("submit" | "recordStart" | "recordCancel" | "recordStop" | "clickAvatar" | "clickPanelItem")[], "submit" | "recordStart" | "recordCancel" | "recordStop" | "clickAvatar" | "clickPanelItem", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
@@ -32,6 +35,9 @@ declare const _sfc_main: import("vue").DefineComponent<{
     refresh: {
         type: PropType<() => any>;
     };
+    disabledPull: {
+        type: BooleanConstructor;
+    };
 }>> & {
     onSubmit?: (...args: any[]) => any;
     onRecordStart?: (...args: any[]) => any;
@@ -42,5 +48,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }, {
     height: string;
     config: Record<string, any>;
+    disabledPull: boolean;
 }>;
 export default _sfc_main;

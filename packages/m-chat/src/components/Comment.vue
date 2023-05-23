@@ -30,14 +30,15 @@
                     class="mc-comment__submit-btn">
                     发送
                 </button>
-                <van-icon v-else class="mc-comment__icon" name="add-o" @click="clickIcon('panel')"></van-icon>
+                <van-icon v-else-if="!disabledPanel" class="mc-comment__icon" name="add-o"
+                    @click="clickIcon('panel')"></van-icon>
                 <!-- <transition name="move">
                
                 </transition> -->
             </div>
         </div>
         <!-- 扩展面板 -->
-        <div class="mc-comment__panel panel-background" v-if="state.showPanel">
+        <div class="mc-comment__panel panel-background" v-if="state.showPanel && !disabledPanel">
             <!-- 表情包 -->
             <div class="mc-emoji" v-if="state.showEmo">
                 <!--自定义表情面板 -->
@@ -202,6 +203,9 @@ const panelItems = computed(() => {
     return [...defaultPanelItems.value.filter(it => conf.open.includes(it.type)), ...conf.extPanelItems];
 })
 
+const disabledPanel = computed(() => {
+    return panelItems.value.length == 0
+})
 const onInputBlur = () => {
 
 }
@@ -463,6 +467,11 @@ onMounted(() => {
         state.showMap = false;
     })
 
+    // 如果没有扩展面板
+    // if (conf.open.length == 1 && conf.open.includes('text')) {
+    //     state.currentType = CurrentTypeEnum.text;
+    //     state.showSubmitBtn = true;
+    // }
     nextTick(() => {
         setEvents();
     })
