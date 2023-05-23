@@ -138,7 +138,7 @@ npm install @maybecode/m-chat@next
 
 | 名称                          | 说明           | 参数     |
 | ----------------------------- | -------------- | -------- |
-| [custon(对应msg中的type属性)] | 自定义消息类型 | { item } |
+| [custom(对应msg中的type属性)] | 自定义消息类型 | { item } |
 | panel                         | 自定义扩展面板 | -        |
 
 ## 方法

@@ -482,10 +482,10 @@ onUnmounted(() => {
 .mc-comment {
 
     // position: relative;
-    position: fixed;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    // position: fixed;
+    // left: 0px;
+    // right: 0px;
+    // bottom: 0px;
     background-color: #f7f7f7;
     // height: 15vw;
     box-sizing: border-box;
