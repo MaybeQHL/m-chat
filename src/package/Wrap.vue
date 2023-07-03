@@ -28,10 +28,10 @@
 
         <div class="m-chat-msg-wrap">
           <message v-for="item in messages" :data="item" :key="item.id" :audioAnim="data.id == item.id && audioAnim"
-            @itemClick="itemClick" @imageLoad="imageLoad" :defaultAvatar="defaultAvatar" @press="press"
-            @pressup="pressup" :isCancel="item.isCancel" :isPress="item.self && isPress && item.id == data.id"
-            @avatarClick="avatarClick" :isPlayMedia="isPlayMedia && item.id == data.id" :leadPage="leadPage"
-            :isImagePreview="config.isImagePreview" :imagePreviewConfig="config.imagePreviewConfig"></message>
+            @itemClick="itemClick" @imageLoad="imageLoad" :defaultAvatar="defaultAvatar" @press="press" @pressup="pressup"
+            :isCancel="item.isCancel" :isPress="item.self && isPress && item.id == data.id" @avatarClick="avatarClick"
+            :isPlayMedia="isPlayMedia && item.id == data.id" :leadPage="leadPage" :isImagePreview="config.isImagePreview"
+            :imagePreviewConfig="config.imagePreviewConfig" :read="read"></message>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
       @recordStart="recordStart" @recordStop="recordStop" @recordCancel="recordCancel" @imgAfterRead="imgAfterRead"
       @fileAfterRead="fileAfterRead" @videoAfterRead="videoAfterRead" :openExtends="openExtends"
       @togglePanel="togglePanel" :imgMaxSize="imgMaxSize" :videoMaxSize="videoMaxSize" :fileMaxSize="fileMaxSize"
-      :openBases="openBases" :config="config" @extendItemClick="extendItemClick">
+      :openBases="openBases" :config="config" :placeholder="placeholder" @extendItemClick="extendItemClick">
       <template #right>
         <slot name="right"></slot>
       </template>
@@ -171,7 +171,9 @@ export default {
       default: 500,
     },
     leadPage: String,
-    openBases: Array
+    openBases: Array,
+    placeholder: String,
+    read: Boolean
   },
   components: {
     Comment,

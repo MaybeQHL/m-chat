@@ -79,6 +79,7 @@
             </template>
           </div>
         </div>
+        <div v-if="data.self && read" class="read">{{ data.read ? '已读' : '未读' }}</div>
       </div>
     </div>
   </div>
@@ -121,6 +122,7 @@ export default {
           video: "", // 视频地址
           type: "text", // 文件类型 text|image|audio|video|file
           time: "", // 消息发送时间
+          read: false, // 是否已经读取该消息
           content: {
             text: "", // 文本
             duration: "", // 时长
@@ -149,6 +151,10 @@ export default {
     },
     imagePreviewConfig: {
       type: Object
+    },
+    read: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -597,5 +603,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.read {
+  font-size: 3.5vw;
+  color: #9d9d9d;
+  margin-top: 1vw;
+  text-align: right;
 }
 </style>

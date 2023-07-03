@@ -3,7 +3,7 @@
     <m-chat ref="mChat" :messages="messages" @submit="submit" :loadMore="loadMore" :comment="true" height="100vh"
       @popItemClick="popItemClick" :customRecord="false" @recordStart="recordStart" @recordStop="recordStop"
       @recordCancel="recordCancel" :imgMaxSize="8192" :videoMaxSize="8192" :fileMaxSize="8192" :config="config"
-      @extendItemClick="extendItemClick">
+      @extendItemClick="extendItemClick" :placeholder="'请输入需要发送的内容'" :read="true">
       <!-- <template #extend>
         自定义扩展面板
       </template> -->
@@ -14,7 +14,8 @@
 </template>
 
 
-<script>// @ts-nocheck
+<script>
+// @ts-nocheck
 
 import MChat from "@/package";
 // import MChat from "../lib-dist/m-chat.umd.js";

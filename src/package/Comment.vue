@@ -15,8 +15,8 @@
           <span v-if="recordStatus == 2">松开 取消</span>
         </div>
         <form class="m-chat-form" v-show="currentType == 'text'" @submit.prevent="submit">
-          <input ref="mChatInput" class="m-chat-input" @focus="onFocus" @blur="onBlur" v-model="content"
-            @input="onChange" type="text" />
+          <input ref="mChatInput" class="m-chat-input" @focus="onFocus" @blur="onBlur" v-model="content" @input="onChange"
+            type="text" :placeholder="placeholder" />
         </form>
         <div class="m-chat-input-options comment-icon">
           <van-icon size="8vw" class="c-icon" name="smile-o" v-if="includes(openBases, 'emoji')" @click="emojiClick" />
@@ -128,6 +128,9 @@ export default {
       type: Number,
       default: 500,
     },
+    placeholder: {
+      type: String
+    }
   },
   data() {
     return {
