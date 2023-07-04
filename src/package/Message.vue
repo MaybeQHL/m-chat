@@ -79,7 +79,7 @@
             </template>
           </div>
         </div>
-        <div v-if="data.self && read" class="read">{{ data.read ? '已读' : '未读' }}</div>
+        <div v-if="data.self && config.read" class="read">{{ data.read ? '已读' : '未读' }}</div>
       </div>
     </div>
   </div>

@@ -90,6 +90,7 @@ export default {
 | fileMaxSize   | Number   | 500                        | 文件大小上传限制(kb)                                                                                                                                           |
 | leadPage      | String   | -                          | 微信公众号网页下载引导页面, 例: http://www.xxx.com/leadPage 会跳转到 http://www.xxx.com/leadPage?url='xxx'&name='xxxxx', 注意: 参数需要用decodeComponent()解密 |
 | config        | Object   | -                          | 详情参见config                                                                                                                                                 |
+| placeholder   | String   | -                          | 回复框placeholder                                                                                                                                              |
 
 ### config
 
@@ -135,7 +136,11 @@ export default {
          */
         imagePreviewConfig: {
           closeable: false
-        }
+        },
+        /**
+         * 是否开启已读未读
+         */
+         read:false
 }
 ```
 

@@ -56,7 +56,11 @@ export default {
           text: "位置",
           icon: "location-o",
           classPrefix: 'van-icon',
-        },]
+        },],
+        /**
+         * 开启已读未读功能
+         */
+        read: false
       },
       messages: [
         {

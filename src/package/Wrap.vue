@@ -30,8 +30,8 @@
           <message v-for="item in messages" :data="item" :key="item.id" :audioAnim="data.id == item.id && audioAnim"
             @itemClick="itemClick" @imageLoad="imageLoad" :defaultAvatar="defaultAvatar" @press="press" @pressup="pressup"
             :isCancel="item.isCancel" :isPress="item.self && isPress && item.id == data.id" @avatarClick="avatarClick"
-            :isPlayMedia="isPlayMedia && item.id == data.id" :leadPage="leadPage" :isImagePreview="config.isImagePreview"
-            :imagePreviewConfig="config.imagePreviewConfig" :read="read"></message>
+            :isPlayMedia="isPlayMedia && item.id == data.id" :leadPage="leadPage" :isImagePreview="conf.isImagePreview"
+            :imagePreviewConfig="conf.imagePreviewConfig" :config="conf"></message>
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@
       @recordStart="recordStart" @recordStop="recordStop" @recordCancel="recordCancel" @imgAfterRead="imgAfterRead"
       @fileAfterRead="fileAfterRead" @videoAfterRead="videoAfterRead" :openExtends="openExtends"
       @togglePanel="togglePanel" :imgMaxSize="imgMaxSize" :videoMaxSize="videoMaxSize" :fileMaxSize="fileMaxSize"
-      :openBases="openBases" :config="config" :placeholder="placeholder" @extendItemClick="extendItemClick">
+      :openBases="openBases" :config="conf" :placeholder="placeholder" @extendItemClick="extendItemClick">
       <template #right>
         <slot name="right"></slot>
       </template>
@@ -114,6 +114,7 @@ import Message from "./Message.vue";
 
 import { isOutEl, isWeixin, copyContentH5 } from "./utils";
 import VueLottie from "./VueLottie.vue";
+import assignIn from "lodash/assignIn";
 
 export default {
   props: {
@@ -224,6 +225,58 @@ export default {
   computed: {
     theme() {
       return this.getTheme();
+    },
+    conf() {
+      const baseConf = {
+        /**
+         * 主题 'light'(亮色)|'dark'(暗色)
+         */
+        theme: 'light',
+        /**
+         * 图片上传
+         */
+        image: {
+          /**
+           * 上传大小最大值(kb)
+           */
+          maxSize: 500,
+          /**
+           * 允许的文件类型
+           */
+          accept: ['image/*']
+        },
+        /**
+         * 文件上传
+         */
+        file: {
+          maxSize: 500,
+          accept: ['*']
+        },
+        /**
+         * 视频上传
+         */
+        video: {
+          maxSize: 500,
+          accept: ['video/*']
+        },
+        /**
+         * 是否开启图片预览 默认true
+         */
+        isImagePreview: true,
+        /**
+        * 图片预览配置（兼容vant ImagePreview 配置）
+        */
+        imagePreviewConfig: {
+          closeable: false
+        },
+        /**
+         * 开启已读未读功能
+         */
+        read: false
+      };
+      const reConf = assignIn(baseConf, this.config);
+      // console.log('reConf', reConf, config)
+      return reConf;
     }
   },
   watch: {
