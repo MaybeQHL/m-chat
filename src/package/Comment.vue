@@ -257,14 +257,20 @@ export default {
     //     this.recordStatus = 0;
     //   });
     // }
-    this.$refs.mChatRecord.addEventListener("touchstart", this.touchstart);
-    this.$refs.mChatRecord.addEventListener("touchmove", this.touchmove);
-    this.$refs.mChatRecord.addEventListener("touchend", this.touchend);
+    if (this.$refs.mChatRecord) {
+      this.$refs.mChatRecord.addEventListener("touchstart", this.touchstart);
+      this.$refs.mChatRecord.addEventListener("touchmove", this.touchmove);
+      this.$refs.mChatRecord.addEventListener("touchend", this.touchend);
+    }
   },
   beforeDestroy() {
-    this.$refs.mChatRecord.removeEventListener("touchstart", this.touchstart);
-    this.$refs.mChatRecord.removeEventListener("touchmove", this.touchmove);
-    this.$refs.mChatRecord.removeEventListener("touchend", this.touchend);
+
+    if (this.$refs.mChatRecord) {
+      this.$refs.mChatRecord.removeEventListener("touchstart", this.touchstart);
+      this.$refs.mChatRecord.removeEventListener("touchmove", this.touchmove);
+      this.$refs.mChatRecord.removeEventListener("touchend", this.touchend);
+    }
+
   },
   methods: {
     joinAcceptArr(arr) {

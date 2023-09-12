@@ -364,7 +364,11 @@ export default {
       this.initScoller();
     });
     document.addEventListener("click", this.hidePop);
-    this.$refs.mChatScoller.addEventListener("click", this.mChatScollerClick);
+
+    if (this.$refs.mChatScoller) {
+      this.$refs.mChatScoller.addEventListener("click", this.mChatScollerClick);
+    }
+
 
     // window.addEventListener("resize", this.autoRestScoller);
 
@@ -384,11 +388,13 @@ export default {
   },
   beforeDestroy() {
     document.removeEventListener("click", this.hidePop);
-    this.$refs.mChatScoller.removeEventListener(
-      "click",
-      this.mChatScollerClick
-    );
-    // window.removeEventListener("resize", this.autoRestScoller);
+    if (this.$refs.mChatScoller) {
+      this.$refs.mChatScoller.removeEventListener(
+        "click",
+        this.mChatScollerClick
+      );
+      // window.removeEventListener("resize", this.autoRestScoller);
+    }
     window.ontouchend = null;
   },
   methods: {
@@ -494,7 +500,7 @@ export default {
       this.popoverShow = false;
       this.isPress = true;
       console.log(obj);
-      const parent = obj.e.srcEvent.path.find((el) => {
+      const parent = Array.isArray(obj.e.srcEvent.path) && obj.e.srcEvent.path.find((el) => {
         return Array.from(el.classList || []).includes("contentWrap");
       });
       // const parent = obj.e.path.find((el) => {
@@ -593,11 +599,15 @@ export default {
     },
     initAudio() {
       this.audioAnim = true;
-      this.$refs.mAudio.pause();
-      this.$refs.mAudio.src = this.data.content.audioUrl;
-      this.$refs.mAudio.play();
-      this.$refs.mAudio.removeEventListener("ended", this.audioListener, false);
-      this.$refs.mAudio.addEventListener("ended", this.audioListener, false);
+
+      if (this.$refs.mAudio) {
+        this.$refs.mAudio.pause();
+        this.$refs.mAudio.src = this.data.content.audioUrl;
+        this.$refs.mAudio.play();
+        this.$refs.mAudio.removeEventListener("ended", this.audioListener, false);
+        this.$refs.mAudio.addEventListener("ended", this.audioListener, false);
+      }
+
     },
     audioListener() {
       console.log("audio play over");
