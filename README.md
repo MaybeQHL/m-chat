@@ -8,6 +8,7 @@
 
 ![npm collaborators](https://img.shields.io/npm/collaborators/@maybecode/m-chat)
 
+*打个广告，求职 深圳、宜昌（最好宜昌）5年vue，熟悉前后端各种技术体系。*
 ## 介绍
 
 基于vue2.x 聊天(IM)UI组件(3.x以后支持)
