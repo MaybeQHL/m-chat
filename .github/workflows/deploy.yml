@@ -20,16 +20,22 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
 
-      - name: 配置 npm 源
+      - name: 清除缓存并配置 npm 源
         run: |
-          npm config set registry https://registry.npmjs.org/
-          pnpm config set registry https://registry.npmjs.org/
+          npm config set registry https://registry.npmjs.org/ -g
+          npm cache clean --force
+          pnpm config set registry https://registry.npmjs.org/ -g
+          pnpm store prune
+          echo "registry=https://registry.npmjs.org/" > .npmrc
+          echo "NODEJS_CHECK_SIGNATURES=no" >> .npmrc
+          cat .npmrc
 
       - name: 安装依赖
-        run: pnpm install
+        run: |
+          cd packages/examples/vue3
+          npm install --registry=https://registry.npmjs.org/
         env:
           NODE_TLS_REJECT_UNAUTHORIZED: 0
           NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
@@ -37,8 +43,10 @@ jobs:
       - name: 构建项目
         run: |
           cd packages/examples/vue3
-          pnpm build
-        # Vite.config.ts 已经设置了 base: '/m-chat/'
+          npm run build
+        env:
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
+          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
 
       - name: 部署到 GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
