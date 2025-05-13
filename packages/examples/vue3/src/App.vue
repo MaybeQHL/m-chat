@@ -75,7 +75,7 @@ const messages = ref<MessageData[]>([{
 },
 {
   id: 5,
-  name: "我",
+  name: "我1",
   type: "audio",
   content: {
     duration: 7,
