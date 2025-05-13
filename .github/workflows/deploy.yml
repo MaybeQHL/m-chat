@@ -5,6 +5,7 @@ on:
     branches: [v3]
     paths:
       - "packages/examples/vue3/**"
+  # workflow_dispatch: # 允许手动触发（可选）
 
 jobs:
   build-and-deploy:
@@ -12,40 +13,55 @@ jobs:
     steps:
       - name: 检出代码
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: 设置 Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          registry-url: "https://registry.npmjs.org"
+
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
+
+      - name: 获取 pnpm 存储目录
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: 设置缓存
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: 配置 npm 源
         run: |
           npm config set registry https://registry.npmjs.org/ -g
-          npm cache clean --force
+          pnpm config set registry https://registry.npmjs.org/ -g
           echo "registry=https://registry.npmjs.org/" > .npmrc
-          echo "NODEJS_CHECK_SIGNATURES=no" >> .npmrc
-          cat .npmrc
 
       - name: 安装依赖
-        run: |
-          cd packages/examples/vue3
-          npm install --registry=https://registry.npmjs.org/
+        run: pnpm install --no-frozen-lockfile
         env:
           NODE_TLS_REJECT_UNAUTHORIZED: 0
-          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
 
-      - name: 构建项目
+      - name: 构建 Vue3 示例
         run: |
           cd packages/examples/vue3
-          npm run build
+          pnpm build
         env:
           NODE_TLS_REJECT_UNAUTHORIZED: 0
-          NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
 
       - name: 部署到 GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: packages/examples/vue3/dist # 构建输出目录
-          branch: gh-pages # 部署的目标分支
-          clean: true # 清除旧文件
+          folder: packages/examples/vue3/dist
+          branch: gh-pages
+          clean: true
