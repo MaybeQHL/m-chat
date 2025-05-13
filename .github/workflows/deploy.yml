@@ -2,7 +2,7 @@ name: 部署 Vue3 示例到 GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [v3]
 
 jobs:
   build-and-deploy:
