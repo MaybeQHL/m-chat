@@ -9,7 +9,7 @@ import '../node_modules/@maybecode/m-chat/dist/style.css'
 const conf = ref<Config>({
   // theme: 'dark',
   // open: ["image"], // 默认全开功能
-  open: ["text"],
+
   videoUploader: {
     maxSize: 9999,
     accept: ['video/*']
