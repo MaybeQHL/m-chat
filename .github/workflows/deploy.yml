@@ -3,6 +3,8 @@ name: 部署 Vue3 示例到 GitHub Pages
 on:
   push:
     branches: [v3]
+    paths:
+      - "packages/examples/vue3/**"
 
 jobs:
   build-and-deploy:
@@ -11,23 +13,16 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v3
 
-      - name: 设置 pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
-
       - name: 设置 Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
           registry-url: "https://registry.npmjs.org"
 
-      - name: 清除缓存并配置 npm 源
+      - name: 配置 npm 源
         run: |
           npm config set registry https://registry.npmjs.org/ -g
           npm cache clean --force
-          pnpm config set registry https://registry.npmjs.org/ -g
-          pnpm store prune
           echo "registry=https://registry.npmjs.org/" > .npmrc
           echo "NODEJS_CHECK_SIGNATURES=no" >> .npmrc
           cat .npmrc
