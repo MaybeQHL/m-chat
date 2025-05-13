@@ -1,0 +1,41 @@
+name: 部署 Vue3 示例到 GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # 允许手动触发部署
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v3
+
+      - name: 设置 pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "pnpm"
+
+      - name: 安装依赖
+        run: pnpm install
+
+      - name: 构建项目
+        run: |
+          cd packages/examples/vue3
+          pnpm build
+        # Vite.config.ts 已经设置了 base: '/m-chat/'
+
+      - name: 部署到 GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: packages/examples/vue3/dist # 构建输出目录
+          branch: gh-pages # 部署的目标分支
+          clean: true # 清除旧文件
