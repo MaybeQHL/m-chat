@@ -65,3 +65,10 @@ jobs:
           folder: packages/examples/vue3/dist
           branch: gh-pages
           clean: true
+
+      - name: 打印部署地址
+        run: |
+          echo "=============================================="
+          echo "🚀 部署成功！"
+          echo "📱 在线访问地址: https://$(echo ${{ github.repository_owner }}).github.io/m-chat/"
+          echo "=============================================="
